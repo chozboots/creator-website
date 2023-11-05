@@ -48,36 +48,55 @@ document.addEventListener('DOMContentLoaded', () => {
         return label;
     };
 
-const createElementInput = element => {
-    // Check if we need to create a textarea for a bio
-    if (element.name === 'characterBio') {
-        const textarea = document.createElement('textarea');
-        Object.assign(textarea, {
-            name: element.name,
-            placeholder: element.placeholder,
-            rows: 10,  // or any other number you deem appropriate
-            cols: 50,  // or any other number you deem appropriate
-            className: 'bio-textarea'  // class for styling purposes
-        });
-        return textarea;
-    } else {
-        // For all other cases, continue with the original logic
-        const inputType = element.type === 'dropdown' ? 'select' : 'input';
-        const input = document.createElement(inputType);
-        Object.assign(input, {
-            name: element.name,
-            placeholder: element.placeholder,
-            multiple: element.multiple || false,
-            accept: element.accept || null
-        });
-
-        if (element.type !== 'dropdown') input.type = element.type;
-        if (element.options) element.options.forEach(option => input.add(new Option(option)));
-        if (element.name === 'characterGallery') setUpGallery(input);
-
-        return input;
-    }
-};
+    const createElementInput = element => {
+        // Check if we need to create a textarea for a bio
+        if (element.name === 'characterBio') {
+            const textarea = document.createElement('textarea');
+            const counter = document.createElement('span');
+            counter.className = 'char-counter';
+            counter.textContent = `0 / ${element.maxlength}`;
+    
+            Object.assign(textarea, {
+                name: element.name,
+                placeholder: element.placeholder,
+                rows: 10,  // or any other number you deem appropriate
+                cols: 50,  // or any other number you deem appropriate
+                maxLength: element.maxlength,
+                className: 'bio-textarea'  // class for styling purposes
+            });
+    
+            // Event listener for the textarea to update the counter
+            textarea.addEventListener('input', () => {
+                counter.textContent = `${textarea.value.length} / ${element.maxlength}`;
+            });
+    
+            // Create a wrapper for the textarea and the counter
+            const wrapper = document.createElement('div');
+            wrapper.className = 'textarea-wrapper';
+            wrapper.appendChild(textarea);
+            wrapper.appendChild(counter);
+    
+            console.log('Maxlength for characterBio:', element.maxlength);
+    
+            return wrapper;
+        } else {
+            // For all other cases, continue with the original logic
+            const inputType = element.type === 'dropdown' ? 'select' : 'input';
+            const input = document.createElement(inputType);
+            Object.assign(input, {
+                name: element.name,
+                placeholder: element.placeholder,
+                multiple: element.multiple || false,
+                accept: element.accept || null
+            });
+    
+            if (element.type !== 'dropdown') input.type = element.type;
+            if (element.options) element.options.forEach(option => input.add(new Option(option)));
+            if (element.name === 'characterGallery') setUpGallery(input);
+    
+            return input;
+        }
+    };
 
     // Gallery functions
     const setUpGallery = input => {

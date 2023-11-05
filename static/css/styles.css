@@ -480,3 +480,15 @@ textarea {
 .edit-mode .form-group label {
     margin-bottom: 0.5rem; /* Adds space between the label and the input/select/textarea */
 }
+
+.textarea-wrapper {
+    position: relative;
+  }
+  
+  .char-counter {
+    display: block;
+    text-align: right;
+    font-size: 0.9em;
+    color: #FFFFFF;
+    margin-top: 5px;
+  }
