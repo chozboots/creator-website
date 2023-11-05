@@ -48,8 +48,22 @@ document.addEventListener('DOMContentLoaded', () => {
         return label;
     };
 
-    const createElementInput = element => {
-        const input = document.createElement(element.type === 'dropdown' ? 'select' : 'input');
+const createElementInput = element => {
+    // Check if we need to create a textarea for a bio
+    if (element.name === 'characterBio') {
+        const textarea = document.createElement('textarea');
+        Object.assign(textarea, {
+            name: element.name,
+            placeholder: element.placeholder,
+            rows: 10,  // or any other number you deem appropriate
+            cols: 50,  // or any other number you deem appropriate
+            className: 'bio-textarea'  // class for styling purposes
+        });
+        return textarea;
+    } else {
+        // For all other cases, continue with the original logic
+        const inputType = element.type === 'dropdown' ? 'select' : 'input';
+        const input = document.createElement(inputType);
         Object.assign(input, {
             name: element.name,
             placeholder: element.placeholder,
@@ -62,7 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (element.name === 'characterGallery') setUpGallery(input);
 
         return input;
-    };
+    }
+};
 
     // Gallery functions
     const setUpGallery = input => {
