@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    {% if not authorized %}
+
+        <div class="header">
+            <a class="button" href="{{ url_for('login') }}">Login</a>
+        </div>
+
+    {% else %}
+
+        <div class="header">
+            <div class="user-section">
+                <img class="user-avatar" src="{{ user.avatar_url or user.default_avatar_url }}" alt="User Avatar">
+                <span class="user-greeting">Hello {{ user.name }}!</span>
+            </div>            
+            <a class="button" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+
+        <br><br>
+
+        <div id="characterList" class="character-list">
+            {% for character in characters %}
+                <div class="character-item" data-character-id="{{ character.id }}">
+                    <div class="character-image-container">
+                        <img src="{{ character.image_url }}" alt="{{ character.name }}">
+                    </div>
+                    <div class="character-info">
+                        <h2>{{ character.name }}</h2>
+                        <span class="character-species">Species: {{ character.species }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div id="editMode" class="edit-mode">
+
+            <button id="backBtn" class="button"> Back</button>
+    
+            <!-- Existing code in the editMode div -->
+            <div class="edit-header">
+                <img id="editAvatar" src="" alt="Editing Character Avatar">
+                <span id="editGreeting">Editing </span>
+            </div>
+
+            <!-- New buttons for submenus -->
+            <div class="submenu-buttons">
+                <button class="submenu-button" data-menu="profile">Profile</button>
+                <button class="submenu-button" data-menu="image">Image</button>
+                <button class="submenu-button" data-menu="skills">Skills</button>
+                <button class="submenu-button" data-menu="details">Details</button>
+                <button class="submenu-button" data-menu="bio">Bio</button>
+                <!-- ... add more submenu buttons as needed -->
+            </div>
+
+            <!-- Container for dynamic form elements - now distributed among submenus -->
+            <div id="profileContainer" class="form-submenu"></div>   
+            <div id="imageContainer" class="form-submenu"></div>
+            <div id="imageGalleryContainer" class="image-gallery-container">
+            <div id="skillsContainer" class="form-submenu"></div>
+            <div id="detailsContainer" class="form-submenu"></div>
+            <div id="bioContainer" class="form-submenu"></div>
+
+        </div>
+    
+        <!-- This will act as our backdrop -->
+        <div class="backdrop" id="backdrop"></div>
+
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='js/char_details.js') }}"></script>
+</body>
+</html>
