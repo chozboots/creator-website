@@ -204,7 +204,7 @@ body {
     flex: 2;
     padding: 0.5rem;
     border: 2px solid white;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
     font-size: 1rem;
@@ -316,53 +316,62 @@ body {
 
 /* Common styling for all form labels to ensure uniformity */
 .edit-mode .form-group label {
-    min-width: 120px; /* You can adjust this value */
+    min-width: 200px; /* You can adjust this value */
     text-align: right;
     margin-right: 1rem;
 }
 
-/* Set a common width for all input fields to make them uniform */
-.edit-mode .form-group input,
+/* Apply styles only to text, password, email, and other similar input types, excluding radio, checkbox, and file */
+.edit-mode .form-group input:not([type="radio"]):not([type="checkbox"]):not([type="file"]),
 .edit-mode .form-group select,
 .edit-mode .form-group textarea {
-    width: 300px; /* You can adjust this value */
-    /* Other styles remain the same */
+    width: 300px; /* Adjust this value to what suits your design */
+    /* Add your other styles for these inputs here */
 }
 
-/* Ensure the file input elements are also uniformly styled */
+/* Overrides for radio buttons to prevent them from inheriting styles from the general input rule above */
+.edit-mode .form-group input[type="radio"] {
+    width: auto; /* Resets the width to default for radio buttons */
+    margin-right: 0.5rem; /* Add space to the right of radio buttons */
+    margin-bottom: 0.5rem; /* Add space below radio buttons */
+    /* Add any other styles specific to radio buttons here */
+}
+
+/* Styles specific to file inputs */
 .edit-mode .form-group input[type="file"] {
-    width: 300px; /* Match the width of other input fields */
-    /* You may need to adjust this based on your layout and design */
+    width: 300px; /* Match the width of other input fields, or adjust as necessary */
+    /* Add any other styles specific to file inputs here */
 }
 
-/* To align the titles (labels) */
-.edit-mode .form-group label {
-    display: inline-block; /* Ensures that the width is respected */
-    text-align: left; /* Aligns the text to the left */
-    margin-bottom: 0.5rem; /* Consistent spacing below each label */
-}
-
-/* Adjust the container width if needed to fit the form elements */
-.edit-mode {
-    /* Keep your existing styles, and just adjust the width if necessary */
-    max-width: 600px; /* Or whatever width accommodates your design */
-    margin: 0 auto; /* This will center the edit-mode div */
-}
-
-/* If you want to make the edit-mode content responsive */
+/* Responsive design adjustments */
 @media only screen and (max-width: 768px) {
     .edit-mode .form-group input,
     .edit-mode .form-group select,
     .edit-mode .form-group textarea,
     .edit-mode .form-group input[type="file"] {
-        width: calc(100% - 2rem); /* Makes the input take full width of its parent minus margins */
+        width: calc(100% - 2rem); /* Adjust input width to be responsive */
     }
+    /* Keep radio buttons at default width, even on mobile */
+    .edit-mode .form-group input[type="radio"] {
+        width: auto; /* Maintain default width for radio buttons */
+        margin-right: 0.5rem; /* Consistent right margin for spacing */
+        margin-bottom: 0.5rem; /* Consistent bottom margin for spacing */
+    }
+}
 
-    /* Adjust label size for smaller screens if needed */
-    .edit-mode .form-group label {
-        min-width: auto; /* Allows the label to shrink on small screens */
-        text-align: left; /* Keeps text aligned to the left */
-    }
+/* Ensure labels are aligned properly and have consistent styling */
+.edit-mode .form-group label {
+    display: inline-block; /* Ensures the label respects width settings */
+    text-align: left; /* Aligns the label text to the left */
+    margin-bottom: 0.5rem; /* Adds consistent space below the label */
+    min-width: 40px; /* Adjust the minimum width as necessary */
+}
+
+/* Style adjustments for .edit-mode container */
+.edit-mode {
+    max-width: 600px; /* Adjust the max-width as necessary for your design */
+    margin: 0 auto; /* Centers the container */
+    /* Maintain your other styles for .edit-mode here */
 }
 
 .image-gallery-container {
@@ -485,10 +494,86 @@ textarea {
     position: relative;
   }
   
-  .char-counter {
-    display: block;
-    text-align: right;
-    font-size: 0.9em;
-    color: #FFFFFF;
-    margin-top: 5px;
+.char-counter {
+display: block;
+text-align: right;
+font-size: 0.9em;
+color: #FFFFFF;
+margin-top: 5px;
+}
+
+/* Container for the entire date input and age display */
+.date-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em; /* Adjust as needed */
   }
+  
+/* Style for the date input */
+.date-input {
+padding: 0.5em;
+border: 1px solid #ccc;
+border-radius: 4px;
+margin-bottom: 0.5em; /* Space between input and age display */
+}
+
+/* Style for the age display span */
+.age-display {
+font-size: 0.9em;
+color: #ffffff;
+}
+
+.height-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Keeps items aligned to the left */
+}
+  
+/* Specificity increased by adding an additional class to the selector */
+.height-unit-selector.edit-mode .form-group input[type="radio"] {
+    width: auto; /* Ensures the radio buttons are not affected by the width property */
+    margin-right: 0.5em; /* Space after the radio button */
+    margin-bottom: 0.25em; /* Space below each radio button */
+    /* Remove !important if it's not necessary after testing */
+}
+
+.height-unit-selector.edit-mode .form-group label {
+    display: flex;
+    align-items: center; /* Vertically centers the text with the radio button */
+    text-align: left; /* Ensures text is aligned left, not right */
+    margin-right: 0.25em; /* Space after the label */
+    white-space: nowrap; /* Prevents the label from breaking into multiple lines */
+    /* Use !important only if the styles are not being applied */
+    margin-bottom: 1em;
+}
+
+.height-unit-selector label {
+    /* Ensure this doesn't conflict with the more specific selector above */
+    /* This will apply to labels not within .edit-mode or lacking a .form-group parent */
+    margin-right: 0.25em; /* Space after the label */
+    white-space: nowrap; /* Prevents the label from breaking into multiple lines */
+}
+
+.height-input-container {
+    display: flex;
+    flex-direction: column; /* Stacks the label and input vertically */
+    margin-bottom: 0.5em; /* Space below each input container */
+}
+
+.height-input-label {
+    margin-bottom: 0.25em; /* Space between label and input */
+}
+
+.height-input, .height-input-feet, .height-input-inches {
+    margin-bottom: 0.5em; /* Space below each input */
+}
+
+.height-display-container {
+    padding-bottom: 20px
+}
+
+.feet-inches-input-container {
+    display: flex;
+    flex-direction: column; /* If you want them stacked */
+    /* Other styles as needed */
+}
