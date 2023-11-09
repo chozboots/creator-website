@@ -1,12 +1,22 @@
 body {
-    font-family: 'Roboto', sans-serif; 
+    font-family: 'Roboto', sans-serif;
     font-weight: bold;
-    background-color: rgb(37, 37, 37); 
-    background-image: url('../images/city2.jpg');
+    color: #FFFFFF;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 2px 2px 0 #000;
+    background-color: rgb(37, 37, 37);
+    background-image: 
+      linear-gradient(to bottom, rgba(37, 37, 37, 0) 50%, rgba(37, 37, 37, 1) 100%),
+      url('../images/city_dark.webp'), /* The image that appears first */
+      url('../images/train.jpeg'); /* The image that appears after scrolling */
     background-size: cover;
     background-repeat: no-repeat;
-    color: #FFFFFF;
-}
+    background-attachment: fixed, fixed; /* This keeps the images fixed during scroll */
+  }
+  
+  /* Additional styling to ensure that there is enough content to scroll */
+  html, body {
+    height: 200%; /* You may adjust this value to suit the content of your page */
+  }
 
 .character-list {
     width: 100%;
@@ -18,7 +28,8 @@ body {
 }
 
 .character-item {
-    width: 80%;
+    width: 90%;
+    max-width: 300px;
     background-color: rgba(0, 0, 0, 0.9); /* Opaque black background */
     border: 3px solid #FFFFFF; 
     border-radius: 5px;
@@ -323,10 +334,12 @@ body {
 
 /* Apply styles only to text, password, email, and other similar input types, excluding radio, checkbox, and file */
 .edit-mode .form-group input:not([type="radio"]):not([type="checkbox"]):not([type="file"]),
-.edit-mode .form-group select,
 .edit-mode .form-group textarea {
-    width: 300px; /* Adjust this value to what suits your design */
+    width: flex; /* Adjust this value to what suits your design */
     /* Add your other styles for these inputs here */
+}
+.edit-mode .form-group select {
+    width: 30%;
 }
 
 /* Overrides for radio buttons to prevent them from inheriting styles from the general input rule above */
@@ -412,7 +425,7 @@ body {
     height: auto; /* Default height */
     max-height: 300px; /* Maximum height before scrollbar appears */
     overflow-y: auto; /* Only show vertical scrollbar when necessary */
-    padding: 8px; /* Padding inside the textarea */
+    padding: 16px; /* Padding inside the textarea */
     box-sizing: border-box; /* Include padding and border in width and height */
     border: 1px solid #ccc; /* A subtle border */
     resize: vertical; /* Allow users to resize vertically */
@@ -566,6 +579,7 @@ color: #ffffff;
 
 .height-input, .height-input-feet, .height-input-inches {
     margin-bottom: 0.5em; /* Space below each input */
+    width: 45%;
 }
 
 .height-display-container {
@@ -576,4 +590,205 @@ color: #ffffff;
     display: flex;
     flex-direction: column; /* If you want them stacked */
     /* Other styles as needed */
+}
+
+.length-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns items to the left */
+    width: 100%; /* Ensures the wrapper takes full width */
+}
+
+.mode-select {
+    width: 100%; /* Makes the select element take full width of its parent */
+    min-width: 150px; /* Ensures the dropdown does not become too small */
+    margin-bottom: 1em; /* Space below the dropdown */
+}
+
+/* Keep your existing .height-unit-selector styles as is, unless you also want to change them to .length-unit-selector to match your JavaScript */
+
+.length-display-container {
+    order: 2; /* Moves the display container underneath the dropdown */
+    padding-bottom: 20px;
+    width: 100%; /* Ensures the display container takes full width */
+}
+
+.length-input-cm, .length-input-inch {
+    width: calc(50% - 4px); /* Adjust width as needed, subtracting the margin */
+    margin-bottom: 0.5em; /* Space below each input */
+    margin-right: 4px; /* Space between inputs if they are inline */
+}
+
+/* Additional styles to make sure inputs are full width when they are displayed */
+.length-input-cm[style*="display: none"], 
+.length-input-inch[style*="display: none"] {
+    width: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+.dynamic-list-wrapper {
+    width: 80%;
+    background-color: rgba(0, 0, 0, 0.9); /* Opaque black to match the theme */
+    border: 3px solid #FFFFFF;
+    border-radius: 5px;
+    margin: 1rem auto;
+    margin-left: -1rem;
+    margin-right: 1rem;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dynamic-list {
+    list-style: none; /* Remove default list styling */
+    padding: 0;
+}
+
+.dynamic-list li {
+    background-color: rgba(255, 255, 255, 0.1); /* Slightly lighter list items for contrast */
+    border-bottom: 1px solid #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+}
+
+.dynamic-list li:last-child {
+    border-bottom: none; /* Remove border from the last item */
+}
+
+.dynamic-list input[type="text"] {
+    flex-grow: 1; /* Input takes up remaining space */
+    padding: 0.5rem;
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    margin-right: 0.5rem;
+}
+
+.dynamic-list .add-button,
+.dynamic-list .remove-button {
+    padding: 5px 10px;
+    border: 2px solid white;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.dynamic-list .add-button:hover,
+.dynamic-list .remove-button:hover {
+    background-color: rgba(0, 255, 255, 0.2); /* Slight cyan background on hover */
+}
+
+/* You may want to add some media query adjustments if necessary */
+@media only screen and (max-width: 768px) {
+    .dynamic-list-wrapper {
+        width: 95%; /* Slightly narrower on mobile for screen edge space */
+    }
+    
+    /* Possible adjustment for smaller screens to make list items stack more compactly */
+    .dynamic-list li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.dynamic-list-with-titles {
+    list-style: none;
+    padding: 0;
+}
+
+.dynamic-list-with-titles .dynamic-list-with-titles-item {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid #FFFFFF;
+    display: block;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.dynamic-list-with-titles .title-input,
+.dynamic-list-with-titles .description-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+
+.dynamic-list-with-titles .description-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.dynamic-list-with-titles .remove-button {
+    margin-top: 0.5rem;
+}
+
+.weight-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.weight-display-container {
+    padding-bottom: 20px;
+}
+
+.weight-input-kg,
+.weight-input-lbs {
+    margin-bottom: 0.5em; /* Space below each input */
+    width: 100%; /* You can adjust this if you want different widths */
+    padding: 0.5rem;
+    border: 1px solid #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+
+/* The following classes are not directly used in the JavaScript provided,
+   but you can include them for additional styling if needed. */
+
+.weight-unit-selector {
+    margin-bottom: 0.5em; /* Space below the unit selector */
+}
+
+.weight-input-label {
+    margin-bottom: 0.25em; /* Space between label and input */
+}
+
+/* You might need additional container divs for a better layout, 
+   for which you can use the following style. */
+
+.weight-input-container {
+    display: flex;
+    flex-direction: row; /* Horizontally aligns the kg and lbs input */
+    justify-content: space-between; /* Spreads the inputs evenly */
+}
+
+/* Styles for label and radio inputs if they were to be used */
+.weight-unit-selector .form-group input[type="radio"] {
+    width: auto;
+    margin-right: 0.5em;
+    margin-bottom: 0.25em;
+}
+
+.weight-unit-selector .form-group label {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    margin-right: 0.25em;
+    white-space: nowrap;
+    margin-bottom: 1em;
 }
