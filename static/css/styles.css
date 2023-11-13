@@ -601,16 +601,13 @@ color: #ffffff;
 
 .mode-select {
     width: 100%; /* Makes the select element take full width of its parent */
-    min-width: 150px; /* Ensures the dropdown does not become too small */
     margin-bottom: 1em; /* Space below the dropdown */
 }
 
-/* Keep your existing .height-unit-selector styles as is, unless you also want to change them to .length-unit-selector to match your JavaScript */
-
 .length-display-container {
-    order: 2; /* Moves the display container underneath the dropdown */
-    padding-bottom: 20px;
     width: 100%; /* Ensures the display container takes full width */
+    padding-bottom: 20px;
+    /* 'order' property removed as it's not needed with correct JS appending */
 }
 
 .length-input-cm, .length-input-inch {
