@@ -13,7 +13,8 @@ export function createGeneralComponent(element, uploadedFiles) {
         name: element.name,
         placeholder: element.placeholder,
         multiple: element.multiple || false,
-        accept: element.accept || null
+        accept: element.accept || null,
+        className: element.type
     });
 
     if (element.type !== 'dropdown') {

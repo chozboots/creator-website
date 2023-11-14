@@ -1,189 +1,346 @@
-// js/lengthComponent.js
+// js/components/lengthComponent.js
 export function createLengthComponent(element) {
-    // Create a wrapper for all height related elements
-    const heightWrapper = document.createElement('div');
-    heightWrapper.className = 'height-input-wrapper';
+    // Create a wrapper for all length related elements
+    const lengthWrapper = document.createElement('div');
+    lengthWrapper.className = 'length-input-wrapper';
 
-    const heightDisplayContainer = document.createElement('div');
-    heightDisplayContainer.className = 'height-display-container';
+    const lengthDisplayContainer = document.createElement('div');
+    lengthDisplayContainer.className = 'length-display-container';
 
-    const feetInchesContainer = document.createElement('div');
-    feetInchesContainer.className = 'feet-inches-input-container';
+    const lengthDisplaySpan = document.createElement('span');
+    lengthDisplaySpan.className = 'length-display';
+    lengthDisplayContainer.appendChild(lengthDisplaySpan);
 
-    const heightDisplaySpan = document.createElement('span');
-    heightDisplaySpan.className = 'height-display'
-    heightDisplayContainer.appendChild(heightDisplaySpan);
-    heightWrapper.appendChild(heightDisplayContainer);
-
-    // Create the number input for cm
-    const numberInput = document.createElement('input');
-    Object.assign(numberInput, {
-        type: 'number',
-        name: element.name,
-        placeholder: element.placeholder,
-        className: 'height-input', // Class for styling
-        min: 0
+    // Create the dropdown menu for selecting mode
+    const modeSelect = document.createElement('select');
+    modeSelect.className = 'mode-select'; // Class for styling
+    ['Numeric', 'Range', 'Varies'].forEach(mode => {
+        const option = document.createElement('option');
+        option.value = mode;
+        option.textContent = mode;
+        modeSelect.appendChild(option);
     });
 
-    heightWrapper.appendChild(numberInput);
+    // Append the dropdown to the lengthWrapper
+    lengthWrapper.appendChild(modeSelect);
+    lengthWrapper.appendChild(lengthDisplayContainer);
 
-    const unitSelectorContainer = document.createElement('div');
-    unitSelectorContainer.className = 'height-unit-selector';
+    // Function to create a label
+    function createLabel(text, htmlFor) {
+        const label = document.createElement('label');
+        label.textContent = text;
+        label.htmlFor = htmlFor;
+        label.className = 'input-label'; // Add a class for potential styling
+        return label;
+    }
 
-    // Create radio buttons for unit selection
-    const cmRadio = document.createElement('input');
-    Object.assign(cmRadio, { type: 'radio', name: 'heightUnit', value: 'cm', checked: true });
-    const ftInRadio = document.createElement('input');
-    Object.assign(ftInRadio, { type: 'radio', name: 'heightUnit', value: 'ftIn' });
-
-    // Create labels for the radio buttons
-    const cmLabel = document.createElement('label');
-    cmLabel.textContent = 'cm';
-    const ftInLabel = document.createElement('label');
-    ftInLabel.textContent = 'ft/in';
-
-    // Append radio buttons and labels to the unit selector container
-    unitSelectorContainer.appendChild(cmRadio);
-    unitSelectorContainer.appendChild(cmLabel);
-    unitSelectorContainer.appendChild(ftInRadio);
-    unitSelectorContainer.appendChild(ftInLabel);
-
-    // Create feet and inches input fields and add them to feetInchesContainer
-    const feetInput = document.createElement('input');
-    Object.assign(feetInput, {
+    // cmInput
+    const cmInput = document.createElement('input');
+    Object.assign(cmInput, {
         type: 'number',
-        name: 'feet',
-        placeholder: 'Feet',
-        style: 'display: none;', // Initially hidden
-        className: 'height-input-feet',
+        name: element.name + 'Cm',
+        placeholder: 'Centimeters',
+        className: 'length-input-metric',
         min: 0
     });
+    lengthWrapper.appendChild(cmInput);
 
-    const inchesInput = document.createElement('input');
-    Object.assign(inchesInput, {
+    // inchInput
+    const inchInput = document.createElement('input');
+    Object.assign(inchInput, {
         type: 'number',
-        name: 'inches',
+        name: element.name + 'Inch',
         placeholder: 'Inches',
-        style: 'display: none;', // Initially hidden
-        className: 'height-input-inches',
+        className: 'length-input-imperial',
         min: 0
     });
+    lengthWrapper.appendChild(inchInput);
 
-    // Append feet and inches inputs to the feetInchesContainer
-    feetInchesContainer.appendChild(feetInput);
-    feetInchesContainer.appendChild(inchesInput);
+    const minCmInput = document.createElement('input');
+    Object.assign(minCmInput, {
+        type: 'number',
+        name: 'min' + element.name + 'Cm',  // Changed name
+        placeholder: 'Min Centimeters',     // Changed placeholder
+        className: 'length-input-metric',
+        min: 0
+    });
+    lengthWrapper.appendChild(minCmInput);
 
-    // Append feetInchesContainer to the wrapper
-    heightWrapper.appendChild(feetInchesContainer);
+    const minInchInput = document.createElement('input');
+    Object.assign(minInchInput, {
+        type: 'number',
+        name: 'min' + element.name + 'Inch', // Changed name
+        placeholder: 'Min Inches',           // Changed placeholder
+        className: 'length-input-imperial',
+        min: 0
+    });
+    lengthWrapper.appendChild(minInchInput);
+
+    const restCmInput = document.createElement('input');
+    Object.assign(restCmInput, {
+        type: 'number',
+        name: 'rest' + element.name + 'Cm',
+        placeholder: 'Max Centimeters',
+        className: 'length-input-metric',
+        min: 0
+    });
+    lengthWrapper.appendChild(restCmInput);
+
+    const restInchInput = document.createElement('input');
+    Object.assign(restInchInput, {
+        type: 'number',
+        name: 'rest' + element.name + 'Inch',
+        placeholder: 'Max Inches',
+        className: 'length-input-imperial',
+        min: 0
+    });
+    lengthWrapper.appendChild(restInchInput);
+
+    const logCurrentValues = () => {
+        console.log('Current Values:');
+        console.log('Mode:', modeSelect.value);
+        console.log('Centimeters:', cmInput.value);
+        console.log('Inches:', inchInput.value);
+        console.log('Min Centimeters:', minCmInput.value);
+        console.log('Min Inches:', minInchInput.value);
+        console.log('Max Centimeters:', restCmInput.value);
+        console.log('Max Inches:', restInchInput.value);
+    };
     
-    // Now, append the unitSelectorContainer
-    heightWrapper.appendChild(unitSelectorContainer);
 
-    const cmToFeet = (cm) => {
-        const totalInches = cm / 2.54;
-        let feet = Math.floor(totalInches / 12);
-        let inches = Math.round(totalInches % 12);
+    // Before each input, create and append a label
+    const minCmInputLabel = createLabel('Min Centimeters:', 'min' + element.name + 'Cm');
+    lengthWrapper.appendChild(minCmInputLabel);
+    lengthWrapper.appendChild(minCmInput);
+
+    const minInchInputLabel = createLabel('Min Inches:', 'min' + element.name + 'Inch');
+    lengthWrapper.appendChild(minInchInputLabel);
+    lengthWrapper.appendChild(minInchInput);
+
+    const restCmInputLabel = createLabel('Max Centimeters:', 'rest' + element.name + 'Cm');
+    lengthWrapper.appendChild(restCmInputLabel);
+    lengthWrapper.appendChild(restCmInput);
+
+    const restInchInputLabel = createLabel('Max Inches:', 'rest' + element.name + 'Inch');
+    lengthWrapper.appendChild(restInchInputLabel);
+    lengthWrapper.appendChild(restInchInput);
+
+    const validateRange = () => {
+        const minCm = parseFloat(minCmInput.value) || 0.0;
+        const maxCm = parseFloat(restCmInput.value) || 0.0;
+        const restCm = parseFloat(cmInput.value) || 0.0;
     
-        // If rounding gives us 12 inches, we should add to feet and set inches to 0
-        if (inches === 12) {
-            feet += 1;
-            inches = 0;
+        // Adjust the min value if it is greater than the resting value
+        if (minCm > restCm) {
+            minCmInput.value = restCm;
+            minInchInput.value = cmToInch(restCm).toFixed(1);
         }
     
-        return { feet, inches };
-    };
-
-    const feetToCm = (feet, inches) => {
-        return Math.round((feet * 12 + inches) * 2.54);
-    };
-
-    const updateHeightDisplay = (cm) => {
-        const { feet, inches } = cmToFeet(cm);
-        heightDisplaySpan.textContent = `${feet}'${inches}" (${Math.round(cm)} cm)`;
-    };
-
-    const adjustFeetAndInches = () => {
-        let feet = parseInt(feetInput.value, 10) || 0;
-        let inches = parseInt(inchesInput.value, 10) || 0;
-    
-        if (inches >= 12) {
-            feet += Math.floor(inches / 12);
-            inches %= 12;
+        // Adjust the max value if it is less than the resting value
+        if (maxCm < restCm) {
+            restCmInput.value = restCm;
+            restInchInput.value = cmToInch(restCm).toFixed(1);
         }
-    
-        feetInput.value = feet;
-        inchesInput.value = inches;
-    
-        return { feet, inches };
     };
 
-    heightWrapper.addEventListener('change', (event) => {
-        if (event.target.name === 'heightUnit') {
-            if (event.target.value === 'cm') {
-                // Hide feet and inches input
-                feetInput.style.display = 'none';
-                inchesInput.style.display = 'none';
-                // Show cm input
-                numberInput.style.display = 'block';
-                // Update the display to cm
-                updateHeightDisplay(parseFloat(numberInput.value));
-            } else {
-                // Show feet and inches input
-                feetInput.style.display = 'block';
-                inchesInput.style.display = 'block';
-                // Hide cm input
-                numberInput.style.display = 'none';
-                // Calculate feet and inches from cm and update their values
-                const { feet, inches } = cmToFeet(parseFloat(numberInput.value));
-                feetInput.value = feet;
-                inchesInput.value = inches;
-                // Update the display to feet and inches
-                updateHeightDisplay(parseFloat(numberInput.value));
-            }
+    // Helper function to convert inches to feet and inches
+    const inchesToFeetAndInches = (inches) => {
+        // Round inches first to avoid edge cases like 23.6 inches
+        const roundedInches = Math.round(inches);
+
+        const feet = Math.floor(roundedInches / 12);
+        const remainingInches = roundedInches % 12;
+
+        return `${feet}'${remainingInches}"`;
+    };
+         
+    const updateLengthDisplay = () => {
+        const restCm = parseFloat(cmInput.value) || 0;
+        const restInches = cmToInch(restCm);
+        const minCm = parseFloat(minCmInput.value) || 0;
+        const minInches = cmToInch(minCm);
+        const maxCm = parseFloat(restCmInput.value) || 0;
+        const maxInches = cmToInch(maxCm);
+    
+        if (modeSelect.value === 'Numeric') {
+            lengthDisplaySpan.textContent = `${inchesToFeetAndInches(restInches)} (${restCm.toFixed(0)} cm)`;
+        } else if (modeSelect.value === 'Range') {
+            lengthDisplaySpan.innerHTML = `Min: ${inchesToFeetAndInches(minInches)} (${minCm.toFixed(0)} cm)<br>Rest: ${inchesToFeetAndInches(restInches)} (${restCm.toFixed(0)} cm)<br>Max: ${inchesToFeetAndInches(maxInches)} (${maxCm.toFixed(0)} cm)`;
         }
+    };  
+
+    // Event listener for the cm input
+    cmInput.addEventListener('input', () => {
+        const cm = parseFloat(cmInput.value) || 0.0;
+        inchInput.value = cmToInch(cm).toFixed(1);
+        if (modeSelect.value === 'Range') {
+            validateRange();
+        }
+        updateLengthDisplay();
     });
 
-    // Event listener for the number input to handle the height value in cm
-    numberInput.addEventListener('input', () => {
-        if (cmRadio.checked) {
-            // Update display when cm value changes
-            updateHeightDisplay(parseFloat(numberInput.value)); 
+    // Event listener for the inch input
+    inchInput.addEventListener('input', () => {
+        const inches = parseFloat(inchInput.value) || 0.0;
+        cmInput.value = inchToCm(inches).toFixed(1);
+        if (modeSelect.value === 'Range') {
+            validateRange();
+        }
+        updateLengthDisplay();
+    });
+
+    // Event listener for the minCm input
+    minCmInput.addEventListener('input', () => {
+        const minCm = parseFloat(minCmInput.value) || 0.0;
+        minInchInput.value = cmToInch(minCm).toFixed(1);
+        validateRange();
+        updateLengthDisplay();
+    });
+
+    // Event listener for the minInch input
+    minInchInput.addEventListener('input', () => {
+        const minInches = parseFloat(minInchInput.value) || 0.0;
+        minCmInput.value = inchToCm(minInches).toFixed(1);
+        validateRange();
+        updateLengthDisplay();
+    });
+
+    const toggleInputsVisibility = (mode) => {
+        const isNumericMode = mode === 'Numeric';
+        const isRangeMode = mode === 'Range';
+    
+        cmInput.style.display = isNumericMode || isRangeMode ? '' : 'none';
+        inchInput.style.display = isNumericMode || isRangeMode ? '' : 'none';
+    
+        // Update visibility for Range mode inputs and their labels
+        const rangeElements = [minCmInput, minInchInput, restCmInput, restInchInput, minCmInputLabel, minInchInputLabel, restCmInputLabel, restInchInputLabel];
+        rangeElements.forEach(el => el.style.display = isRangeMode ? '' : 'none');
+    
+        lengthDisplayContainer.style.display = isNumericMode || isRangeMode ? '' : 'none';
+    };
+    
+    // Event listener for the dropdown menu to change mode
+    modeSelect.addEventListener('change', () => {
+        const selectedMode = modeSelect.value;
+        toggleInputsVisibility(selectedMode);
+        updateLengthDisplay(); // Update display whenever the mode changes
+    });
+    
+    // Initialize with the default mode
+    toggleInputsVisibility(modeSelect.value);
+    
+
+    // Event listener for the dropdown menu to change mode
+    modeSelect.addEventListener('change', () => {
+        const selectedMode = modeSelect.value;
+        toggleInputsVisibility(selectedMode);
+        updateLengthDisplay(); // Update display whenever the mode changes
+    });
+
+    // Initialize with the default mode
+    toggleInputsVisibility(modeSelect.value);
+
+    const cmToInch = (cm) => {
+        const inches = cm / 2.54;
+        return inches;
+    };
+    
+    const inchToCm = (inches) => {
+        const cm = inches * 2.54;
+        return cm;
+    };
+    
+    const updateMinFields = () => {
+        const minCm = parseFloat(minCmInput.value) || 0.0;
+        minInchInput.value = cmToInch(minCm).toFixed(1);
+        const minInches = parseFloat(minInchInput.value) || 0.0;
+        minCmInput.value = inchToCm(minInches).toFixed(1);
+    };
+    
+    // Event listener for the cm input
+    cmInput.addEventListener('input', () => {
+        const cm = parseFloat(cmInput.value);
+        inchInput.value = cmToInch(cm).toFixed(1);
+        if (modeSelect.value === 'Range') {
+            validateRange();
+            updateMinFields();
+        }
+        updateLengthDisplay();
+    });
+    
+    // Event listener for the inches input
+    inchInput.addEventListener('input', () => {
+        const inches = parseFloat(inchInput.value);
+        cmInput.value = inchToCm(inches).toFixed(1);
+        if (modeSelect.value === 'Range') {
+            validateRange();
+            updateMinFields();
+        }
+        updateLengthDisplay();
+    });
+    
+    // Event listener for the minCm input
+    minCmInput.addEventListener('input', () => {
+        const minCm = parseFloat(minCmInput.value) || 0.0;
+        const maxCm = parseFloat(cmInput.value) || 0.0;
+        
+        if (minCm > maxCm) {
+            minCmInput.value = maxCm.toFixed(1); // Set minCmInput to maxCm if it exceeds
         } else {
-            // Convert the ft/in to cm and update the number input
-            const cm = feetToCm(parseInt(feetInput.value, 10) || 0, parseInt(inchesInput.value, 10) || 0);
-            numberInput.value = cm;
-            updateHeightDisplay(cm); 
+            minInchInput.value = cmToInch(minCm).toFixed(1); // Otherwise, update minInchInput normally
         }
+        
+        validateRange();
+        updateLengthDisplay();
     });
 
-    // Event listener for inches input
-    inchesInput.addEventListener('input', () => {
-        const { feet, inches } = adjustFeetAndInches();
-
-        // Update cm and display
-        const cm = feetToCm(feet, inches);
-        numberInput.value = cm;
-        updateHeightDisplay(cm);
+    // Event listener for the minInch input
+    minInchInput.addEventListener('input', () => {
+        const minInches = parseFloat(minInchInput.value) || 0.0;
+        const maxInches = parseFloat(inchInput.value) || 0.0;
+        
+        if (minInches > maxInches) {
+            minInchInput.value = maxInches.toFixed(1); // Set minInchInput to maxInches if it exceeds
+        } else {
+            minCmInput.value = inchToCm(minInches).toFixed(1); // Otherwise, update minCmInput normally
+        }
+        
+        validateRange();
+        updateLengthDisplay();
     });
 
-    // Event listener for feet input
-    feetInput.addEventListener('input', () => {
-        const { feet, inches } = adjustFeetAndInches();
-
-        // Update cm and display
-        const cm = feetToCm(feet, inches);
-        numberInput.value = cm;
-        updateHeightDisplay(cm);
+    // Add event listeners for the resting length inputs
+    restCmInput.addEventListener('input', () => {
+        const restCm = parseFloat(restCmInput.value) || 0.0;
+        restInchInput.value = cmToInch(restCm).toFixed(1);
+        validateRange();
+        updateLengthDisplay();
     });
 
-    // Add max attribute for the inches input for HTML5 validation as an extra layer of enforcement
-    inchesInput.setAttribute('max', '11');
-    inchesInput.setAttribute('min', '0');
+    restInchInput.addEventListener('input', () => {
+        const restInches = parseFloat(restInchInput.value) || 0.0;
+        restCmInput.value = inchToCm(restInches).toFixed(1);
+        validateRange();
+        updateLengthDisplay();
+    });
 
-    // Set the default value for the number input and update the display
-    const defaultCmValue = 0;
-    numberInput.value = defaultCmValue;
-    updateHeightDisplay(defaultCmValue);
+    // // Initialize resting length fields with default values
+    // const defaultRestCmValue = 0;
+    // restCmInput.value = defaultRestCmValue;
+    // const defaultRestInchesValue = cmToInch(defaultRestCmValue);
+    // restInchInput.value = defaultRestInchesValue;
+    
+    // Create a save button
+    const saveButton = document.createElement('button');
+    saveButton.textContent = 'Save';
+    saveButton.className = 'save-button'; // Class for styling
 
-    return heightWrapper;
+    // Event listener for the save button
+    saveButton.addEventListener('click', logCurrentValues);
+
+    // Append the save button to the lengthWrapper
+    lengthWrapper.appendChild(saveButton);
+
+
+    return lengthWrapper;
 }

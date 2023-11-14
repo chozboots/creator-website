@@ -96,7 +96,6 @@ body {
         padding: 8px 16px; /* Reduce padding a bit for mobile view */
     }
     .edit-mode .form-group input,
-    .edit-mode .form-group select,
     .edit-mode .form-group textarea {
         width: calc(100% - 2rem); /* takes full width minus some margin */
         margin: 0.5rem; /* adds some space around the elements */
@@ -338,8 +337,9 @@ body {
     width: flex; /* Adjust this value to what suits your design */
     /* Add your other styles for these inputs here */
 }
+
 .edit-mode .form-group select {
-    width: 30%;
+    width: auto;
 }
 
 /* Overrides for radio buttons to prevent them from inheriting styles from the general input rule above */
@@ -597,6 +597,7 @@ color: #ffffff;
     flex-direction: column;
     align-items: flex-start; /* Aligns items to the left */
     width: 100%; /* Ensures the wrapper takes full width */
+    margin-bottom: 2.5em;
 }
 
 .mode-select {
@@ -610,15 +611,15 @@ color: #ffffff;
     /* 'order' property removed as it's not needed with correct JS appending */
 }
 
-.length-input-cm, .length-input-inch {
+.length-input-metric, .length-input-imperial {
     width: calc(50% - 4px); /* Adjust width as needed, subtracting the margin */
-    margin-bottom: 0.5em; /* Space below each input */
+    margin-bottom: 1.5em; /* Space below each input */
     margin-right: 4px; /* Space between inputs if they are inline */
 }
 
 /* Additional styles to make sure inputs are full width when they are displayed */
-.length-input-cm[style*="display: none"], 
-.length-input-inch[style*="display: none"] {
+.length-input-metric[style*="display: none"], 
+.length-input-imperial[style*="display: none"] {
     width: 0;
     margin: 0;
     padding: 0;
@@ -638,6 +639,8 @@ color: #ffffff;
     margin-right: 1rem;
     padding: 1rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    max-height: 650px; /* Set a maximum height */
+    overflow-y: auto; /* Enables vertical scrolling */
 }
 
 .dynamic-list {

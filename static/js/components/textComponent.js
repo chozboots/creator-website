@@ -5,21 +5,31 @@ export function createTextCompnent (element) {
     counter.className = 'char-counter';
     counter.textContent = `0 / ${element.maxlength}`;
 
+    // Determine the size and style based on element.mode
+    let rows, cols, className;
+    if (element.mode === 'long') {
+        rows = 10; // or any other number for long mode
+        cols = 50; // or any other number for long mode
+        className = 'textarea-long'; // specific class for long mode
+    } else if (element.mode === 'short') {
+        rows = 1; // fewer rows for short mode
+        cols = 20; // fewer columns for short mode
+        className = 'textarea-short'; // specific class for short mode
+    }
+
     Object.assign(textarea, {
         name: element.name,
         placeholder: element.placeholder,
-        rows: 10, // or any other number you deem appropriate
-        cols: 50, // or any other number you deem appropriate
+        rows: rows,
+        cols: cols,
         maxLength: element.maxlength,
-        className: 'textarea' // or any other class for styling
+        className: className // applying the class based on mode
     });
 
-    // Event listener for the textarea to update the counter
     textarea.addEventListener('input', () => {
         counter.textContent = `${textarea.value.length} / ${element.maxlength}`;
     });
 
-    // Create a wrapper for the textarea and the counter
     const wrapper = document.createElement('div');
     wrapper.className = 'textarea-wrapper';
     wrapper.appendChild(textarea);

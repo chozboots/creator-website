@@ -3,6 +3,7 @@ import { createDateComponent } from './components/dateComponent.js';
 import { createTextCompnent } from './components/textComponent.js';
 import { createLengthComponent } from './components/lengthComponent.js';
 import { createSizeComponent } from './components/sizeComponent.js';
+import { createWeightComponent } from './components/weightComponent.js';
 import { createDynamicListComponent } from './components/dynamicListComponent.js';
 import { createTitledDynamicListComponent } from './components/titledDynamicListComponent.js';
 import { createGeneralComponent } from './components/generalComponent.js';
@@ -21,6 +22,9 @@ export const createElementInput = (element, uploadedFiles) => {
 
     } else if (element.measurement === 'size') {
         return createSizeComponent(element);
+
+    } else if (element.measurement === 'weight') {
+        return createWeightComponent(element);
 
     } else if (element.list_type === 'dynamic_list') {
         return createDynamicListComponent(element);

@@ -40,7 +40,7 @@ export function createSizeComponent(element) {
         type: 'number',
         name: element.name + 'Cm',
         placeholder: 'Centimeters',
-        className: 'length-input-cm',
+        className: 'length-input-metric',
         min: 0
     });
     lengthWrapper.appendChild(cmInput);
@@ -51,7 +51,7 @@ export function createSizeComponent(element) {
         type: 'number',
         name: element.name + 'Inch',
         placeholder: 'Inches',
-        className: 'length-input-inch',
+        className: 'length-input-imperial',
         min: 0
     });
     lengthWrapper.appendChild(inchInput);
@@ -71,7 +71,7 @@ export function createSizeComponent(element) {
         type: 'number',
         name: 'min' + element.name + 'Inch', // Changed name
         placeholder: 'Min Inches',           // Changed placeholder
-        className: 'length-input-inch',
+        className: 'length-input-imperial',
         min: 0
     });
     lengthWrapper.appendChild(minInchInput);
@@ -91,7 +91,7 @@ export function createSizeComponent(element) {
         type: 'number',
         name: 'rest' + element.name + 'Inch',
         placeholder: 'Max Inches',
-        className: 'length-input-inch',
+        className: 'length-input-imperial',
         min: 0
     });
     lengthWrapper.appendChild(restInchInput);
@@ -152,9 +152,9 @@ export function createSizeComponent(element) {
         const maxInches = cmToInch(maxCm);
     
         if (modeSelect.value === 'Numeric') {
-            lengthDisplaySpan.textContent = `${restInches.toFixed(0)}" (${restCm.toFixed(0)} cm)`;
+            lengthDisplaySpan.textContent = `${restInches.toFixed(1)}" (${restCm.toFixed(1)} cm)`;
         } else if (modeSelect.value === 'Range') {
-            lengthDisplaySpan.textContent = `Min: ${minInches.toFixed(0)}" (${minCm.toFixed(0)} cm) - Rest: ${restInches.toFixed(0)}" (${restCm.toFixed(0)} cm) - Max: ${maxInches.toFixed(0)}" (${maxCm.toFixed(0)} cm)`;
+            lengthDisplaySpan.innerHTML = `Min: ${minInches.toFixed(1)}" (${minCm.toFixed(1)} cm)<br>Rest: ${restInches.toFixed(1)}" (${restCm.toFixed(1)} cm)<br>Max: ${maxInches.toFixed(1)}" (${maxCm.toFixed(1)} cm)`;
         }
     };    
 
