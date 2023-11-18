@@ -1,8 +1,6 @@
 // js/components/generalComponent.js
 import { setUpGallery, renderGalleryImages } from '../_gallery.js';
 
-
-
 export function createGeneralComponent(element, uploadedFiles) {
     console.log(uploadedFiles)
     const MAX_IMAGES = 4; // Assuming this is a constant

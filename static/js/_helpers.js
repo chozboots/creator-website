@@ -1,6 +1,7 @@
 // js/_helpers.js
 import { createDateComponent } from './components/dateComponent.js';
-import { createTextCompnent } from './components/textComponent.js';
+import { createTextComponent } from './components/textComponent.js';
+import { createMultiComponent } from './components/multiComponent.js';
 import { createLengthComponent } from './components/lengthComponent.js';
 import { createSizeComponent } from './components/sizeComponent.js';
 import { createWeightComponent } from './components/weightComponent.js';
@@ -9,14 +10,18 @@ import { createTitledDynamicListComponent } from './components/titledDynamicList
 import { createGeneralComponent } from './components/generalComponent.js';
 
 import { renderGalleryImages } from './_gallery.js';
+import { showInfo } from './_info.js';
 
 export const createElementInput = (element, uploadedFiles) => {
     if (element.type === 'date') {
         return createDateComponent(element);
 
     } else if (element.type === 'textarea') {
-        return createTextCompnent(element);
+        return createTextComponent(element);
 
+    } else if (element.type === 'multi') {
+        return createMultiComponent(element);
+        
     } else if (element.measurement === 'length') {
         return createLengthComponent(element);
 
@@ -52,6 +57,16 @@ export const createLabel = element => {
     const label = document.createElement('label');
     label.textContent = element.placeholder;
     label.htmlFor = element.name;
+
+    // Check if element has info and create an info button
+    if (element.info) {
+        const infoButton = document.createElement('button');
+        infoButton.className = 'info-button';
+        infoButton.textContent = 'i'; // Or use an icon
+        infoButton.onclick = () => showInfo(element.info);
+        label.appendChild(infoButton); // Append the button next to the label
+    }
+
     return label;
 };
 

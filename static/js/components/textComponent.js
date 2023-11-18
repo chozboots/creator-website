@@ -1,4 +1,5 @@
-export function createTextCompnent (element) {
+// js/components/textComponent.js
+export function createTextComponent (element) {
     const textarea = document.createElement('textarea');
     const counter = document.createElement('span');
 

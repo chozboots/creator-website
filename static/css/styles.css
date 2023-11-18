@@ -792,3 +792,171 @@ color: #ffffff;
     white-space: nowrap;
     margin-bottom: 1em;
 }
+
+.multi-select-wrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    gap: 10px;
+    width: 300px; /* Adjusted for larger screens */
+    margin: 0 auto; /* Centering the wrapper */
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap; /* Ensures tags wrap around */
+    align-items: center;
+    gap: 10px; /* Space between each tag */
+    max-width: 100%; /* Ensure tags don't exceed the container width */
+}
+
+.option-tag {
+    display: inline-flex;
+    align-items: center;
+    padding-right: 32px; /* Increased right padding for the "X" button */
+    padding-left: 8px;
+    font-size: 1em;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    max-width: 100%;
+    position: relative; /* Needed for absolute positioning of the "X" button */
+    padding-right: 32px; /* Ensure enough space for the "X" button */
+    min-width: 60px; /* Minimum width for the tag */
+}
+
+.option-tag-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%; /* Adjust based on the actual space taken by the remove button */
+}
+
+.remove-btn {
+    position: absolute;
+    right: 8px; /* Positioned to the right inside the tag */
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    color: white;
+    cursor: pointer;
+}
+
+.option-input, .option-dropdown {
+    width: 100%; /* Full width to align with the container */
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.5); /* Aesthetic border for input and dropdown */
+    background-color: rgba(255, 255, 255, 0.5); /* Translucent white background */
+    color: black; /* Solid black text */
+    box-sizing: border-box; /* Ensures padding doesn't affect the width */
+}
+
+.char-counter {
+    text-align: right;
+    font-size: 0.8em;
+    color: white;
+    margin-top: 5px;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 480px) {
+    .multi-select-wrapper {
+        width: 90%; /* Relative width for smaller screens */
+    }
+    .option-tag {
+        height: calc(100% + 80px); /* Minimum width for the tag */
+    }
+}
+
+.info-modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background for modal overlay */
+    z-index: 1000; /* Ensure it's on top */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.modal-content {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 20px;
+    border: 2px solid white;
+    border-radius: 5px;
+    max-width: 500px; /* Maximum width for larger screens */
+    width: 80%; /* Relative width for scaling */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+}
+
+.title-container {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    justify-content: flex-start; /* Align items to the start (left) */
+}
+
+label {
+    display: flex;
+    align-items: center; /* Align label text and button vertically */
+    justify-content: flex-start; /* Align items to the start (left) */
+}
+
+.info-button {
+    padding: 3px 6px; /* Smaller padding */
+    font-size: 0.45em; /* Smaller font size */
+    font-weight: bold;
+    border: 2px solid white;
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-left: 10px; /* Space next to the label */
+    margin-top: 0; /* Adjusted, assuming label and button are aligned */
+}
+
+.close-button {
+    padding: 5px 10px;
+    border: 2px solid white;
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 10px; /* Space above the button */
+}
+
+/* Ensure the title (h3) and button are aligned inline */
+.title-container h3, .title-container .info-button {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.info-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.close-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 480px) {
+    .modal-content {
+        width: 90%;
+        padding: 10px;
+    }
+}
