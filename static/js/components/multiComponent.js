@@ -75,6 +75,8 @@ export function createMultiComponent(element) {
         tagsContainer.appendChild(tag);
     }
 
+    wrapper.addTag = addTag; // Add the addTag function to the wrapper
+
     // Function to remove a tag
     function removeTag(option, tagElement) {
         selectedOptions.splice(selectedOptions.indexOf(option), 1);

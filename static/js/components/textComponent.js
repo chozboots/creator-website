@@ -23,7 +23,7 @@ export function createTextComponent (element) {
         placeholder: element.placeholder,
         rows: rows,
         cols: cols,
-        maxLength: element.maxlength,
+        maxLength: element.maxlength || 50,
         className: className // applying the class based on mode
     });
 

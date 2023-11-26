@@ -7,30 +7,30 @@ import {
     characterClick,
 } from './_helpers.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const body = document.body;
     const editMode = document.getElementById('editMode');
     const characterItems = document.querySelectorAll('.character-item');
     const submenuButtons = document.querySelectorAll('.submenu-button');
     const uploadedFiles = []; // Persistent storage for uploaded files
 
-    // Assuming characterClick is supposed to be called with the 'item' as 'element'
-    characterItems.forEach(item => {
-        item.addEventListener('click', (event) => {
-            characterClick(event, body, editMode, uploadedFiles);
+    try {
+        await fetchAndLoadElements(uploadedFiles); // Ensure elements are loaded
+        // Now attach click listeners that depend on these elements
+        characterItems.forEach(item => {
+            item.addEventListener('click', (event) => {
+                characterClick(event, body, editMode, uploadedFiles);
+            });
         });
-    });
-    
+    } catch (error) {
+        console.error('Error loading elements:', error);
+        // Handle error appropriately
+    }
+
     submenuButtons.forEach(btn => {
         btn.addEventListener('click', (event) => submenuClick(event, uploadedFiles));
     });
     
     document.getElementById('backBtn').addEventListener('click', () => backClick(body, editMode));
-    //document.getElementById('backBtn').addEventListener('click', () => backClick(body, editMode));
-    //document.getElementById('backBtn').addEventListener('click', () => backClick(body, editMode));
-
     hideSubmenus();
-
-    // Initial calls
-    fetchAndLoadElements(uploadedFiles);
 });

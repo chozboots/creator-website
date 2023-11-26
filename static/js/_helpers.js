@@ -8,21 +8,17 @@ import { createWeightComponent } from './components/weightComponent.js';
 import { createDynamicListComponent } from './components/dynamicListComponent.js';
 import { createTitledDynamicListComponent } from './components/titledDynamicListComponent.js';
 import { createGeneralComponent } from './components/generalComponent.js';
-import { createNameComponent } from './components/nameComponent.js';
 
-import { setCurrentCharacterId} from './state.js';
 import { renderGalleryImages } from './_gallery.js';
 import { showInfo } from './_info.js';
+import { updateComponentsWithData } from './_loader.js';
 
-export const createElementInput = (element, uploadedFiles, currentCharacterId, currentCharacterClone) => {
+export const createElementInput = (element, uploadedFiles) => {
     if (element.type === 'date') {
         return createDateComponent(element);
 
     } else if (element.type === 'textarea') {
         return createTextComponent(element);
-
-    } else if (element.type === 'name') {
-        return createNameComponent(element, currentCharacterId);
 
     } else if (element.type === 'multi') {
         return createMultiComponent(element);
@@ -43,16 +39,16 @@ export const createElementInput = (element, uploadedFiles, currentCharacterId, c
         return createTitledDynamicListComponent(element);
 
     } else {
-        return createGeneralComponent(element, uploadedFiles, currentCharacterId, currentCharacterClone);
+        return createGeneralComponent(element, uploadedFiles);
     }
 };
 
 // Utility functions
-export const fetchAndLoadElements = async (uploadedFiles, currentCharacterId, currentCharacterClone) => {
+export const fetchAndLoadElements = async (uploadedFiles) => {
     try {
         const response = await fetch('/dynamic_elements');
         const elements = await response.json();
-        elements.forEach((element) => createAndAppendElement(element, uploadedFiles, currentCharacterId, currentCharacterClone));    
+        elements.forEach((element) => createAndAppendElement(element, uploadedFiles));    
     } catch (error) {
         console.error('Error fetching elements:', error);
     }
@@ -75,7 +71,7 @@ export const createLabel = element => {
     return label;
 };
 
-export const createAndAppendElement = (element, uploadedFiles, currentCharacterId, currentCharacterClone) => {
+export const createAndAppendElement = (element, uploadedFiles) => {
     // Use element.container if it exists, otherwise fallback to 'defaultContainerId'
     const containerId = element.container || 'defaultContainerId';
     const container = document.getElementById(containerId);
@@ -85,7 +81,7 @@ export const createAndAppendElement = (element, uploadedFiles, currentCharacterI
     }
 
     const label = createLabel(element);
-    const input = createElementInput(element, uploadedFiles, currentCharacterId, currentCharacterClone); // Pass uploadedFiles directly
+    const input = createElementInput(element, uploadedFiles); // Pass uploadedFiles directly
     const group = document.createElement('div');
     group.className = 'form-group';
     group.append(label, input);
@@ -139,14 +135,21 @@ export const clearGallery = (uploadedFiles) => {
 };
 
 // Character selection
-export const characterClick = async (event, body, editMode, uploadedFiles, characterId, currentCharacterClone) => {
+export const characterClick = async (event, body, editMode, uploadedFiles) => {
     console.log(event);
     console.log(uploadedFiles);
     clearGallery(uploadedFiles);
     hideSubmenus();
+
     const characterId = event.currentTarget.getAttribute('data-character-id');
-    const characterData = await fetch(`/character_details/${characterId}`).then(res => res.json());    document.getElementById('editAvatar').src = characterData.image_url;
-    document.getElementById('editGreeting').innerText = `Editing ${characterData.name}`;
+    const characterData = await fetch(`/character_details/${characterId}`).then(res => res.json());
+    
+    // Update components with the fetched data
+    updateComponentsWithData(characterData);
+
+    document.getElementById('editAvatar').src = characterData['characterImage'];
+    document.getElementById('editGreeting').innerText = `Editing ${characterData['characterName']}`;
+
     body.classList.add('edit-active');
     editMode.style.display = 'flex';
     
