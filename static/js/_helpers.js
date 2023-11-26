@@ -145,8 +145,7 @@ export const characterClick = async (event, body, editMode, uploadedFiles, chara
     clearGallery(uploadedFiles);
     hideSubmenus();
     const characterId = event.currentTarget.getAttribute('data-character-id');
-    const characterData = await fetch(`/character_details/${characterId}`).then(res => res.json());    
-    document.getElementById('editAvatar').src = characterData.image_url;
+    const characterData = await fetch(`/character_details/${characterId}`).then(res => res.json());    document.getElementById('editAvatar').src = characterData.image_url;
     document.getElementById('editGreeting').innerText = `Editing ${characterData.name}`;
     body.classList.add('edit-active');
     editMode.style.display = 'flex';

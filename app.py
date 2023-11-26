@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, redirect, url_for, render_template, jsonify, request
+from flask import Flask, redirect, url_for, render_template, jsonify
 from flask_discord import DiscordOAuth2Session, requires_authorization
 from dotenv import load_dotenv
 
@@ -30,39 +30,17 @@ def main_menu():
     user = discord.fetch_user()
     return render_template("main_menu.html", authorized=True, user=user, characters=CHARACTERS)
 
-@app.route("/dynamic_characters", methods=['GET'])
-def dynamic_characters():
-    return jsonify(CHARACTERS)
-
-@app.route("/dynamic_elements", methods=['GET'])
+@app.route("/dynamic_elements")
 def dynamic_elements():
     return jsonify(ELEMENTS)
 
 @app.route('/character_details/<character_id>', methods=['GET'])
 def character_details(character_id):
-    print("Requested character ID:", character_id)
-    try:
-        character_id = int(character_id)
-    except ValueError:
-        print("Invalid character ID")
-        return jsonify({'error': 'Invalid character ID'}), 400
-
-    character = next((char for char in CHARACTERS if char['id'] == character_id), None)
+    character = next((char for char in CHARACTERS if char['id'] == int(character_id)), None)
     if character:
-        print("Character found:", character)
         return jsonify(character)
     else:
-        print("Character not found")
         return jsonify({'error': 'Character not found'}), 404
-    
-@app.route('/update_character/<int:character_id>', methods=['PUT'])
-def update_character(character_id):
-    updated_character = request.json
-    for char in CHARACTERS:
-        if char['id'] == character_id:
-            char.update(updated_character)
-            return jsonify(char), 200
-    return jsonify({'error': 'Character not found'}), 404
 
 @app.route("/login/")
 def login():
