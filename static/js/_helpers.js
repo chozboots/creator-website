@@ -8,16 +8,21 @@ import { createWeightComponent } from './components/weightComponent.js';
 import { createDynamicListComponent } from './components/dynamicListComponent.js';
 import { createTitledDynamicListComponent } from './components/titledDynamicListComponent.js';
 import { createGeneralComponent } from './components/generalComponent.js';
+import { createNameComponent } from './components/nameComponent.js';
 
+import { setCurrentCharacterId} from './state.js';
 import { renderGalleryImages } from './_gallery.js';
 import { showInfo } from './_info.js';
 
-export const createElementInput = (element, uploadedFiles) => {
+export const createElementInput = (element, uploadedFiles, currentCharacterId, currentCharacterClone) => {
     if (element.type === 'date') {
         return createDateComponent(element);
 
     } else if (element.type === 'textarea') {
         return createTextComponent(element);
+
+    } else if (element.type === 'name') {
+        return createNameComponent(element, currentCharacterId);
 
     } else if (element.type === 'multi') {
         return createMultiComponent(element);
@@ -38,16 +43,16 @@ export const createElementInput = (element, uploadedFiles) => {
         return createTitledDynamicListComponent(element);
 
     } else {
-        return createGeneralComponent(element, uploadedFiles);
+        return createGeneralComponent(element, uploadedFiles, currentCharacterId, currentCharacterClone);
     }
 };
 
 // Utility functions
-export const fetchAndLoadElements = async (uploadedFiles) => {
+export const fetchAndLoadElements = async (uploadedFiles, currentCharacterId, currentCharacterClone) => {
     try {
         const response = await fetch('/dynamic_elements');
         const elements = await response.json();
-        elements.forEach((element) => createAndAppendElement(element, uploadedFiles));    
+        elements.forEach((element) => createAndAppendElement(element, uploadedFiles, currentCharacterId, currentCharacterClone));    
     } catch (error) {
         console.error('Error fetching elements:', error);
     }
@@ -70,7 +75,7 @@ export const createLabel = element => {
     return label;
 };
 
-export const createAndAppendElement = (element, uploadedFiles) => {
+export const createAndAppendElement = (element, uploadedFiles, currentCharacterId, currentCharacterClone) => {
     // Use element.container if it exists, otherwise fallback to 'defaultContainerId'
     const containerId = element.container || 'defaultContainerId';
     const container = document.getElementById(containerId);
@@ -80,7 +85,7 @@ export const createAndAppendElement = (element, uploadedFiles) => {
     }
 
     const label = createLabel(element);
-    const input = createElementInput(element, uploadedFiles); // Pass uploadedFiles directly
+    const input = createElementInput(element, uploadedFiles, currentCharacterId, currentCharacterClone); // Pass uploadedFiles directly
     const group = document.createElement('div');
     group.className = 'form-group';
     group.append(label, input);
@@ -134,10 +139,9 @@ export const clearGallery = (uploadedFiles) => {
 };
 
 // Character selection
-export const characterClick = async (event, body, editMode, uploadedFiles) => {
+export const characterClick = async (event, body, editMode, uploadedFiles, characterId, currentCharacterClone) => {
     console.log(event);
     console.log(uploadedFiles);
-
     clearGallery(uploadedFiles);
     hideSubmenus();
     const characterId = event.currentTarget.getAttribute('data-character-id');
@@ -146,6 +150,7 @@ export const characterClick = async (event, body, editMode, uploadedFiles) => {
     document.getElementById('editGreeting').innerText = `Editing ${characterData.name}`;
     body.classList.add('edit-active');
     editMode.style.display = 'flex';
+    
     // Clear uploaded files if any when switching characters
 
     if (document.getElementsByName('characterGallery').length > 0) {
@@ -154,4 +159,4 @@ export const characterClick = async (event, body, editMode, uploadedFiles) => {
     
     uploadedFiles.length = 0;
     renderGalleryImages(uploadedFiles);
-};
+}
