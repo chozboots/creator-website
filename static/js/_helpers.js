@@ -100,6 +100,7 @@ export const hideSubmenus = () => {
         gallery.style.display = 'none';
     }
 };
+
 // js/_helpers.js
 export const submenuClick = (event, uploadedFiles) => {
     console.log(uploadedFiles)
@@ -140,11 +141,17 @@ export const characterClick = async (event, body, editMode, uploadedFiles) => {
     clearGallery(uploadedFiles);
     hideSubmenus();
     const characterId = event.currentTarget.getAttribute('data-character-id');
-    const characterData = await fetch(`/character_details/${characterId}`).then(res => res.json());    document.getElementById('editAvatar').src = characterData.image_url;
+    const characterData = await fetch(`/character_details/${characterId}`).then(res => res.json());    
+    document.getElementById('editAvatar').src = characterData.image_url;
     document.getElementById('editGreeting').innerText = `Editing ${characterData.name}`;
     body.classList.add('edit-active');
     editMode.style.display = 'flex';
     // Clear uploaded files if any when switching characters
+
+    if (document.getElementsByName('characterGallery').length > 0) {
+        document.getElementsByName('characterGallery')[0].value = '';
+    }
+    
     uploadedFiles.length = 0;
     renderGalleryImages(uploadedFiles);
 };

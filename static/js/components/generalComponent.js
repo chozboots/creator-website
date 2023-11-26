@@ -18,7 +18,6 @@ export function createGeneralComponent(element, uploadedFiles) {
     if (element.type !== 'dropdown') {
         input.type = element.type;
     } else {
-        // Assuming `element.options` is an array of strings like ["None", "Small", "Medium", ...]
         element.options.forEach((optionText) => {
             const optionElement = new Option(optionText, optionText);
             input.add(optionElement);

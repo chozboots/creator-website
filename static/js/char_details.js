@@ -24,7 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
     submenuButtons.forEach(btn => {
         btn.addEventListener('click', (event) => submenuClick(event, uploadedFiles));
     });
+    
     document.getElementById('backBtn').addEventListener('click', () => backClick(body, editMode));
+    //document.getElementById('backBtn').addEventListener('click', () => backClick(body, editMode));
+    //document.getElementById('backBtn').addEventListener('click', () => backClick(body, editMode));
 
     hideSubmenus();
 
