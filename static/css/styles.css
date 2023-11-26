@@ -98,7 +98,6 @@ body {
     .edit-mode .form-group input,
     .edit-mode .form-group textarea {
         width: calc(100% - 2rem); /* takes full width minus some margin */
-        margin: 0.5rem; /* adds some space around the elements */
     }
 }
 
@@ -334,7 +333,7 @@ body {
 /* Apply styles only to text, password, email, and other similar input types, excluding radio, checkbox, and file */
 .edit-mode .form-group input:not([type="radio"]):not([type="checkbox"]):not([type="file"]),
 .edit-mode .form-group textarea {
-    width: flex; /* Adjust this value to what suits your design */
+    width: 225px; /* Adjust this value to what suits your design */
     /* Add your other styles for these inputs here */
 }
 
@@ -512,7 +511,8 @@ display: block;
 text-align: right;
 font-size: 0.9em;
 color: #FFFFFF;
-margin-top: 5px;
+margin-top: -10px;
+margin-right: 15px;
 }
 
 /* Container for the entire date input and age display */
@@ -798,11 +798,10 @@ color: #ffffff;
     flex-direction: column;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 20px;
     color: white;
     gap: 10px;
     width: 300px; /* Adjusted for larger screens */
-    margin: 0 auto; /* Centering the wrapper */
 }
 
 .tags-container {
@@ -811,7 +810,10 @@ color: #ffffff;
     align-items: center;
     gap: 10px; /* Space between each tag */
     max-width: 100%; /* Ensure tags don't exceed the container width */
+    padding: 5px; /* Add some padding to the container */
 }
+
+
 
 .option-tag {
     display: inline-flex;
@@ -916,7 +918,7 @@ label {
 
 .info-button {
     padding: 3px 6px; /* Smaller padding */
-    font-size: 0.45em; /* Smaller font size */
+    font-size: 0.7em; /* Smaller font size */
     font-weight: bold;
     border: 2px solid white;
     border-radius: 15px;
@@ -924,8 +926,9 @@ label {
     color: white;
     cursor: pointer;
     transition: background-color 0.2s;
-    margin-left: 10px; /* Space next to the label */
+    margin-left: 15px; /* Space next to the label */
     margin-top: 0; /* Adjusted, assuming label and button are aligned */
+    margin-bottom: 5px;
 }
 
 .close-button {
@@ -951,6 +954,15 @@ label {
 
 .close-button:hover {
     background-color: rgba(255, 255, 255, 0.2);
+}
+
+.char-counter-tag {
+    text-align: right;
+    font-size: 0.8em;
+    color: white;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
 }
 
 /* Responsive adjustments for smaller screens */

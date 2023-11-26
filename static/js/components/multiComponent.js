@@ -38,7 +38,7 @@ export function createMultiComponent(element) {
 
     // Create a character counter
     const charCounter = document.createElement('div');
-    charCounter.className = 'char-counter';
+    charCounter.className = 'char-counter-tag';
     charCounter.textContent = `0/${charLimit}`;
     wrapper.appendChild(charCounter);
 
