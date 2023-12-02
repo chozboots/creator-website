@@ -72,7 +72,6 @@ export const createLabel = element => {
 };
 
 export const createAndAppendElement = (element, uploadedFiles) => {
-    // Use element.container if it exists, otherwise fallback to 'defaultContainerId'
     const containerId = element.container || 'defaultContainerId';
     const container = document.getElementById(containerId);
     if (!container) {
@@ -80,13 +79,20 @@ export const createAndAppendElement = (element, uploadedFiles) => {
         return;
     }
 
+    console.log(`Appending to container: ${containerId}`); // Debugging line
+    
     const label = createLabel(element);
-    const input = createElementInput(element, uploadedFiles); // Pass uploadedFiles directly
+    const input = createElementInput(element, uploadedFiles);
+    console.log("Created input element:", input); // Inspect the created input
+
     const group = document.createElement('div');
     group.className = 'form-group';
     group.append(label, input);
+
+    console.log("Appending group to container:", group); // Debugging line
     container.appendChild(group);
 };
+
 
 export const hideSubmenus = () => {
     console.log('Hiding submenus now'); // Check if this is being printed when expected
@@ -145,7 +151,7 @@ export const characterClick = async (event, body, editMode, uploadedFiles) => {
     const characterData = await fetch(`/character_details/${characterId}`).then(res => res.json());
     
     // Update components with the fetched data
-    updateComponentsWithData(characterData);
+    updateComponentsWithData(characterData, uploadedFiles);
 
     document.getElementById('editAvatar').src = characterData['characterImage'];
     document.getElementById('editGreeting').innerText = `Editing ${characterData['characterName']}`;

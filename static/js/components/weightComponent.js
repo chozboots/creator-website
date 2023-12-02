@@ -3,6 +3,7 @@ export function createWeightComponent(element) {
     // Create a wrapper for all weight related elements
     const weightWrapper = document.createElement('div');
     weightWrapper.className = 'length-input-wrapper';
+    weightWrapper.setAttribute('data-name', element.name);
 
     const weightDisplayContainer = document.createElement('div');
     weightDisplayContainer.className = 'weight-display-container';
@@ -13,7 +14,8 @@ export function createWeightComponent(element) {
 
     // Create the dropdown menu for selecting mode
     const modeSelect = document.createElement('select');
-    modeSelect.className = 'mode-select';
+    modeSelect.className = 'mode-select'; // Class for styling
+    modeSelect.setAttribute('data-name', element.name); // Add this line
     ['Numeric', 'Range', 'Varies', 'None'].forEach(mode => {
         const option = document.createElement('option');
         option.value = mode;
@@ -153,9 +155,11 @@ export function createWeightComponent(element) {
         if (modeSelect.value === 'Numeric') {
             weightDisplaySpan.textContent = `${restLb.toFixed(1)} lb (${restKg.toFixed(1)} kg)`;
         } else if (modeSelect.value === 'Range') {
-            weightDisplaySpan.innerHTML = `Min: ${minLb.toFixed(1)} lb (${minKg.toFixed(1)} kg)<br>Rest: ${restLb.toFixed(1)} lb (${restKg.toFixed(1)} kg)<br>Max: ${maxLb.toFixed(1)} lb (${maxKg.toFixed(1)} kg)`;
+            weightDisplaySpan.innerHTML = `Resting: ${restLb.toFixed(0)} lb (${restKg.toFixed(1)} kg)<br><br>- Minimum: ${minLb.toFixed(0)} lb (${minKg.toFixed(1)} kg)<br><br>- Maximum: ${maxLb.toFixed(0)} lb (${maxKg.toFixed(1)} kg)`;
         }
-    };    
+    };
+    
+    weightWrapper.updateWeightDisplay = updateWeightDisplay;
 
     // Event listener for the kg input
     kgInput.addEventListener('input', () => {

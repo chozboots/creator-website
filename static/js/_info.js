@@ -1,5 +1,5 @@
 // js/_info.js
-export function showInfo(infoText) {
+export function showInfo(infoHtml) {
     // Create the modal container
     const modal = document.createElement('div');
     modal.className = 'info-modal';
@@ -7,7 +7,7 @@ export function showInfo(infoText) {
     // Create the content area of the modal
     const modalContent = document.createElement('div');
     modalContent.className = 'modal-content';
-    modalContent.textContent = infoText;
+    modalContent.innerHTML = infoHtml; // Set HTML content
     modal.appendChild(modalContent);
 
     // Create a close button for the modal
@@ -23,3 +23,4 @@ export function showInfo(infoText) {
     // Display the modal using flexbox
     modal.style.display = 'flex';
 }
+

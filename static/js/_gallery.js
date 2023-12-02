@@ -3,25 +3,36 @@ export const renderGalleryImages = (uploadedFiles) => {
     console.log(Array.isArray(uploadedFiles), uploadedFiles);
     const gallery = document.getElementById('imageGalleryContainer');
     gallery.innerHTML = '';
-    uploadedFiles.forEach(file => {
+    uploadedFiles.forEach(item => {
         const img = new Image();
-        img.src = URL.createObjectURL(file);
+        // Determine if item is a File object or a URL string
+        img.src = (item instanceof File) ? URL.createObjectURL(item) : item;
         img.classList.add('uploaded-image-preview');
-        img.onload = () => URL.revokeObjectURL(img.src);
+        if (item instanceof File) {
+            img.onload = () => URL.revokeObjectURL(img.src); // Release object URL for File objects
+        }
         gallery.appendChild(img);
     });
     gallery.style.display = uploadedFiles.length > 0 ? 'block' : 'none';
 };
 
+
 export const handleGalleryChange = (event, uploadedFiles, MAX_IMAGES, renderGalleryImages) => {
-    console.log(Array.isArray(uploadedFiles), uploadedFiles);
-    const getCurrentImageCount = () => uploadedFiles.length;
-    uploadedFiles.splice(0, uploadedFiles.length, ...event.target.files);
-    if (getCurrentImageCount() > MAX_IMAGES) {
+    // Filter out URLs, keep only File objects
+    const existingFiles = uploadedFiles.filter(item => item instanceof File);
+
+    // Add new files to the array
+    existingFiles.push(...Array.from(event.target.files));
+
+    // Check for maximum images
+    if (existingFiles.length > MAX_IMAGES) {
         alert(`Maximum of ${MAX_IMAGES} images.`);
         event.target.value = "";
-        uploadedFiles.length = 0;
+        return;
     }
+
+    // Update the array with new files
+    uploadedFiles.splice(0, uploadedFiles.length, ...existingFiles);
     renderGalleryImages(uploadedFiles);
 };
 

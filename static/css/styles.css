@@ -972,3 +972,16 @@ label {
         padding: 10px;
     }
 }
+
+.info-text {
+    text-align: left; /* Ensures left alignment for the container */
+}
+.info-text p {
+    text-align: left; /* Explicitly left-aligns all paragraphs within the container */
+    margin-bottom: 0.5em; /* Adjust spacing between paragraphs */
+}
+.info-text ul {
+    margin-top: 0.5em; /* Adjust spacing above the list */
+    margin-bottom: 0.5em; /* Adjust spacing below the list */
+    padding-left: 1em; /* Adjust indentation of bullets */
+}

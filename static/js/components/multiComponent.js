@@ -2,10 +2,11 @@
 export function createMultiComponent(element) {
     const wrapper = document.createElement('div');
     wrapper.className = 'multi-select-wrapper';
-
+    wrapper.setAttribute('data-name', element.name); 
 
     // Character limit
     const charLimit = 25;
+    const entryLimit = element.max || 10
     
     // Create a container for the tags
     const tagsContainer = document.createElement('div');
@@ -42,20 +43,32 @@ export function createMultiComponent(element) {
     charCounter.textContent = `0/${charLimit}`;
     wrapper.appendChild(charCounter);
 
-    const selectedOptions = []; // Array to store selected options
-
     // Function to update the character counter
     function updateCharCounter() {
         const currentLength = inputField.value.length;
         charCounter.textContent = `${currentLength}/${charLimit}`;
     }
 
+    // Function to update remaining entries counter
+    function updateRemainingEntriesCounter() {
+        const remaining = entryLimit - selectedOptions.length;
+        remainingEntriesCounter.textContent = `${remaining} remaining`;
+    }
+
+    // Remaining entries counter
+    const remainingEntriesCounter = document.createElement('div');
+    remainingEntriesCounter.className = 'remaining-entries-counter';
+    remainingEntriesCounter.textContent = `${entryLimit} remaining`;
+    wrapper.appendChild(remainingEntriesCounter);
+
+    const selectedOptions = []; // Array to store selected options
+
     // Update the character counter when typing
     inputField.addEventListener('input', updateCharCounter);
 
     // Function to add a tag
     function addTag(option) {
-        if (selectedOptions.includes(option)) return;
+        if (selectedOptions.includes(option) || selectedOptions.length >= entryLimit) return;
 
         selectedOptions.push(option);
         const tag = document.createElement('span');
@@ -73,6 +86,7 @@ export function createMultiComponent(element) {
 
         tag.appendChild(removeBtn);
         tagsContainer.appendChild(tag);
+        updateRemainingEntriesCounter(); // Update the counter after adding a tag
     }
 
     wrapper.addTag = addTag; // Add the addTag function to the wrapper
@@ -81,6 +95,7 @@ export function createMultiComponent(element) {
     function removeTag(option, tagElement) {
         selectedOptions.splice(selectedOptions.indexOf(option), 1);
         tagsContainer.removeChild(tagElement);
+        updateRemainingEntriesCounter(); // Update the counter after adding a tag
     }
 
     // Handle dropdown selection

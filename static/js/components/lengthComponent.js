@@ -3,6 +3,7 @@ export function createLengthComponent(element) {
     // Create a wrapper for all length related elements
     const lengthWrapper = document.createElement('div');
     lengthWrapper.className = 'length-input-wrapper';
+    lengthWrapper.setAttribute('data-name', element.name);
 
     const lengthDisplayContainer = document.createElement('div');
     lengthDisplayContainer.className = 'length-display-container';
@@ -14,6 +15,7 @@ export function createLengthComponent(element) {
     // Create the dropdown menu for selecting mode
     const modeSelect = document.createElement('select');
     modeSelect.className = 'mode-select'; // Class for styling
+    modeSelect.setAttribute('data-name', element.name); // Add this line
     ['Numeric', 'Range', 'Varies'].forEach(mode => {
         const option = document.createElement('option');
         option.value = mode;
@@ -165,9 +167,11 @@ export function createLengthComponent(element) {
         if (modeSelect.value === 'Numeric') {
             lengthDisplaySpan.textContent = `${inchesToFeetAndInches(restInches)} (${restCm.toFixed(0)} cm)`;
         } else if (modeSelect.value === 'Range') {
-            lengthDisplaySpan.innerHTML = `Min: ${inchesToFeetAndInches(minInches)} (${minCm.toFixed(0)} cm)<br>Rest: ${inchesToFeetAndInches(restInches)} (${restCm.toFixed(0)} cm)<br>Max: ${inchesToFeetAndInches(maxInches)} (${maxCm.toFixed(0)} cm)`;
+            lengthDisplaySpan.innerHTML = `Resting: ${inchesToFeetAndInches(restInches)} (${restCm.toFixed(0)} cm)<br><br>- Minimum: ${inchesToFeetAndInches(minInches)} (${minCm.toFixed(0)} cm)<br><br>- Maximum: ${inchesToFeetAndInches(maxInches)} (${maxCm.toFixed(0)} cm)`;
         }
-    };  
+    };
+
+    lengthWrapper.updateLengthDisplay = updateLengthDisplay;
 
     // Event listener for the cm input
     cmInput.addEventListener('input', () => {
@@ -340,7 +344,6 @@ export function createLengthComponent(element) {
 
     // Append the save button to the lengthWrapper
     lengthWrapper.appendChild(saveButton);
-
 
     return lengthWrapper;
 }

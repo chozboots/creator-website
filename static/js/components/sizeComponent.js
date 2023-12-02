@@ -3,6 +3,7 @@ export function createSizeComponent(element) {
     // Create a wrapper for all length related elements
     const lengthWrapper = document.createElement('div');
     lengthWrapper.className = 'length-input-wrapper';
+    lengthWrapper.setAttribute('data-name', element.name);
 
     const lengthDisplayContainer = document.createElement('div');
     lengthDisplayContainer.className = 'length-display-container';
@@ -14,6 +15,7 @@ export function createSizeComponent(element) {
     // Create the dropdown menu for selecting mode
     const modeSelect = document.createElement('select');
     modeSelect.className = 'mode-select'; // Class for styling
+    modeSelect.setAttribute('data-name', element.name); // Add this line
     ['Numeric', 'Range', 'Varies', 'None'].forEach(mode => {
         const option = document.createElement('option');
         option.value = mode;
@@ -154,9 +156,11 @@ export function createSizeComponent(element) {
         if (modeSelect.value === 'Numeric') {
             lengthDisplaySpan.textContent = `${restInches.toFixed(1)}" (${restCm.toFixed(1)} cm)`;
         } else if (modeSelect.value === 'Range') {
-            lengthDisplaySpan.innerHTML = `Min: ${minInches.toFixed(1)}" (${minCm.toFixed(1)} cm)<br>Rest: ${restInches.toFixed(1)}" (${restCm.toFixed(1)} cm)<br>Max: ${maxInches.toFixed(1)}" (${maxCm.toFixed(1)} cm)`;
+            lengthDisplaySpan.innerHTML = `Resting: ${restInches.toFixed(1)}" (${restCm.toFixed(1)} cm)<br><br>- Minimum: ${minInches.toFixed(1)}" (${minCm.toFixed(1)} cm)<br><br>- Maximum: ${maxInches.toFixed(1)}" (${maxCm.toFixed(1)} cm)`;
         }
-    };    
+    };
+
+    lengthWrapper.updateLengthDisplay = updateLengthDisplay;
 
     // Event listener for the cm input
     cmInput.addEventListener('input', () => {
