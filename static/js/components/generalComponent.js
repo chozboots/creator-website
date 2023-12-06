@@ -1,11 +1,11 @@
 // js/components/generalComponent.js
-import { setUpGallery, renderGalleryImages } from '../_gallery.js';
+import { setUpGallery, renderGalleryImages, sendFilesToServer } from '../_gallery.js';
 
 export function createGeneralComponent(element, uploadedFiles) {
     console.log("Creating component for:", element.name);
     const MAX_IMAGES = 4; // Assuming this is a constant
 
-    
+
     if (element.type === 'file') {
         const fileInputContainer = document.createElement('div');
         fileInputContainer.classList.add('file-input-container');
@@ -42,6 +42,16 @@ export function createGeneralComponent(element, uploadedFiles) {
 
             fileInputContainer.appendChild(fileNameDisplay);
         }
+
+        // Test submit button
+        const submitButton = document.createElement('button');
+        submitButton.textContent = 'Submit Image';
+        submitButton.className = 'custom-file-submit';
+        submitButton.addEventListener('click', () => {
+          // Call the function to send files to the server
+          sendFilesToServer(uploadedFiles);
+        });
+        fileInputContainer.appendChild(submitButton);
 
         return fileInputContainer;
 

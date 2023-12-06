@@ -69,3 +69,40 @@ export const setUpGallery = (input, uploadedFiles, MAX_IMAGES, renderGalleryImag
     input.id = 'characterGallery';
     input.addEventListener('change', (event) => handleGalleryChange(event, uploadedFiles, MAX_IMAGES, renderGalleryImagesCallback));
 };
+
+
+export const sendFilesToServer = async (mixedArray) => {
+    const formData = new FormData();
+  
+    // Iterate through the mixed array and append items accordingly
+    for (const item of mixedArray) {
+      if (item instanceof File) {
+        console.log('Appending file:', item);
+        formData.append('file', item);
+      } else if (typeof item === 'string') {
+        console.log('Appending link:', item);
+        formData.append('link', item);
+      }
+    }
+    
+    console.log('Sending form data:', formData);
+
+    try {
+      const response = await fetch('/upload', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (response.ok) {
+        // Handle a successful response from the server
+        console.log('Files and links uploaded successfully');
+      } else {
+        // Handle an error response from the server
+        console.error('Error uploading files and links');
+      }
+    } catch (error) {
+      // Handle network or other errors
+      console.error('Error:', error);
+    }
+  };
+  
