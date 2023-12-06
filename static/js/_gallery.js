@@ -3,38 +3,65 @@ export const renderGalleryImages = (uploadedFiles) => {
     console.log(Array.isArray(uploadedFiles), uploadedFiles);
     const gallery = document.getElementById('imageGalleryContainer');
     gallery.innerHTML = '';
-    uploadedFiles.forEach(item => {
+
+    uploadedFiles.forEach((item, index) => {
+        const container = document.createElement('div');
+        container.classList.add('image-container');
+
         const img = new Image();
-        // Determine if item is a File object or a URL string
         img.src = (item instanceof File) ? URL.createObjectURL(item) : item;
         img.classList.add('uploaded-image-preview');
         if (item instanceof File) {
-            img.onload = () => URL.revokeObjectURL(img.src); // Release object URL for File objects
+            img.onload = () => URL.revokeObjectURL(img.src);
         }
-        gallery.appendChild(img);
+
+        // Create delete button
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = 'X';
+        deleteButton.classList.add('delete-button');
+        deleteButton.onclick = () => deleteImage(index, uploadedFiles, renderGalleryImages);
+
+        container.appendChild(img);
+        container.appendChild(deleteButton);
+        gallery.appendChild(container);
     });
+
     gallery.style.display = uploadedFiles.length > 0 ? 'block' : 'none';
 };
 
 
+const deleteImage = (index, uploadedFiles, renderGalleryImages) => {
+    const confirmDeletion = confirm('Are you sure you want to delete this image?');
+    if (confirmDeletion) {
+        uploadedFiles.splice(index, 1); // Remove the image from the array
+        renderGalleryImages(uploadedFiles); // Re-render the gallery
+    }
+};
+
+
 export const handleGalleryChange = (event, uploadedFiles, MAX_IMAGES, renderGalleryImages) => {
-    // Filter out URLs, keep only File objects
-    const existingFiles = uploadedFiles.filter(item => item instanceof File);
+    console.log('handleGalleryChange called');
+    const newFiles = Array.from(event.target.files); // Convert FileList to Array
 
-    // Add new files to the array
-    existingFiles.push(...Array.from(event.target.files));
-
-    // Check for maximum images
-    if (existingFiles.length > MAX_IMAGES) {
-        alert(`Maximum of ${MAX_IMAGES} images.`);
-        event.target.value = "";
-        return;
+    // Check if adding new files would exceed the maximum limit
+    if (uploadedFiles.length + newFiles.length > MAX_IMAGES) {
+        alert(`You can upload a maximum of ${MAX_IMAGES} images. Please select fewer files.`);
+        return; // Exit the function without changing anything
     }
 
-    // Update the array with new files
-    uploadedFiles.splice(0, uploadedFiles.length, ...existingFiles);
+    // Combine new and existing files
+    const updatedFiles = [...uploadedFiles, ...newFiles].filter(item => item instanceof File || typeof item === 'string');
+
+    // Update the array with new files and existing URLs
+    uploadedFiles.splice(0, uploadedFiles.length, ...updatedFiles);
     renderGalleryImages(uploadedFiles);
+
+    const fileInput = document.getElementById('characterGallery');
+    if (fileInput) {
+        fileInput.value = ''; // Clear the file input
+    }
 };
+
 
 export const setUpGallery = (input, uploadedFiles, MAX_IMAGES, renderGalleryImagesCallback) => {
     console.log(uploadedFiles)

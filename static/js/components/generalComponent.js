@@ -2,28 +2,49 @@
 import { setUpGallery, renderGalleryImages } from '../_gallery.js';
 
 export function createGeneralComponent(element, uploadedFiles) {
-    console.log("Creating component for:", element.name); // Add this line for debugging
-    console.log(uploadedFiles)
+    console.log("Creating component for:", element.name);
     const MAX_IMAGES = 4; // Assuming this is a constant
 
-    // Check if the element is the characterGallery
-    if (element.name === 'characterGallery') {
-        // Create a file input specifically for characterGallery
+    
+    if (element.type === 'file') {
+        const fileInputContainer = document.createElement('div');
+        fileInputContainer.classList.add('file-input-container');
+
         const fileInput = document.createElement('input');
         Object.assign(fileInput, {
             type: 'file',
             name: element.name,
-            accept: 'image/*', // Accept only images
-            multiple: true, // Allow multiple files
-            className: 'file'
+            accept: 'image/*',
+            multiple: element.multiple || false,
+            id: element.name,
+            className: 'hidden-file-input' // Hide the default input for all file inputs
         });
 
-        console.log(`${fileInput}`)
+        // Create a custom button for uploading files
+        const uploadButton = document.createElement('button');
+        uploadButton.textContent = 'Upload Image'; // Customize this text
+        uploadButton.className = 'custom-file-upload';
+        uploadButton.addEventListener('click', () => fileInput.click());
 
-        // Set up the gallery with this file input
-        setUpGallery(fileInput, uploadedFiles, MAX_IMAGES, renderGalleryImages);
+        fileInputContainer.appendChild(fileInput);
+        fileInputContainer.appendChild(uploadButton);
 
-        return fileInput;
+        if (element.name === 'characterGallery') {
+            setUpGallery(fileInput, uploadedFiles, MAX_IMAGES, renderGalleryImages);
+        } else {
+            // Setup for other file inputs
+            const fileNameDisplay = document.createElement('span');
+            fileNameDisplay.className = 'file-name-display';
+            fileInput.addEventListener('change', () => {
+                fileNameDisplay.textContent = fileInput.files.length > 0 ?
+                    Array.from(fileInput.files).map(file => file.name).join(', ') : '';
+            });
+
+            fileInputContainer.appendChild(fileNameDisplay);
+        }
+
+        return fileInputContainer;
+
 
     } else {
         // Handle other general components

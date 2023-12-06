@@ -353,6 +353,7 @@ body {
 .edit-mode .form-group input[type="file"] {
     width: 300px; /* Match the width of other input fields, or adjust as necessary */
     /* Add any other styles specific to file inputs here */
+    display: auto;
 }
 
 /* Responsive design adjustments */
@@ -387,36 +388,46 @@ body {
 }
 
 .image-gallery-container {
-    text-align: center; /* Centers the inline(-block) elements */
-    padding: 10px; /* Optional: adds some space inside the container */
-}
-
-.image-gallery-container img.uploaded-image-preview {
-    width: 100px;
-    height: 100px;
-    margin: 5px;
-    border-radius: 5px;
-    display: inline-block; /* Aligns images next to each other on the same line */
-    object-fit: cover; /* Maintains the aspect ratio, crops the image if necessary */
-    box-sizing: border-box; /* Include padding and borders in the element's total width and height */
-}
-
-.image-gallery-container {
     display: flex;
-    flex-wrap: wrap; /* Allows items to wrap onto multiple lines */
-    justify-content: space-around; /* Distributes space around items */
-    align-items: center; /* Aligns items vertically */
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
     padding: 10px;
 }
 
+.image-container {
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+}
+
 .image-gallery-container img.uploaded-image-preview {
     width: 100px;
     height: 100px;
-    margin: 5px;
     border-radius: 5px;
     object-fit: cover;
     box-sizing: border-box;
     border: 2px solid white;
+}
+
+.delete-button {
+    padding: 3px 6px;
+    font-size: 0.7em;
+    font-weight: bold;
+    border: 2px solid white;
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    position: absolute;
+    top: -10px; /* Adjust as needed */
+    left: -10px; /* Adjust as needed */
+}
+
+.delete-button:hover {
+    background-color: rgba(255, 0, 0, 0.6); /* Red background on hover */
 }
 
 .bio-textarea {
@@ -984,4 +995,32 @@ label {
     margin-top: 0.5em; /* Adjust spacing above the list */
     margin-bottom: 0.5em; /* Adjust spacing below the list */
     padding-left: 1em; /* Adjust indentation of bullets */
+}
+
+#characterGallery {
+    opacity: 0; /* Hides the input but keeps it functional */
+    position: absolute;
+    z-index: -1;
+}
+
+.custom-file-upload {
+    /* Style your custom upload button */
+    padding: 10px;
+    cursor: pointer;
+    /* Additional styles */
+}
+
+.hidden-file-input {
+    opacity: 0;
+    position: absolute;
+    width: 0.1px;
+    height: 0.1px;
+    z-index: -1;
+}
+
+.file-name-display {
+    display: block; /* Makes the span a block-level element */
+    margin-top: 10px; /* Adjust as needed for spacing */
+    /* Additional styling as required */
+    margin-bottom: 25px;
 }

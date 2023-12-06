@@ -1,8 +1,10 @@
 // js/_loader.js
-import { setUpGallery, renderGalleryImages } from './_gallery.js';
+import { renderGalleryImages } from './_gallery.js';
+import { hideSubmenus } from './_helpers.js';
 
 async function updateComponentsWithData(characterData, uploadedFiles) {
     console.log(characterData);
+    const MAX_IMAGES = 4;
     const response = await fetch('/dynamic_elements');
     const elements = await response.json();
 
@@ -14,7 +16,6 @@ async function updateComponentsWithData(characterData, uploadedFiles) {
             uploadedFiles.push(...characterData[element.name] || []);
             const galleryInput = document.getElementById('characterGallery');
             if (galleryInput) {
-                setUpGallery(galleryInput, uploadedFiles, MAX_IMAGES, renderGalleryImages);
                 renderGalleryImages(uploadedFiles);
             }
 
@@ -103,6 +104,7 @@ async function updateComponentsWithData(characterData, uploadedFiles) {
             }
         }
     });
+    hideSubmenus();
 }
 
 function metricToImperial(value, type) {

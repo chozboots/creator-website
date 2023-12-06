@@ -73,6 +73,9 @@ export const createLabel = element => {
 
 export const createAndAppendElement = (element, uploadedFiles) => {
     const containerId = element.container || 'defaultContainerId';
+
+    console.log(`Creating element for container: ${containerId}`); // Debugging line
+    
     const container = document.getElementById(containerId);
     if (!container) {
         console.error(`Container not found: ${containerId}`);
