@@ -33,7 +33,7 @@ export function createMultiComponent(element) {
     const inputField = document.createElement('input');
     inputField.type = 'text';
     inputField.placeholder = 'Or type an option';
-    inputField.className = 'option-input';
+    inputField.className = 'multi-option-input';
     inputField.maxLength = charLimit; // Set the maximum length
     wrapper.appendChild(inputField);
 
@@ -115,6 +115,7 @@ export function createMultiComponent(element) {
             if (customOption) {
                 addTag(customOption);
                 inputField.value = '';
+                updateCharCounter();
             }
         }
     });

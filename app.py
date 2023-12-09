@@ -91,7 +91,14 @@ def upload_files():
     
     logger.debug(f'\n\nUploaded urls: {uploaded_urls}\n\n')
     
-    return jsonify({'uploaded_urls': uploaded_urls}), 200
+    links += uploaded_urls
+    logger.debug(f'\n\nNew Links: {links}\n\n')
+    
+    
+    # Database operations here at some point...
+    
+    
+    return jsonify({'database_links': links}), 200
 
 
 @app.route("/login/")

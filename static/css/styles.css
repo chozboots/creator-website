@@ -333,8 +333,12 @@ body {
 /* Apply styles only to text, password, email, and other similar input types, excluding radio, checkbox, and file */
 .edit-mode .form-group input:not([type="radio"]):not([type="checkbox"]):not([type="file"]),
 .edit-mode .form-group textarea {
-    width: 225px; /* Adjust this value to what suits your design */
+    width: 150px; /* Adjust this value to what suits your design */
     /* Add your other styles for these inputs here */
+}
+
+.multi-option-input {
+    width: 300px;
 }
 
 .edit-mode .form-group select {
@@ -511,6 +515,7 @@ textarea {
 
 .edit-mode .form-group label {
     margin-bottom: 0.5rem; /* Adds space between the label and the input/select/textarea */
+    font-size: 20pt;
 }
 
 .textarea-wrapper {
@@ -624,7 +629,6 @@ color: #ffffff;
 
 .length-input-metric, .length-input-imperial {
     width: calc(50% - 4px); /* Adjust width as needed, subtracting the margin */
-    margin-bottom: 1.5em; /* Space below each input */
     margin-right: 4px; /* Space between inputs if they are inline */
 }
 
@@ -879,7 +883,7 @@ color: #ffffff;
 }
 
 /* Responsive adjustments for smaller screens */
-@media (max-width: 480px) {
+@media only screen and (max-width: 480px) {
     .multi-select-wrapper {
         width: 90%; /* Relative width for smaller screens */
     }
@@ -909,10 +913,21 @@ color: #ffffff;
     border-radius: 5px;
     max-width: 500px; /* Maximum width for larger screens */
     width: 80%; /* Relative width for scaling */
+    max-height: 70vh; /* Maximum height set to 70% of the viewport height */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     align-items: center; /* Center content horizontally */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 480px) {
+    .modal-content {
+        width: 90%; /* Adjust width as per requirement */
+        padding: 10px;
+        max-height: 80vh; /* Optionally, you can adjust the max-height for smaller screens */
+    }
 }
 
 .title-container {
@@ -940,6 +955,7 @@ label {
     margin-left: 15px; /* Space next to the label */
     margin-top: 0; /* Adjusted, assuming label and button are aligned */
     margin-bottom: 5px;
+    width: 30px; /* Adjusted to match the label */
 }
 
 .close-button {
@@ -976,14 +992,6 @@ label {
     margin-right: 5px;
 }
 
-/* Responsive adjustments for smaller screens */
-@media (max-width: 480px) {
-    .modal-content {
-        width: 90%;
-        padding: 10px;
-    }
-}
-
 .info-text {
     text-align: left; /* Ensures left alignment for the container */
 }
@@ -1010,6 +1018,11 @@ label {
     /* Additional styles */
 }
 
+.custom-drag-drop {
+    padding: 10px;
+    cursor: pointer;
+}
+
 .hidden-file-input {
     opacity: 0;
     position: absolute;
@@ -1023,4 +1036,89 @@ label {
     margin-top: 10px; /* Adjust as needed for spacing */
     /* Additional styling as required */
     margin-bottom: 25px;
+}
+
+.drag-drop-overlay {
+    position: fixed;
+    top: 20%;  /* Adjust as needed to position the overlay */
+    left: 20%; /* Adjust as needed to position the overlay */
+    width: 60%; /* Make the overlay width smaller than the window */
+    max-height: 300px;
+    height: 60%; /* Make the overlay height smaller than the window */
+    background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* Ensure it's above other content */
+    border: 3px solid #fff; /* Solid white border */
+    box-sizing: border-box; /* Include border in the box's dimensions */
+    cursor: pointer; /* Change cursor to indicate clickable area */
+    border-radius: 100px;
+}
+
+/* Highlight the border when a file is dragged over the area */
+.drag-drop-overlay.drag-over {
+    border: 3px solid #4CAF50; /* Change to a different color when active, e.g., green */
+    border-style: dotted;
+}
+
+/* Style for the overlay text */
+.drag-drop-overlay p {
+    color: #fff;
+    font-size: 1.5em;
+    text-align: center;
+    margin: 15px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white background for text */
+}
+
+.hidden {
+    display: none;
+}
+
+.unit-toggle-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Spacing between elements */
+    margin-bottom: 20px; /* Space below the toggle section */
+}
+
+.unit-toggle-wrapper label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px; /* Adjust padding as needed */
+    font-size: 1em;
+    font-weight: bold;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    background-color: #000000;
+    color: #727272;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    user-select: none;
+    opacity: 0.5;
+    max-width: 100px; /* Adjust as needed */
+    /* Add other properties as previously defined */
+}
+
+/* Hide actual radio buttons */
+.unit-toggle-wrapper input[type='radio'] {
+    display: none;
+    text-align: center;
+}
+
+/* Style for when radio button is checked */
+.unit-toggle-wrapper input[type='radio']:checked + label {
+    background-color: #474747; /* Dark grey background for selected state */
+    color: #f0f0f0; /* Light grey text for selected state */
+    opacity: 1; /* Fully opaque for selected state */
+}
+
+/* Optional: Hover effect for labels */
+.unit-toggle-wrapper label:hover {
+    background-color: #717171; /* Slightly darker grey on hover */
+    color: #333;
+    opacity: 1;
 }

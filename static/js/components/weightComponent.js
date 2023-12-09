@@ -1,12 +1,14 @@
 // js/components/weightComponent.js
-export function createWeightComponent(element) {
+import { toggleInputsVisibility } from '../_toggle.js';
+
+export function createWeightComponent(element, isMetric) {
     // Create a wrapper for all weight related elements
     const weightWrapper = document.createElement('div');
     weightWrapper.className = 'length-input-wrapper';
     weightWrapper.setAttribute('data-name', element.name);
 
     const weightDisplayContainer = document.createElement('div');
-    weightDisplayContainer.className = 'weight-display-container';
+    weightDisplayContainer.className = 'length-display-container';
 
     const weightDisplaySpan = document.createElement('span');
     weightDisplaySpan.className = 'weight-display';
@@ -27,14 +29,30 @@ export function createWeightComponent(element) {
     weightWrapper.appendChild(modeSelect);
     weightWrapper.appendChild(weightDisplayContainer);
 
-    // Function to create a label
-    function createLabel(text, htmlFor) {
-        const label = document.createElement('label');
-        label.textContent = text;
-        label.htmlFor = htmlFor;
-        label.className = 'input-label';
-        return label;
-    }
+
+    // minKgInput
+    const minKgInput = document.createElement('input');
+    Object.assign(minKgInput, {
+        type: 'number',
+        name: 'min' + element.name + 'Kg',  // Changed name
+        placeholder: 'Min Kilograms',     // Changed placeholder
+        className: 'range-input-metric',
+        min: 0
+    });
+    weightWrapper.appendChild(minKgInput);
+
+    // minLbInput
+    const minLbInput = document.createElement('input');
+    Object.assign(minLbInput, {
+        type: 'number',
+        name: 'min' + element.name + 'Lb', // Changed name
+        placeholder: 'Min Pounds',           // Changed placeholder
+        className: 'range-input-imperial',
+        min: 0
+    });
+    weightWrapper.appendChild(minLbInput);
+
+
 
     // kgInput
     const kgInput = document.createElement('input');
@@ -58,45 +76,30 @@ export function createWeightComponent(element) {
     });
     weightWrapper.appendChild(lbInput);
 
-    const minKgInput = document.createElement('input');
-    Object.assign(minKgInput, {
-        type: 'number',
-        name: 'min' + element.name + 'Kg',  // Changed name
-        placeholder: 'Min Kilograms',     // Changed placeholder
-        className: 'length-input-metric',
-        min: 0
-    });
-    weightWrapper.appendChild(minKgInput);
 
-    const minLbInput = document.createElement('input');
-    Object.assign(minLbInput, {
-        type: 'number',
-        name: 'min' + element.name + 'Lb', // Changed name
-        placeholder: 'Min Pounds',           // Changed placeholder
-        className: 'length-input-imperial',
-        min: 0
-    });
-    weightWrapper.appendChild(minLbInput);
-
+    // restKgInput
     const restKgInput = document.createElement('input');
     Object.assign(restKgInput, {
         type: 'number',
         name: 'rest' + element.name + 'Kg',
         placeholder: 'Max Kilograms',
-        className: 'length-input-metric',
+        className: 'range-input-metric',
         min: 0
     });
     weightWrapper.appendChild(restKgInput);
 
+    // restLbInput
     const restLbInput = document.createElement('input');
     Object.assign(restLbInput, {
         type: 'number',
         name: 'rest' + element.name + 'Lb',
         placeholder: 'Max Pounds',
-        className: 'length-input-imperial',
+        className: 'range-input-imperial',
         min: 0
     });
     weightWrapper.appendChild(restLbInput);
+
+
 
     const logCurrentValues = () => {
         console.log('Current Values:');
@@ -108,23 +111,6 @@ export function createWeightComponent(element) {
         console.log('Max Kilograms:', restKgInput.value);
         console.log('Max Pounds:', restLbInput.value);
     };    
-
-    // Correct the labels
-    const minKgInputLabel = createLabel('Min Kilograms:', 'min' + element.name + 'Kg');
-    weightWrapper.appendChild(minKgInputLabel);
-    weightWrapper.appendChild(minKgInput);
-
-    const minLbInputLabel = createLabel('Min Pounds:', 'min' + element.name + 'Lb');
-    weightWrapper.appendChild(minLbInputLabel);
-    weightWrapper.appendChild(minLbInput);
-
-    const restKgInputLabel = createLabel('Max Kilograms:', 'rest' + element.name + 'Kg');
-    weightWrapper.appendChild(restKgInputLabel);
-    weightWrapper.appendChild(restKgInput);
-
-    const restLbInputLabel = createLabel('Max Pounds:', 'rest' + element.name + 'Lb');
-    weightWrapper.appendChild(restLbInputLabel);
-    weightWrapper.appendChild(restLbInput);
 
     const validateRange = () => {
         const minKg = parseFloat(minKgInput.value) || 0.0;
@@ -155,7 +141,7 @@ export function createWeightComponent(element) {
         if (modeSelect.value === 'Numeric') {
             weightDisplaySpan.textContent = `${restLb.toFixed(1)} lb (${restKg.toFixed(1)} kg)`;
         } else if (modeSelect.value === 'Range') {
-            weightDisplaySpan.innerHTML = `Resting: ${restLb.toFixed(0)} lb (${restKg.toFixed(1)} kg)<br><br>- Minimum: ${minLb.toFixed(0)} lb (${minKg.toFixed(1)} kg)<br><br>- Maximum: ${maxLb.toFixed(0)} lb (${maxKg.toFixed(1)} kg)`;
+            weightDisplaySpan.innerHTML = `- Minimum: ${minLb.toFixed(0)} lb (${minKg.toFixed(1)} kg)<br><br>- Resting: ${restLb.toFixed(0)} lb (${restKg.toFixed(1)} kg)<br><br>- Maximum: ${maxLb.toFixed(0)} lb (${maxKg.toFixed(1)} kg)`;
         }
     };
     
@@ -197,40 +183,12 @@ export function createWeightComponent(element) {
         updateWeightDisplay();
     });
 
-    const toggleInputsVisibility = (mode) => {
-        const isNumericMode = mode === 'Numeric';
-        const isRangeMode = mode === 'Range';
-    
-        kgInput.style.display = isNumericMode || isRangeMode ? '' : 'none';
-        lbInput.style.display = isNumericMode || isRangeMode ? '' : 'none';
-    
-        // Update visibility for Range mode inputs and their labels
-        const rangeElements = [minKgInput, minLbInput, restKgInput, restLbInput, minKgInputLabel, minLbInputLabel, restKgInputLabel, restLbInputLabel];
-        rangeElements.forEach(el => el.style.display = isRangeMode ? '' : 'none');
-    
-        weightDisplayContainer.style.display = isNumericMode || isRangeMode ? '' : 'none';
-    };
-    
     // Event listener for the dropdown menu to change mode
     modeSelect.addEventListener('change', () => {
-        const selectedMode = modeSelect.value;
-        toggleInputsVisibility(selectedMode);
+        const isMetric = document.querySelector('input[name="unit-toggle"]:checked').value === 'metric';
+        toggleInputsVisibility(weightWrapper, modeSelect.value, isMetric);
         updateWeightDisplay(); // Update display whenever the mode changes
     });
-    
-    // Initialize with the default mode
-    toggleInputsVisibility(modeSelect.value);
-    
-
-    // Event listener for the dropdown menu to change mode
-    modeSelect.addEventListener('change', () => {
-        const selectedMode = modeSelect.value;
-        toggleInputsVisibility(selectedMode);
-        updateWeightDisplay(); // Update display whenever the mode changes
-    });
-
-    // Initialize with the default mode
-    toggleInputsVisibility(modeSelect.value);
 
     const kgToLb = (kg) => {
         const lb = kg * 2.20462;
@@ -333,6 +291,9 @@ export function createWeightComponent(element) {
     // Append the save button to the weightWrapper
     weightWrapper.appendChild(saveButton);
 
+    // Initialize with the default mode and unit state
+    const isMetricInitial = document.querySelector('input[name="unit-toggle"]:checked').value === 'metric';
+    toggleInputsVisibility(weightWrapper, modeSelect.value, isMetricInitial);
 
     return weightWrapper;
 }

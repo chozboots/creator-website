@@ -13,7 +13,7 @@ import { renderGalleryImages } from './_gallery.js';
 import { showInfo } from './_info.js';
 import { updateComponentsWithData } from './_loader.js';
 
-export const createElementInput = (element, uploadedFiles) => {
+export const createElementInput = (element, uploadedFiles, isMetric) => {
     if (element.type === 'date') {
         return createDateComponent(element);
 
@@ -24,13 +24,13 @@ export const createElementInput = (element, uploadedFiles) => {
         return createMultiComponent(element);
         
     } else if (element.measurement === 'length') {
-        return createLengthComponent(element);
+        return createLengthComponent(element, isMetric);
 
     } else if (element.measurement === 'size') {
         return createSizeComponent(element);
 
     } else if (element.measurement === 'weight') {
-        return createWeightComponent(element);
+        return createWeightComponent(element, isMetric);
 
     } else if (element.list_type === 'dynamic_list') {
         return createDynamicListComponent(element);
@@ -45,10 +45,11 @@ export const createElementInput = (element, uploadedFiles) => {
 
 // Utility functions
 export const fetchAndLoadElements = async (uploadedFiles) => {
+    const isMetric = document.querySelector('input[name="unit-toggle"]:checked')?.value === 'metric';
     try {
         const response = await fetch('/dynamic_elements');
         const elements = await response.json();
-        elements.forEach((element) => createAndAppendElement(element, uploadedFiles));    
+        elements.forEach((element) => createAndAppendElement(element, uploadedFiles, isMetric));    
     } catch (error) {
         console.error('Error fetching elements:', error);
     }
@@ -71,7 +72,7 @@ export const createLabel = element => {
     return label;
 };
 
-export const createAndAppendElement = (element, uploadedFiles) => {
+export const createAndAppendElement = (element, uploadedFiles, isMetric) => {
     const containerId = element.container || 'defaultContainerId';
 
     console.log(`Creating element for container: ${containerId}`); // Debugging line
@@ -85,7 +86,7 @@ export const createAndAppendElement = (element, uploadedFiles) => {
     console.log(`Appending to container: ${containerId}`); // Debugging line
     
     const label = createLabel(element);
-    const input = createElementInput(element, uploadedFiles);
+    const input = createElementInput(element, uploadedFiles, isMetric);
     console.log("Created input element:", input); // Inspect the created input
 
     const group = document.createElement('div');

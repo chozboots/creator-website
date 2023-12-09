@@ -1,5 +1,7 @@
 // js/components/lengthComponent.js
-export function createLengthComponent(element) {
+import { toggleInputsVisibility } from '../_toggle.js';
+
+export function createLengthComponent(element, isMetric) {
     // Create a wrapper for all length related elements
     const lengthWrapper = document.createElement('div');
     lengthWrapper.className = 'length-input-wrapper';
@@ -27,14 +29,29 @@ export function createLengthComponent(element) {
     lengthWrapper.appendChild(modeSelect);
     lengthWrapper.appendChild(lengthDisplayContainer);
 
-    // Function to create a label
-    function createLabel(text, htmlFor) {
-        const label = document.createElement('label');
-        label.textContent = text;
-        label.htmlFor = htmlFor;
-        label.className = 'input-label'; // Add a class for potential styling
-        return label;
-    }
+    // minCmInput
+    const minCmInput = document.createElement('input');
+    Object.assign(minCmInput, {
+        type: 'number',
+        name: 'min' + element.name + 'Cm',  // Changed name
+        placeholder: 'Min Centimeters',     // Changed placeholder
+        className: 'range-input-metric',
+        min: 0
+    });
+    lengthWrapper.appendChild(minCmInput);
+
+    // minInchInput
+    const minInchInput = document.createElement('input');
+    Object.assign(minInchInput, {
+        type: 'number',
+        name: 'min' + element.name + 'Inch', // Changed name
+        placeholder: 'Min Inches',           // Changed placeholder
+        className: 'range-input-imperial',
+        min: 0
+    });
+    lengthWrapper.appendChild(minInchInput);
+
+
 
     // cmInput
     const cmInput = document.createElement('input');
@@ -58,45 +75,31 @@ export function createLengthComponent(element) {
     });
     lengthWrapper.appendChild(inchInput);
 
-    const minCmInput = document.createElement('input');
-    Object.assign(minCmInput, {
-        type: 'number',
-        name: 'min' + element.name + 'Cm',  // Changed name
-        placeholder: 'Min Centimeters',     // Changed placeholder
-        className: 'length-input-metric',
-        min: 0
-    });
-    lengthWrapper.appendChild(minCmInput);
 
-    const minInchInput = document.createElement('input');
-    Object.assign(minInchInput, {
-        type: 'number',
-        name: 'min' + element.name + 'Inch', // Changed name
-        placeholder: 'Min Inches',           // Changed placeholder
-        className: 'length-input-imperial',
-        min: 0
-    });
-    lengthWrapper.appendChild(minInchInput);
 
+    // maxCmInput
     const restCmInput = document.createElement('input');
     Object.assign(restCmInput, {
         type: 'number',
         name: 'rest' + element.name + 'Cm',
         placeholder: 'Max Centimeters',
-        className: 'length-input-metric',
+        className: 'range-input-metric',
         min: 0
     });
     lengthWrapper.appendChild(restCmInput);
 
+    // maxInchInput
     const restInchInput = document.createElement('input');
     Object.assign(restInchInput, {
         type: 'number',
         name: 'rest' + element.name + 'Inch',
         placeholder: 'Max Inches',
-        className: 'length-input-imperial',
+        className: 'range-input-imperial',
         min: 0
     });
     lengthWrapper.appendChild(restInchInput);
+
+
 
     const logCurrentValues = () => {
         console.log('Current Values:');
@@ -108,24 +111,6 @@ export function createLengthComponent(element) {
         console.log('Max Centimeters:', restCmInput.value);
         console.log('Max Inches:', restInchInput.value);
     };
-    
-
-    // Before each input, create and append a label
-    const minCmInputLabel = createLabel('Min Centimeters:', 'min' + element.name + 'Cm');
-    lengthWrapper.appendChild(minCmInputLabel);
-    lengthWrapper.appendChild(minCmInput);
-
-    const minInchInputLabel = createLabel('Min Inches:', 'min' + element.name + 'Inch');
-    lengthWrapper.appendChild(minInchInputLabel);
-    lengthWrapper.appendChild(minInchInput);
-
-    const restCmInputLabel = createLabel('Max Centimeters:', 'rest' + element.name + 'Cm');
-    lengthWrapper.appendChild(restCmInputLabel);
-    lengthWrapper.appendChild(restCmInput);
-
-    const restInchInputLabel = createLabel('Max Inches:', 'rest' + element.name + 'Inch');
-    lengthWrapper.appendChild(restInchInputLabel);
-    lengthWrapper.appendChild(restInchInput);
 
     const validateRange = () => {
         const minCm = parseFloat(minCmInput.value) || 0.0;
@@ -167,7 +152,7 @@ export function createLengthComponent(element) {
         if (modeSelect.value === 'Numeric') {
             lengthDisplaySpan.textContent = `${inchesToFeetAndInches(restInches)} (${restCm.toFixed(0)} cm)`;
         } else if (modeSelect.value === 'Range') {
-            lengthDisplaySpan.innerHTML = `Resting: ${inchesToFeetAndInches(restInches)} (${restCm.toFixed(0)} cm)<br><br>- Minimum: ${inchesToFeetAndInches(minInches)} (${minCm.toFixed(0)} cm)<br><br>- Maximum: ${inchesToFeetAndInches(maxInches)} (${maxCm.toFixed(0)} cm)`;
+            lengthDisplaySpan.innerHTML = `- Minimum: ${inchesToFeetAndInches(minInches)} (${minCm.toFixed(0)} cm)<br><br>- Resting: ${inchesToFeetAndInches(restInches)} (${restCm.toFixed(0)} cm)<br><br>- Maximum: ${inchesToFeetAndInches(maxInches)} (${maxCm.toFixed(0)} cm)`;
         }
     };
 
@@ -208,41 +193,13 @@ export function createLengthComponent(element) {
         validateRange();
         updateLengthDisplay();
     });
-
-    const toggleInputsVisibility = (mode) => {
-        const isNumericMode = mode === 'Numeric';
-        const isRangeMode = mode === 'Range';
-    
-        cmInput.style.display = isNumericMode || isRangeMode ? '' : 'none';
-        inchInput.style.display = isNumericMode || isRangeMode ? '' : 'none';
-    
-        // Update visibility for Range mode inputs and their labels
-        const rangeElements = [minCmInput, minInchInput, restCmInput, restInchInput, minCmInputLabel, minInchInputLabel, restCmInputLabel, restInchInputLabel];
-        rangeElements.forEach(el => el.style.display = isRangeMode ? '' : 'none');
-    
-        lengthDisplayContainer.style.display = isNumericMode || isRangeMode ? '' : 'none';
-    };
     
     // Event listener for the dropdown menu to change mode
     modeSelect.addEventListener('change', () => {
-        const selectedMode = modeSelect.value;
-        toggleInputsVisibility(selectedMode);
+        const isMetric = document.querySelector('input[name="unit-toggle"]:checked').value === 'metric';
+        toggleInputsVisibility(lengthWrapper, modeSelect.value, isMetric);
         updateLengthDisplay(); // Update display whenever the mode changes
     });
-    
-    // Initialize with the default mode
-    toggleInputsVisibility(modeSelect.value);
-    
-
-    // Event listener for the dropdown menu to change mode
-    modeSelect.addEventListener('change', () => {
-        const selectedMode = modeSelect.value;
-        toggleInputsVisibility(selectedMode);
-        updateLengthDisplay(); // Update display whenever the mode changes
-    });
-
-    // Initialize with the default mode
-    toggleInputsVisibility(modeSelect.value);
 
     const cmToInch = (cm) => {
         const inches = cm / 2.54;
@@ -342,6 +299,10 @@ export function createLengthComponent(element) {
     // Event listener for the save button
     saveButton.addEventListener('click', logCurrentValues);
 
+    // Initialize with the default mode and unit state
+    const isMetricInitial = document.querySelector('input[name="unit-toggle"]:checked').value === 'metric';
+    toggleInputsVisibility(lengthWrapper, modeSelect.value, isMetricInitial);
+    
     // Append the save button to the lengthWrapper
     lengthWrapper.appendChild(saveButton);
 
