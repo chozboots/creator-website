@@ -136,13 +136,23 @@ export const backClick = (body, editMode) => {
         body.classList.remove('edit-active');
         editMode.style.display = 'none';
     }
+
+
 };
 
 export const clearGallery = (uploadedFiles) => {
     const gallery = document.getElementById('imageGalleryContainer');
     gallery.innerHTML = ''; // Clears the gallery
     uploadedFiles.length = 0; // Clears the uploaded files reference
+
+    if (document.getElementById('characterImage') !== null) {
+        document.getElementById('characterImage').value = '';
+    }
+    if (document.getElementById('fileNameDisplay') !== null) {
+        document.getElementById('fileNameDisplay').textContent = '';
+    }
 };
+
 
 // Character selection
 export const characterClick = async (event, body, editMode, uploadedFiles) => {

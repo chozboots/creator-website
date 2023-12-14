@@ -71,19 +71,17 @@ export const setUpGallery = (input, uploadedFiles, MAX_IMAGES, renderGalleryImag
 };
 
 
-export const sendFilesToServer = async (mixedArray) => {
+export const sendFilesToServer = async (files) => {
     const formData = new FormData();
-  
-    // Iterate through the mixed array and append items accordingly
-    for (const item of mixedArray) {
-      if (item instanceof File) {
-        console.log('Appending file:', item);
-        formData.append('file', item);
-      } else if (typeof item === 'string') {
-        console.log('Appending link:', item);
-        formData.append('link', item);
-      }
-    }
+
+    // Handle both File objects and string URLs
+    files.forEach((file, index) => {
+        if (file instanceof File) {
+            formData.append(`file_${index}`, file); // Unique key for each file
+        } else if (typeof file === 'string') {
+            formData.append('link', file); // Append string URLs as 'link'
+        }
+    });
     
     console.log('Sending form data:', formData);
 

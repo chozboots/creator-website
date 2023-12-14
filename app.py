@@ -67,37 +67,38 @@ def character_details(character_id):
 
 @app.route('/upload', methods=['POST'])
 def upload_files():
-    uploaded_files = request.files.getlist('file')
+    uploaded_files = request.files
     links = request.form.getlist('link')
-    logger.debug(f'\n\nUploaded files: {uploaded_files}')
-    logger.debug(f'Links: {links}\n\n')
-    
+
+    logger.debug(f'Uploaded files: {list(uploaded_files.keys())}')
+    logger.debug(f'Links: {links}')
+
     max_allowed_files = 4
     amount_of_files = len(uploaded_files) + len(links)
-    if amount_of_files > max_allowed_files:
-        error_message = f'\n\nToo many files uploaded. Maximum allowed: {max_allowed_files}\n\n'
-        return jsonify({'error': error_message}), 400
     
+    if amount_of_files > max_allowed_files:
+        error_message = f'Too many files uploaded. Maximum allowed: {max_allowed_files}'
+        return jsonify({'error': error_message}), 400
+
     uploaded_urls = []
 
-    for file in uploaded_files:
-        logger.debug(f'\n\nUploading file: {file}\n\n')
+    for file_key in uploaded_files:
+        file = uploaded_files[file_key]
+        logger.debug(f'Uploading file: {file.filename}')
         try:
             upload_result = cloudinary.uploader.upload(file)
             uploaded_urls.append(upload_result['url'])
         except Exception as e:
-            # Cloundinary error handling
+            # Cloudinary error handling
             return jsonify({'error': f'Error uploading file: {str(e)}'}), 500
     
-    logger.debug(f'\n\nUploaded urls: {uploaded_urls}\n\n')
-    
+    logger.debug(f'Uploaded urls: {uploaded_urls}')
+
     links += uploaded_urls
-    logger.debug(f'\n\nNew Links: {links}\n\n')
-    
-    
-    # Database operations here at some point...
-    
-    
+    logger.debug(f'New Links: {links}')
+
+    # Database operations here...
+
     return jsonify({'database_links': links}), 200
 
 

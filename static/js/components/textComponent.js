@@ -27,9 +27,26 @@ export function createTextComponent (element) {
         className: className // applying the class based on mode
     });
 
-    textarea.addEventListener('input', () => {
-        counter.textContent = `${textarea.value.length} / ${element.maxlength}`;
-    });
+    const updateTextareaAndCounter = (text) => {
+        textarea.value = text;
+        counter.textContent = `${text.length} / ${element.maxlength}`;
+    };
+
+    if (element.name === 'characterName') {
+        textarea.addEventListener('input', () => {
+            updateTextareaAndCounter(textarea.value);
+            const characterGreeting = document.getElementById('editGreeting');
+            if (characterGreeting || textarea.value !== '' || textarea.value !== null) {
+                characterGreeting.textContent = `Editing ${textarea.value}`;
+            }
+        });
+    } else {
+        textarea.addEventListener('input', () => {
+            updateTextareaAndCounter(textarea.value);
+        });
+    }
+
+    textarea.updateTextareaAndCounter = updateTextareaAndCounter;
 
     const wrapper = document.createElement('div');
     wrapper.className = 'textarea-wrapper';

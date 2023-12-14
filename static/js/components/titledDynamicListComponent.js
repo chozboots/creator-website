@@ -17,12 +17,12 @@ export function createTitledDynamicListComponent(element) {
     addButton.type = 'button';
     addButton.className = 'add-button';
 
-    // Function to update the item counter
     function updateCounter() {
-        const remainingItems = maxItems - listWithTitles.childElementCount;
+        const currentItemCount = listWithTitles.childElementCount;
+        const remainingItems = maxItems - currentItemCount;
         counter.textContent = `Items remaining: ${remainingItems}`;
         addButton.disabled = remainingItems <= 0;
-    }
+    }    
 
     function addListItem(list, itemName, defaultTitle = '', defaultDescription = '', maxlengthTitle = 255, maxlengthDesc = 1000) {
         if (list.childElementCount < maxItems) {
@@ -98,6 +98,15 @@ export function createTitledDynamicListComponent(element) {
     if (element.default_title || element.default_description) {
         addListItem(listWithTitles, element.item_name, element.default_title, element.default_description);
     }    
+
+    listWrapperWithTitles.addListItemWithData = (title, description) => {
+        addListItem(listWithTitles, element.item_name, title, description, element.maxlengthTitle, element.maxlengthDesc);
+    };    
+
+    // Expose the updateCounter method for external access
+    listWrapperWithTitles.updateCounter = updateCounter.bind(listWrapperWithTitles);
+    // Set a data attribute for easy identification
+    listWrapperWithTitles.setAttribute('data-name', element.name);
 
     return listWrapperWithTitles;
 }

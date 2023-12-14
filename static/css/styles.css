@@ -1011,16 +1011,24 @@ label {
     z-index: -1;
 }
 
-.custom-file-upload {
+.custom-file-upload, .custom-drag-drop {
     /* Style your custom upload button */
     padding: 10px;
     cursor: pointer;
-    /* Additional styles */
+    border: 2px solid white;
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    transition: background-color 0.2s;
+    margin-top: 10px; /* Space above the button */
+    font-size: 0.85em;
+    font-weight: bold;
+    margin-right: 10px;
+    /* It looks like there was an incomplete property here ("text") */
 }
 
-.custom-drag-drop {
-    padding: 10px;
-    cursor: pointer;
+.custom-file-upload:hover, .custom-drag-drop:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .hidden-file-input {

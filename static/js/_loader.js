@@ -91,6 +91,44 @@ async function updateComponentsWithData(characterData, uploadedFiles) {
                     multiWrapper.addTag(option);
                 });
             }
+        
+        } else if (element.type === 'dynamicList') {
+            if (element.list_type === 'dynamic_list') {
+                const listData = characterData[element.name];
+                console.log(listData);
+        
+                const listWrapper = document.querySelector(`.dynamic-list-wrapper[data-name="${element.name}"]`);
+                const list = listWrapper.querySelector('.dynamic-list'); // Access the list from the listWrapper
+        
+                // Clear existing list items
+                while (list.firstChild) {
+                    list.removeChild(list.firstChild);
+                }
+        
+                // Add items from characterData
+                listData.forEach(itemData => {
+                    listWrapper.addListItem(list, element.item_name, itemData);
+                });
+            } else if (element.list_type === 'dynamic_list_with_titles') {
+                const listData = characterData[element.name];
+                const listWrapperWithTitles = document.querySelector(`.dynamic-list-wrapper[data-name="${element.name}"]`);
+                const listWithTitles = listWrapperWithTitles.querySelector('.dynamic-list-with-titles'); // Access the list from the listWrapper
+        
+                // Clear existing list items
+                while (listWithTitles.firstChild) {
+                    listWithTitles.removeChild(listWithTitles.firstChild);
+                }
+        
+                listData.forEach(itemData => {
+                    if (listWrapperWithTitles.addListItemWithData) {
+                        listWrapperWithTitles.addListItemWithData(itemData.title, itemData.description);
+                    }
+                });                
+                
+                if (listWrapperWithTitles.updateCounter) {
+                    listWrapperWithTitles.updateCounter();
+                }
+            }
 
         } else {
             // Handle other types of elements
@@ -99,6 +137,16 @@ async function updateComponentsWithData(characterData, uploadedFiles) {
             if (inputElement) {
                 if (element.type === 'dropdown') {
                     inputElement.value = characterData[element.name];
+                }
+                else if (element.type === 'textarea') {
+                    let savedText = characterData[element.name];
+                    if (savedText.length > element.maxlength) {
+                        savedText = savedText.slice(0, element.maxlength);
+                    }
+                    if (inputElement.updateTextareaAndCounter) {
+                        inputElement.updateTextareaAndCounter(savedText);
+                    }
+                    inputElement.value = savedText;
                 }
                 // Handle other types if necessary
             }

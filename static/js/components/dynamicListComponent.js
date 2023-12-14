@@ -25,7 +25,7 @@ export function createDynamicListComponent(element) {
     }
 
     // Function to add list item
-    function addListItem(list, itemName) {
+    function addListItem(list, itemName, preFilledData = '') {
         if (list.childElementCount < maxItems) {
             const listItem = document.createElement('li');
             const input = document.createElement('input');
@@ -41,6 +41,9 @@ export function createDynamicListComponent(element) {
             const charCounter = document.createElement('span');
             charCounter.className = 'char-counter';
             charCounter.textContent = `0 / ${input.maxLength}`; // Use input.maxLength
+
+            input.value = preFilledData;
+            charCounter.textContent = `${preFilledData.length} / ${input.maxLength}`;
 
             // Update the character counter when input changes
             input.addEventListener('input', () => {
@@ -72,6 +75,12 @@ export function createDynamicListComponent(element) {
     listWrapper.appendChild(counter);
     listWrapper.appendChild(list);
     listWrapper.appendChild(addButton);
+
+    // Attach the function to the listWrapper for external access
+    listWrapper.addListItem = addListItem;
+
+    // Add a data attribute for identification
+    listWrapper.setAttribute('data-name', element.name);
 
     return listWrapper;
 }
