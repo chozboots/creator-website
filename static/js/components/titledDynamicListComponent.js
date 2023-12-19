@@ -38,13 +38,13 @@ export function createTitledDynamicListComponent(element) {
             title.className = 'title-input';
             title.maxLength = maxlengthTitle;
             titleCounter.className = 'char-counter';
-            titleCounter.textContent = `0 / ${maxlengthTitle}`;
-        
+            titleCounter.textContent = `${defaultTitle.length} / ${maxlengthTitle}`;
+    
             // Update counter for the title input
             title.addEventListener('input', () => {
                 titleCounter.textContent = `${title.value.length} / ${maxlengthTitle}`;
             });
-        
+    
             // Description textarea
             const description = document.createElement('textarea');
             const descCounter = document.createElement('span');
@@ -54,9 +54,19 @@ export function createTitledDynamicListComponent(element) {
             description.rows = 4;
             description.maxLength = maxlengthDesc;
             descCounter.className = 'char-counter';
-            descCounter.textContent = `0 / ${maxlengthDesc}`;
-
-            // Remove button
+            descCounter.textContent = `${defaultDescription.length} / ${maxlengthDesc}`;
+    
+            // Update counter for the description textarea
+            description.addEventListener('input', () => {
+                descCounter.textContent = `${description.value.length} / ${maxlengthDesc}`;
+            });
+    
+            // Append elements to the listItem
+            listItem.appendChild(title);
+            listItem.appendChild(titleCounter);
+            listItem.appendChild(description);
+            listItem.appendChild(descCounter);
+    
             const removeButton = document.createElement('button');
             removeButton.textContent = 'Remove';
             removeButton.type = 'button';
@@ -65,29 +75,12 @@ export function createTitledDynamicListComponent(element) {
                 list.removeChild(listItem);
                 updateCounter(); // Update counter when an item is removed
             };
-
-            // Remove button setup
-            removeButton.onclick = () => {
-                list.removeChild(listItem);
-                updateCounter(); // Update counter when an item is removed
-            };
-        
-            // Update counter for the description textarea
-            description.addEventListener('input', () => {
-                descCounter.textContent = `${description.value.length} / ${maxlengthDesc}`;
-            });
-        
-            // Append elements to the listItem
-            listItem.appendChild(title);
-            listItem.appendChild(titleCounter);
-            listItem.appendChild(description);
-            listItem.appendChild(descCounter);
+    
             listItem.appendChild(removeButton);
-
             list.appendChild(listItem);
             updateCounter(); // Update counter when an item is added
         }
-    }            
+    }           
     
     addButton.onclick = () => addListItem(listWithTitles, element.item_name, '', '', 255, 1000);
 

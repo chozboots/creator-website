@@ -124,10 +124,6 @@ async function updateComponentsWithData(characterData, uploadedFiles) {
                         listWrapperWithTitles.addListItemWithData(itemData.title, itemData.description);
                     }
                 });                
-                
-                if (listWrapperWithTitles.updateCounter) {
-                    listWrapperWithTitles.updateCounter();
-                }
             }
 
         } else {
