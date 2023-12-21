@@ -6,8 +6,7 @@ body {
     background-color: rgb(37, 37, 37);
     background-image: 
       linear-gradient(to bottom, rgba(37, 37, 37, 0) 50%, rgba(37, 37, 37, 1) 100%),
-      url('../images/city_dark.webp'), /* The image that appears first */
-      url('../images/train.jpeg'); /* The image that appears after scrolling */
+      url('../images/city.jpg'); /* The image that appears first */
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed, fixed; /* This keeps the images fixed during scroll */
