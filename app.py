@@ -4,10 +4,10 @@ import logging
 
 from flask import Flask, request, redirect, url_for, render_template, jsonify
 from flask_discord import DiscordOAuth2Session, requires_authorization
-import psycopg2
 import cloudinary
 import cloudinary.uploader
 from dotenv import load_dotenv
+# import psycopg2
 
 from defaults import CHARACTERS, ELEMENTS
 
