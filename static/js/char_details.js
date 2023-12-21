@@ -7,9 +7,9 @@ import {
     characterClick,
 } from './_helpers.js';
 
-import {
-    addUnitToggleButtons
-} from './_toggle.js';
+import { addUnitToggleButtons } from './_toggle.js';
+import { createJsonReport } from './_report.js';
+
 
 document.addEventListener('DOMContentLoaded', async () => {
     const body = document.body;
@@ -41,4 +41,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     document.getElementById('backBtn').addEventListener('click', () => backClick(body, editMode));
     hideSubmenus();
+
+    document.getElementById('saveBtn').addEventListener('click', () => createJsonReport(uploadedFiles));
 });

@@ -1,3 +1,4 @@
+// js/components/dateComponent.js
 export const createDateComponent = element => {   
     const createAgeDisplay = () => {
         const ageDisplay = document.createElement('span');

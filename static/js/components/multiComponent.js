@@ -62,6 +62,7 @@ export function createMultiComponent(element) {
     wrapper.appendChild(remainingEntriesCounter);
 
     const selectedOptions = []; // Array to store selected options
+    wrapper.getSelectedOptions = () => selectedOptions;
 
     // Update the character counter when typing
     inputField.addEventListener('input', updateCharCounter);
@@ -119,6 +120,16 @@ export function createMultiComponent(element) {
             }
         }
     });
+
+    function clearTags() {
+        while (tagsContainer.firstChild) {
+            tagsContainer.removeChild(tagsContainer.firstChild);
+        }
+        selectedOptions.length = 0; // Reset the array
+        updateRemainingEntriesCounter(); // Update the counter
+    }
+    
+    wrapper.clearTags = clearTags; // Expose this function for external access    
 
     return wrapper;
 }

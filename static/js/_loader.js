@@ -87,6 +87,7 @@ async function updateComponentsWithData(characterData, uploadedFiles) {
             // Find multi-component wrapper by data-name attribute
             const multiWrapper = document.querySelector(`.multi-select-wrapper[data-name="${element.name}"]`);
             if (multiWrapper && characterData[element.name]) {
+                multiWrapper.clearTags();
                 characterData[element.name].forEach(option => {
                     multiWrapper.addTag(option);
                 });
@@ -109,6 +110,7 @@ async function updateComponentsWithData(characterData, uploadedFiles) {
                 listData.forEach(itemData => {
                     listWrapper.addListItem(list, element.item_name, itemData);
                 });
+                listWrapper.updateCounter();
             } else if (element.list_type === 'dynamic_list_with_titles') {
                 const listData = characterData[element.name];
                 const listWrapperWithTitles = document.querySelector(`.dynamic-list-wrapper[data-name="${element.name}"]`);
@@ -123,9 +125,16 @@ async function updateComponentsWithData(characterData, uploadedFiles) {
                     if (listWrapperWithTitles.addListItemWithData) {
                         listWrapperWithTitles.addListItemWithData(itemData.title, itemData.description);
                     }
-                });                
+                });
+                listWrapperWithTitles.updateCounter();
             }
 
+        } else if (element.type === 'date') {
+            const dateInput = document.getElementsByName(element.name)[0];
+            if (dateInput && characterData[element.name]) {
+                dateInput.value = characterData[element.name];
+            }
+    
         } else {
             // Handle other types of elements
             const inputElement = document.getElementsByName(element.name)[0];

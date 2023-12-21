@@ -94,6 +94,16 @@ export const sendFilesToServer = async (files) => {
       if (response.ok) {
         // Handle a successful response from the server
         console.log('Files and links uploaded successfully');
+        const responseJson = await response.json();
+        const links = responseJson.links;
+        console.log('Links:', links);
+        if (links) {
+            return links;
+        }
+        else {
+            console.log('No links received')
+            return [];
+        }
       } else {
         // Handle an error response from the server
         console.error('Error uploading files and links');

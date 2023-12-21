@@ -1,14 +1,15 @@
 import os
+import json
+import logging
 
 from flask import Flask, request, redirect, url_for, render_template, jsonify
 from flask_discord import DiscordOAuth2Session, requires_authorization
+import psycopg2
 import cloudinary
 import cloudinary.uploader
 from dotenv import load_dotenv
-import logging
 
 from defaults import CHARACTERS, ELEMENTS
-
 
 app = Flask(__name__)
 app.secret_key = os.getenv("APP_SECRET_KEY")
@@ -22,6 +23,26 @@ else:
  
 logging.basicConfig(level=level)
 logger = logging.getLogger(__name__)
+
+# def get_db_connection():
+#     conn = psycopg2.connect(os.getenv('DATABASE_URL'))
+#     return conn
+
+# def get_characters():
+#     conn = psycopg2.connect(os.getenv('DATABASE_URL'))
+#     cur = conn.cursor()
+#     cur.execute('SELECT character_data FROM characters_table')  # Example query
+#     character_data = cur.fetchone()[0]
+#     conn.close()
+#     return json.loads(character_data)  # Convert string back to dictionary
+
+# def get_elements():
+#     conn = psycopg2.connect(os.getenv('DATABASE_URL'))
+#     cur = conn.cursor()
+#     cur.execute('SELECT elements_data FROM elements_table')  # Example query
+#     elements_data = cur.fetchone()[0]
+#     conn.close()
+#     return json.loads(elements_data)  # Convert string back to dictionary
 
 app.config["DISCORD_CLIENT_ID"] = os.getenv("OAUTH2_CLIENT_ID")
 app.config["DISCORD_CLIENT_SECRET"] = os.getenv("OAUTH2_CLIENT_SECRET")
@@ -99,7 +120,7 @@ def upload_files():
 
     # Database operations here...
 
-    return jsonify({'database_links': links}), 200
+    return jsonify({'links': links}), 200
 
 
 @app.route("/login/")

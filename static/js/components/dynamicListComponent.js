@@ -24,6 +24,8 @@ export function createDynamicListComponent(element) {
         addButton.disabled = remainingItems <= 0;
     }
 
+    listWrapper.updateCounter = updateCounter; // Attach the function to the listWrapper for external access
+
     // Function to add list item
     function addListItem(list, itemName, preFilledData = '') {
         if (list.childElementCount < maxItems) {
@@ -81,6 +83,14 @@ export function createDynamicListComponent(element) {
 
     // Add a data attribute for identification
     listWrapper.setAttribute('data-name', element.name);
+
+    // Function to get list items
+    listWrapper.getListItems = () => {
+        return Array.from(list.children).map(listItem => {
+            const input = listItem.querySelector('input');
+            return input ? input.value : '';
+        });
+    };
 
     return listWrapper;
 }

@@ -136,7 +136,7 @@ export function createSizeComponent(element, isMetric) {
         if (modeSelect.value === 'Numeric') {
             lengthDisplaySpan.textContent = `${restInches.toFixed(1)}" (${restCm.toFixed(1)} cm)`;
         } else if (modeSelect.value === 'Range') {
-            lengthDisplaySpan.innerHTML = `- Minimum: ${minInches.toFixed(1)}" (${minCm.toFixed(1)} cm)<br><br>Resting: ${restInches.toFixed(1)}" (${restCm.toFixed(1)} cm)<br><br>- Maximum: ${maxInches.toFixed(1)}" (${maxCm.toFixed(1)} cm)`;
+            lengthDisplaySpan.innerHTML = `- Minimum: ${minInches.toFixed(1)}" (${minCm.toFixed(1)} cm)<br><br>- Resting: ${restInches.toFixed(1)}" (${restCm.toFixed(1)} cm)<br><br>- Maximum: ${maxInches.toFixed(1)}" (${maxCm.toFixed(1)} cm)`;
         }
     };
 

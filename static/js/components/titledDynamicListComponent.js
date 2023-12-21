@@ -97,9 +97,22 @@ export function createTitledDynamicListComponent(element) {
     };    
 
     // Expose the updateCounter method for external access
-    listWrapperWithTitles.updateCounter = updateCounter.bind(listWrapperWithTitles);
+    listWrapperWithTitles.updateCounter = updateCounter;
+    
     // Set a data attribute for easy identification
     listWrapperWithTitles.setAttribute('data-name', element.name);
+
+    // Function to get list items with titles and descriptions
+    listWrapperWithTitles.getListItems = () => {
+        return Array.from(listWithTitles.children).map(listItem => {
+            const titleInput = listItem.querySelector('.title-input');
+            const descriptionTextarea = listItem.querySelector('.description-textarea');
+            return {
+                title: titleInput ? titleInput.value : '',
+                description: descriptionTextarea ? descriptionTextarea.value : ''
+            };
+        });
+    };
 
     return listWrapperWithTitles;
 }

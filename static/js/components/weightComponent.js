@@ -139,7 +139,7 @@ export function createWeightComponent(element, isMetric) {
         const maxLb = kgToLb(maxKg);
     
         if (modeSelect.value === 'Numeric') {
-            weightDisplaySpan.textContent = `${restLb.toFixed(1)} lb (${restKg.toFixed(1)} kg)`;
+            weightDisplaySpan.textContent = `${restLb.toFixed(0)} lb (${restKg.toFixed(1)} kg)`;
         } else if (modeSelect.value === 'Range') {
             weightDisplaySpan.innerHTML = `- Minimum: ${minLb.toFixed(0)} lb (${minKg.toFixed(1)} kg)<br><br>- Resting: ${restLb.toFixed(0)} lb (${restKg.toFixed(1)} kg)<br><br>- Maximum: ${maxLb.toFixed(0)} lb (${maxKg.toFixed(1)} kg)`;
         }

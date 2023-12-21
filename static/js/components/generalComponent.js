@@ -64,7 +64,7 @@ export function createGeneralComponent(element, uploadedFiles) {
             }
         });
 
-        //fileInputContainer.appendChild(submitButton);
+        fileInputContainer.appendChild(submitButton);
         
         if (element.name === 'characterGallery') {
             // Create Drag & Drop Overlay
