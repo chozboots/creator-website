@@ -72,6 +72,10 @@ async function processImageField(element, uploadedFiles, report) {
         const fileInput = document.getElementById('characterImage');
         if (fileInput && fileInput.files.length > 0) {
             files.push(fileInput.files[0]); // Get the first file
+        } else {
+            const avatarLink = document.getElementById('editAvatar').src
+            report[element.name] = [avatarLink];
+            return;
         }
     } else if (element.name === 'characterGallery') {
         // Assuming 'uploadedFiles' contains the files for the gallery
@@ -164,8 +168,8 @@ function processTitledDynamicListField(element, report) {
 function processDateField(element, report) {
     const dateInput = document.getElementsByName(element.name)[0];
     if (dateInput) {
-        report[element.name] = dateInput.value || null;
+        report[element.name] = dateInput.value || '';
     } else {
-        report[element.name] = null; // Default to null if date input not found
+        report[element.name] = ''; // Default to null if date input not found
     }
 }
