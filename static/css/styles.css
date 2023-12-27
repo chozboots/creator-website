@@ -6,7 +6,7 @@ body {
     background-color: rgb(37, 37, 37);
     background-image: 
       linear-gradient(to bottom, rgba(37, 37, 37, 0) 50%, rgba(37, 37, 37, 1) 100%),
-      url('../images/city.jpg'); /* The image that appears first */
+      url('https://res.cloudinary.com/hzgpk6xkf/image/upload/v1703655952/molhcoaylkxlsnssthqw.jpg'); /* The image that appears first */
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed, fixed; /* This keeps the images fixed during scroll */
