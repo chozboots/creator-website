@@ -280,16 +280,16 @@ export function createWeightComponent(element, isMetric) {
     // const defaultRestLbValue = kgToLb(defaultRestKgValue);
     // restLbInput.value = defaultRestLbValue;
     
-    // Create a save button
-    const saveButton = document.createElement('button');
-    saveButton.textContent = 'Save';
-    saveButton.className = 'save-button'; // Class for styling
+    // // Create a save button
+    // const saveButton = document.createElement('button');
+    // saveButton.textContent = 'Save';
+    // saveButton.className = 'save-button'; // Class for styling
 
-    // Event listener for the save button
-    saveButton.addEventListener('click', logCurrentValues);
+    // // Event listener for the save button
+    // saveButton.addEventListener('click', logCurrentValues);
 
-    // Append the save button to the weightWrapper
-    weightWrapper.appendChild(saveButton);
+    // // Append the save button to the weightWrapper
+    // weightWrapper.appendChild(saveButton);
 
     // Initialize with the default mode and unit state
     const isMetricInitial = document.querySelector('input[name="unit-toggle"]:checked').value === 'metric';

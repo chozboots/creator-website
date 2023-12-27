@@ -140,10 +140,10 @@ body {
     font-weight: bold;
 }
 
-#logoutBtn {
-    position: fixed;
-    top: 10px; /* Adjust the top value to set the desired distance from the top edge */
-    right: 10px; /* Adjust the right value to set the desired distance from the right edge */
+.logout-container {
+    margin-top: 10px;
+    margin-right: 10px;
+    align-self: flex-start; /* Align logout button to the end */
 }
 
 .button:hover {

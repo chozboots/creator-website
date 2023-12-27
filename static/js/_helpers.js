@@ -128,17 +128,14 @@ export const submenuClick = (event, uploadedFiles) => {
 
 export const isAnySubmenuOpen = () => [...document.querySelectorAll('.form-submenu')].some(el => el.style.display !== 'none');
 
-export const backClick = (body, editMode) => {
+export const backClick = () => { 
     if (isAnySubmenuOpen()) {
         hideSubmenus();
         // Show submenu buttons when going back
         document.querySelector('.submenu-buttons').style.display = 'flex';
     } else {
-        body.classList.remove('edit-active');
-        editMode.style.display = 'none';
+        window.location.reload(); // Reload the page
     }
-
-
 };
 
 export const clearGallery = (uploadedFiles) => {
@@ -154,6 +151,8 @@ export const clearGallery = (uploadedFiles) => {
     }
 };
 
+let currentCharacterId = null;
+
 // Character selection
 export const characterClick = async (event, body, editMode, uploadedFiles) => {
     console.log(event);
@@ -161,11 +160,12 @@ export const characterClick = async (event, body, editMode, uploadedFiles) => {
     clearGallery(uploadedFiles);
     hideSubmenus();
 
-    const characterId = event.currentTarget.getAttribute('data-character-id');
+    // Set the currentCharacterId when a character is clicked
+    currentCharacterId = event.currentTarget.getAttribute('data-character-id');
 
     showLoadingOverlay(); // Show loading overlay
-    const characterData = await fetch(`/character_details/${characterId}`).then(res => res.json());
-    setTimeout(hideLoadingOverlay, 1000); // Hide loading overlay
+    const characterData = await fetch(`/character_details/${currentCharacterId}`).then(res => res.json());
+    setTimeout(hideLoadingOverlay, 1000); // Hide loading overlay after fetching data
     // Update components with the fetched data
     updateComponentsWithData(characterData, uploadedFiles);
 
@@ -176,11 +176,10 @@ export const characterClick = async (event, body, editMode, uploadedFiles) => {
     editMode.style.display = 'flex';
     
     // Clear uploaded files if any when switching characters
-
     if (document.getElementsByName('characterGallery').length > 0) {
         document.getElementsByName('characterGallery')[0].value = '';
     }
     
     uploadedFiles.length = 0;
     renderGalleryImages(uploadedFiles);
-}
+};

@@ -1,6 +1,6 @@
 import os
-import json
 import logging
+import json
 
 from flask import Flask, request, redirect, url_for, render_template, jsonify
 from flask_discord import DiscordOAuth2Session, requires_authorization
@@ -187,6 +187,47 @@ def upload_files():
     # Database operations here...
 
     return jsonify({'links': links}), 200
+
+
+@app.route('/update_character/<int:character_id>', methods=['POST'])
+def update_character(character_id):
+    if not discord.authorized:
+        return jsonify({'error': 'User not authenticated'}), 401
+
+    user_id = discord.fetch_user().id
+    new_character_data = request.get_json()  # Using get_json() to parse JSON data
+
+    if new_character_data is None:
+        return jsonify({'error': 'Invalid data format'}), 400
+
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        # Convert new character data to JSON string, if necessary
+        if not isinstance(new_character_data, str):
+            new_character_data_json = json.dumps(new_character_data)
+        else:
+            new_character_data_json = new_character_data
+
+        # Update the character data
+        cur.execute('UPDATE character_data SET data = %s WHERE char_id = %s AND user_id = %s', 
+                    (new_character_data_json, character_id, user_id))
+        conn.commit()
+
+        if cur.rowcount == 0:
+            # No rows were updated, indicating the character does not exist or does not belong to the user
+            cur.close()
+            conn.close()
+            return jsonify({'error': 'Character not found or not authorized to update'}), 403
+
+        cur.close()
+        conn.close()
+        return jsonify({'message': 'Character updated successfully'}), 200
+
+    except Exception as e:
+        logger.error(f'Error updating character: {e}')
+        return jsonify({'error': 'An error occurred while updating character'}), 500
 
 
 @app.route("/login/")

@@ -275,20 +275,20 @@ export function createSizeComponent(element, isMetric) {
     // const defaultRestInchesValue = cmToInch(defaultRestCmValue);
     // restInchInput.value = defaultRestInchesValue;
     
-    // Create a save button
-    const saveButton = document.createElement('button');
-    saveButton.textContent = 'Save';
-    saveButton.className = 'save-button'; // Class for styling
+    // // Create a save button
+    // const saveButton = document.createElement('button');
+    // saveButton.textContent = 'Save';
+    // saveButton.className = 'save-button'; // Class for styling
 
-    // Event listener for the save button
-    saveButton.addEventListener('click', logCurrentValues);
+    // // Event listener for the save button
+    // saveButton.addEventListener('click', logCurrentValues);
 
     // Initialize with the default mode and unit state
     const isMetricInitial = document.querySelector('input[name="unit-toggle"]:checked').value === 'metric';
     toggleInputsVisibility(lengthWrapper, modeSelect.value, isMetricInitial);
 
-    // Append the save button to the lengthWrapper
-    lengthWrapper.appendChild(saveButton);
+    // // Append the save button to the lengthWrapper
+    // lengthWrapper.appendChild(saveButton);
 
 
     return lengthWrapper;

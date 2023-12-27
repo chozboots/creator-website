@@ -72,9 +72,16 @@ async function processImageField(element, uploadedFiles, report) {
         const fileInput = document.getElementById('characterImage');
         if (fileInput && fileInput.files.length > 0) {
             files.push(fileInput.files[0]); // Get the first file
+            if (files.length > 0) {
+                const linksArray = await sendFilesToServer(files);
+                console.log('Links array:', linksArray);
+                report[element.name] = linksArray[0];
+            }
+            return;
         } else {
             const avatarLink = document.getElementById('editAvatar').src
-            report[element.name] = [avatarLink];
+            console.log('Avatar link:', avatarLink);
+            report[element.name] = avatarLink;
             return;
         }
     } else if (element.name === 'characterGallery') {

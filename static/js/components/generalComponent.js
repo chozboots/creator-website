@@ -47,24 +47,24 @@ export function createGeneralComponent(element, uploadedFiles) {
             fileInputContainer.appendChild(fileNameDisplay);
         }
     
-        // Test submit button
-        const submitButton = document.createElement('button');
-        submitButton.textContent = 'Submit Image';
-        submitButton.className = 'custom-file-submit';
+        // // Test submit button
+        // const submitButton = document.createElement('button');
+        // submitButton.textContent = 'Submit Image';
+        // submitButton.className = 'custom-file-submit';
 
-        // Submit button logic
-        submitButton.addEventListener('click', () => {
-            // For the gallery, send all uploadedFiles
-            if (element.name === 'characterGallery') {
-                sendFilesToServer(uploadedFiles);
-            } else {
-                // For other file inputs, send only selected files
-                const selectedFiles = Array.from(fileInput.files);
-                sendFilesToServer(selectedFiles);
-            }
-        });
+        // // Submit button logic
+        // submitButton.addEventListener('click', () => {
+        //     // For the gallery, send all uploadedFiles
+        //     if (element.name === 'characterGallery') {
+        //         sendFilesToServer(uploadedFiles);
+        //     } else {
+        //         // For other file inputs, send only selected files
+        //         const selectedFiles = Array.from(fileInput.files);
+        //         sendFilesToServer(selectedFiles);
+        //     }
+        // });
 
-        fileInputContainer.appendChild(submitButton);
+        //fileInputContainer.appendChild(submitButton);
         
         if (element.name === 'characterGallery') {
             // Create Drag & Drop Overlay

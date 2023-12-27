@@ -12,6 +12,9 @@ import { createJsonReport } from './_report.js';
 
 import { showLoadingOverlay, hideLoadingOverlay, showSavingOverlay, hideSavingOverlay } from './_overlay.js';
 
+// Global variable for current character ID
+let currentCharacterId = null;
+
 document.addEventListener('DOMContentLoaded', async () => {
     const body = document.body;
     const editMode = document.getElementById('editMode');
@@ -25,34 +28,39 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         await fetchAndLoadElements(uploadedFiles); // Ensure elements are loaded
-        // Now attach click listeners that depend on these elements
         characterItems.forEach(item => {
             item.addEventListener('click', (event) => {
+                currentCharacterId = event.currentTarget.getAttribute('data-character-id');
                 characterClick(event, body, editMode, uploadedFiles);
             });
         });
     } catch (error) {
         console.error('Error loading elements:', error);
-        // Handle error appropriately
     }
 
     submenuButtons.forEach(btn => {
         btn.addEventListener('click', (event) => submenuClick(event, uploadedFiles));
     });
-    
+
     document.getElementById('backBtn').addEventListener('click', () => backClick(body, editMode));
     hideSubmenus();
 
-    document.getElementById('saveBtn').addEventListener('click', () => {
-        if (confirm('Are you sure you want to save these changes?')) {
+    document.getElementById('saveBtn').addEventListener('click', async () => {
+        if (currentCharacterId && confirm('Are you sure you want to save these changes?')) {
             console.log('Saving changes...');
             showSavingOverlay();
             try {
-                createJsonReport(uploadedFiles);   
+                const report = await createJsonReport(uploadedFiles);
+                await fetch(`/update_character/${currentCharacterId}`, {
+                    method: 'POST', 
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(report)
+                });
+                // Handle response from the server
             } catch (error) {
                 console.error('Error saving character:', error);
             }
-            setTimeout(hideSavingOverlay, 1500); // Hide loading overlay after 1 second (to simulate saving
+            setTimeout(hideSavingOverlay, 1500); // Hide loading overlay
         }
     });
     
@@ -107,13 +115,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     
 });
-
-function addCharacterToUI(character) {
-    window.location.reload(); // Reload the page
-    // Might add specific handling later...
-}
-
-function removeCharacterFromUI(characterId) {
-    window.location.reload(); // Reload the page
-    // Might add specific handling later...
-}
