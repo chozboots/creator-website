@@ -9,8 +9,6 @@ import cloudinary.uploader
 from dotenv import load_dotenv
 import psycopg2
 
-from defaults import CHARACTERS, ELEMENTS
-
 app = Flask(__name__)
 app.secret_key = os.getenv("APP_SECRET_KEY")
 
