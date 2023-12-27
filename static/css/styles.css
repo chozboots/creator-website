@@ -756,6 +756,14 @@ color: #ffffff;
 .dynamic-list-with-titles .description-textarea {
     resize: vertical;
     min-height: 80px;
+    min-width: 300px;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 480px) {
+    .description-textarea {
+        min-width: 200px;
+    }
 }
 
 .dynamic-list-with-titles .remove-button {
