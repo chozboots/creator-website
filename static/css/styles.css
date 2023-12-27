@@ -756,7 +756,7 @@ color: #ffffff;
 .dynamic-list-with-titles .description-textarea {
     resize: vertical;
     min-height: 80px;
-    min-width: 300px;
+    min-width: 200px;
 }
 
 /* Responsive adjustments for smaller screens */
