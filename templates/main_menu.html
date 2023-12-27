@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
+    <div id="loadingOverlay" class="loading-overlay" style="display: flex;">
+        <img src="https://media.tenor.com/-rHfvXKR0P0AAAAi/running-rushing.gif" alt="Loading..." class="loading-image">
+    </div>
+
+    <div id="savingOverlay" class="saving-overlay" style="display: none;">
+        <img src="https://media.tenor.com/2gi5ucI5THgAAAAi/usagyuuun-note.gif" alt="Saving..." class="saving-image">
+    </div>
+
     {% if not authorized %}
 
         <div class="header">
@@ -21,7 +29,7 @@
                 <img class="user-avatar" src="{{ user.avatar_url or user.default_avatar_url }}" alt="User Avatar">
                 <span class="user-greeting">Hello {{ user.name }}!</span>
             </div>            
-            <a class="button" href="{{ url_for('logout') }}">Logout</a>
+            <a class="button" id="logoutBtn" href="{{ url_for('logout') }}">Logout</a>
         </div>
 
         <br><br>
@@ -35,19 +43,23 @@
                     <div class="character-info">
                         <h2>{{ character['characterName'] }}</h2>
                     </div>
+                    <button class="removeCharacterBtn" data-character-id="{{ id }}">&times;</button>
                 </div>
             {% endfor %}
+            <!-- Add Character Button -->
+            <button id="addCharacterBtn" class="button">Add Character</button>
         </div>        
+        
 
         <div id="editMode" class="edit-mode">
-            <!-- Save and Discord buttons -->
-            <button id="backBtn" class="button"> Back</button>
-            <button id="saveBtn" class="button"> Save</button>
-            
-            <!-- Existing code in the editMode div -->
+            <button id="backBtn" class="button">Back</button>
+        
             <div class="edit-header">
                 <img id="editAvatar" src="" alt="Editing Character Avatar">
-                <span id="editGreeting">Editing </span>
+                <div class="greeting-and-save">
+                    <span id="editGreeting">Editing </span>
+                    <button id="saveBtn" class="button">Save</button>
+                </div>
             </div>
 
             <!-- New buttons for submenus -->
@@ -81,5 +93,16 @@
     {% endif %}
 
     <script type="module" src="{{ url_for('static', filename='js/char_details.js') }}"></script>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const isAuthorized = {% if not authorized %} false {% else %} true {% endif %};
+    
+            if (!isAuthorized && loadingOverlay) {
+                loadingOverlay.style.display = 'none';
+            }
+        });
+    </script>    
 </body>
 </html>

@@ -12,6 +12,7 @@ import { createGeneralComponent } from './components/generalComponent.js';
 import { renderGalleryImages } from './_gallery.js';
 import { showInfo } from './_info.js';
 import { updateComponentsWithData } from './_loader.js';
+import { showLoadingOverlay, hideLoadingOverlay } from './_overlay.js';
 
 export const createElementInput = (element, uploadedFiles, isMetric) => {
     if (element.type === 'date') {
@@ -153,7 +154,6 @@ export const clearGallery = (uploadedFiles) => {
     }
 };
 
-
 // Character selection
 export const characterClick = async (event, body, editMode, uploadedFiles) => {
     console.log(event);
@@ -162,8 +162,10 @@ export const characterClick = async (event, body, editMode, uploadedFiles) => {
     hideSubmenus();
 
     const characterId = event.currentTarget.getAttribute('data-character-id');
+
+    showLoadingOverlay(); // Show loading overlay
     const characterData = await fetch(`/character_details/${characterId}`).then(res => res.json());
-    
+    setTimeout(hideLoadingOverlay, 1000); // Hide loading overlay
     // Update components with the fetched data
     updateComponentsWithData(characterData, uploadedFiles);
 

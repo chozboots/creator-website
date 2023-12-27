@@ -14,13 +14,11 @@ body {
   
   /* Additional styling to ensure that there is enough content to scroll */
   html, body {
-    height: 200%; /* You may adjust this value to suit the content of your page */
+    height: 100%;
   }
 
-.character-list {
+  .character-list {
     width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -136,10 +134,16 @@ body {
     border: 3px solid white;
     background-color: rgba(0, 0, 0, 0.6); /* slightly opaque black background */
     color: white;
-    border-radius: 5px;
+    border-radius: 10px;
     text-decoration: none;
     transition: background-color 0.2s;
     font-weight: bold;
+}
+
+#logoutBtn {
+    position: fixed;
+    top: 10px; /* Adjust the top value to set the desired distance from the top edge */
+    right: 10px; /* Adjust the right value to set the desired distance from the right edge */
 }
 
 .button:hover {
@@ -275,6 +279,7 @@ body {
     color: white;
     cursor: pointer;
     transition: background-color 0.2s;
+    width: 120px;
 }
 
 .submenu-button:hover {
@@ -334,6 +339,13 @@ body {
 .edit-mode .form-group textarea {
     width: 150px; /* Adjust this value to what suits your design */
     /* Add your other styles for these inputs here */
+}
+.edit-mode .form-group .textarea-long {
+    width: 400px;
+}
+
+.textarea-long {
+    width: 300px;
 }
 
 .multi-option-input {
@@ -1128,4 +1140,101 @@ label {
     background-color: #717171; /* Slightly darker grey on hover */
     color: #333;
     opacity: 1;
+}
+
+#addCharacterBtn {
+    display: block; /* Make the button a block element */
+    width: max-content; /* Adjust the width to the content */
+    margin: 20px auto; /* Center the button and add some margin for spacing */
+    cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+    margin-bottom: 50px; /* Space below the button */
+}
+
+.character-item {
+    position: relative; /* Needed for absolute positioning of the button */
+    /* Other styles for character-item */
+}
+
+.removeCharacterBtn {
+    position: absolute;
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+    width: 30px; /* Size of the button */
+    height: 30px; /* Size of the button */
+    border-radius: 50%; /* Make it circular */
+    border: none; /* Optionally remove border */
+    background-color: rgba(255, 0, 0, 0.6); /* Slightly opaque red background */
+    color: white;
+    font-size: 16px; /* Adjust size as needed */
+    cursor: pointer;
+    z-index: 2;
+    display: flex; /* Use flexbox for centering */
+    align-items: center; /* Vertical centering */
+    justify-content: center; /* Horizontal centering */
+    padding: 0; /* Remove padding */
+    transform: translateY(-2px); /* Slightly adjust the vertical position */
+}
+
+.removeCharacterBtn:hover {
+    background-color: rgba(255, 0, 0, 0.8); /* Darker shade on hover for better UX */
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65); /* Semi-transparent black background */
+    display: flex; /* Enable Flexbox */
+    justify-content: center; /* Center horizontally in the Flex container */
+    align-items: center; /* Center vertically in the Flex container */
+    z-index: 9999; /* Ensure it's on top of other elements */
+}
+
+.loading-image {
+    max-width: 150px; /* Adjust as needed */
+    max-height: 150px; /* Adjust as needed */
+}
+
+.saving-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65); /* Semi-transparent black background */
+    display: flex; /* Enable Flexbox */
+    justify-content: center; /* Center horizontally in the Flex container */
+    align-items: center; /* Center vertically in the Flex container */
+    z-index: 9999; /* Ensure it's on top of other elements */
+}
+
+.saving-image {
+    max-width: 150px; /* Adjust as needed */
+    max-height: 150px; /* Adjust as needed */
+}
+
+.edit-header {
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
+    justify-content: center; /* Center horizontally */
+}
+
+#editAvatar {
+    /* Styles for the avatar */
+    margin-right: 1rem; /* Add some space between the avatar and the text/button */
+}
+
+.greeting-and-save {
+    display: flex;
+    flex-direction: column;
+    align-items: left; /* Align items (greeting and button) centrally within this div */
+    padding-left: 1rem; /* Add some space to the left of the greeting and button */
+}
+
+#saveBtn {
+    margin-top: 0.5rem; /* Space above the save button */
+    /* Additional styling as needed */
+    width: 80px;
 }
