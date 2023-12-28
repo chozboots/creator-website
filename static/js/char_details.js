@@ -22,9 +22,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     const submenuButtons = document.querySelectorAll('.submenu-button');
     const uploadedFiles = []; // Persistent storage for uploaded files
 
-    // Add unit toggle buttons to the measurements container
+    // Check if the 'characterList' element exists on the page
+    const characterList = document.getElementById('characterList');
+
+    if (!characterList) {
+        return; // Stop execution if the element doesn't exist
+    }
+    
     const measurementsContainer = document.getElementById('measurementsContainer');
-    addUnitToggleButtons(measurementsContainer);
+    if (measurementsContainer) {
+        addUnitToggleButtons(measurementsContainer);
+    }
 
     try {
         await fetchAndLoadElements(uploadedFiles); // Ensure elements are loaded

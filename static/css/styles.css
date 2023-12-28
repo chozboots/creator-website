@@ -423,6 +423,7 @@ body {
     object-fit: cover;
     box-sizing: border-box;
     border: 2px solid white;
+    margin-bottom: 45px;
 }
 
 .delete-button {
@@ -526,6 +527,7 @@ textarea {
 
 .edit-mode .form-group label {
     margin-bottom: 0.5rem; /* Adds space between the label and the input/select/textarea */
+    margin-top: 1em; /* Adds space above the label */
     font-size: 20pt;
 }
 
@@ -656,6 +658,9 @@ color: #ffffff;
 }
 
 .dynamic-list-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 80%;
     background-color: rgba(0, 0, 0, 0.9); /* Opaque black to match the theme */
     border: 3px solid #FFFFFF;
@@ -667,6 +672,7 @@ color: #ffffff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     max-height: 650px; /* Set a maximum height */
     overflow-y: auto; /* Enables vertical scrolling */
+    margin-top: 0em;
 }
 
 .dynamic-list {
@@ -698,8 +704,20 @@ color: #ffffff;
     margin-right: 0.5rem;
 }
 
-.dynamic-list .add-button,
-.dynamic-list .remove-button {
+/* Styles for the add button in the dynamic list wrapper */
+.dynamic-list-wrapper .add-button {
+    padding: 5px 10px;
+    border: 2px solid white;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: -0.1rem;
+}
+
+/* Styles for the remove button in each dynamic list item */
+.dynamic-list-with-titles .remove-button {
     padding: 5px 10px;
     border: 2px solid white;
     border-radius: 5px;
@@ -709,17 +727,14 @@ color: #ffffff;
     transition: background-color 0.2s;
 }
 
-.dynamic-list .add-button:hover,
-.dynamic-list .remove-button:hover {
+/* Hover styles for both buttons */
+.dynamic-list-wrapper .add-button:hover,
+.dynamic-list-with-titles .remove-button:hover {
     background-color: rgba(0, 255, 255, 0.2); /* Slight cyan background on hover */
 }
 
 /* You may want to add some media query adjustments if necessary */
 @media only screen and (max-width: 768px) {
-    .dynamic-list-wrapper {
-        width: 95%; /* Slightly narrower on mobile for screen edge space */
-    }
-    
     /* Possible adjustment for smaller screens to make list items stack more compactly */
     .dynamic-list li {
         flex-direction: column;
@@ -727,11 +742,16 @@ color: #ffffff;
     }
 }
 
+/* Base styles for the titled dynamic list */
 .dynamic-list-with-titles {
     list-style: none;
     padding: 0;
+    width: 100%; /* Scale to the width of the parent/container */
+    max-width: 800px; /* Set your desired maximum width */
+    margin: 0 auto; /* Center the container */
 }
 
+/* Styles for each item in the titled dynamic list */
 .dynamic-list-with-titles .dynamic-list-with-titles-item {
     background-color: rgba(255, 255, 255, 0.05);
     border-bottom: 1px solid #FFFFFF;
@@ -740,34 +760,43 @@ color: #ffffff;
     margin-bottom: 1rem;
 }
 
-.dynamic-list-with-titles .title-input,
-.dynamic-list-with-titles .description-textarea {
-    width: 100%;
+/* Override styles for title-input and description-textarea in edit mode */
+.edit-mode .form-group .dynamic-list-with-titles .dynamic-list-with-titles-item .title-input {
+    width: calc(100% - 1rem); /* Adjust width to fit parent container */
     box-sizing: border-box;
     padding: 0.5rem;
     margin-top: 1rem;
-    margin-bottom: 1rem;
     border: 1px solid #FFFFFF;
     background-color: rgba(0, 0, 0, 0.8);
     color: #FFFFFF;
     border-radius: 5px;
 }
 
-.dynamic-list-with-titles .description-textarea {
+.edit-mode .form-group .dynamic-list-with-titles .description-textarea {
+    width: calc(100% - 1rem); /* Adjust width to fit parent container */
     resize: vertical;
     min-height: 200px;
-    min-width: 400px;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    border: 1px solid #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #FFFFFF;
+    border-radius: 5px;
 }
 
-/* Responsive adjustments for smaller screens */
-@media (max-width: 480px) {
-    .description-textarea {
-        min-width: 200px;
-    }
-}
-
+/* Style for the remove button */
 .dynamic-list-with-titles .remove-button {
-    margin-top: 0.5rem;
+    margin-top: -0.5rem;
+}
+
+/* Style for the item counter */
+.item-counter {
+    text-align: right;
+    font-size: 1.2em;
+    color: white;
+    margin-top: 5px;
+    margin-bottom: 14px;
 }
 
 .weight-input-wrapper {

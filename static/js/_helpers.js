@@ -74,6 +74,12 @@ export const createLabel = element => {
 };
 
 export const createAndAppendElement = (element, uploadedFiles, isMetric) => {
+    // Check if the 'characterList' element exists on the page
+    const characterList = document.getElementById('characterList');
+    if (!characterList) {
+        return; // Do nothing if the element doesn't exist
+    }
+
     const containerId = element.container || 'defaultContainerId';
 
     console.log(`Creating element for container: ${containerId}`); // Debugging line
@@ -165,7 +171,7 @@ export const characterClick = async (event, body, editMode, uploadedFiles) => {
 
     showLoadingOverlay(); // Show loading overlay
     const characterData = await fetch(`/character_details/${currentCharacterId}`).then(res => res.json());
-    setTimeout(hideLoadingOverlay, 1000); // Hide loading overlay after fetching data
+    setTimeout(hideLoadingOverlay, 500); // Hide loading overlay after fetching data
     // Update components with the fetched data
     updateComponentsWithData(characterData, uploadedFiles);
 

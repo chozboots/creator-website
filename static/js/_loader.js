@@ -20,7 +20,7 @@ async function updateComponentsWithData(characterData, uploadedFiles) {
             }
 
         } else if (element.type === 'number') {
-            const measurementData = characterData[element.name];
+            const measurementData = characterData[element.name] || {"mode": "Numeric", "amount": "0", "max_amount": null, "min_amount": null};
             if (measurementData) {
                 const { mode, amount, min_amount, max_amount } = measurementData;
                 const unitType = element.measurement
@@ -86,16 +86,17 @@ async function updateComponentsWithData(characterData, uploadedFiles) {
         } else if (element.type === 'multi') {
             // Find multi-component wrapper by data-name attribute
             const multiWrapper = document.querySelector(`.multi-select-wrapper[data-name="${element.name}"]`);
-            if (multiWrapper && characterData[element.name]) {
+            const multiItems = characterData[element.name] || [];
+            if (multiWrapper) {
                 multiWrapper.clearTags();
-                characterData[element.name].forEach(option => {
+                multiItems.forEach(option => {
                     multiWrapper.addTag(option);
                 });
             }
         
         } else if (element.type === 'dynamicList') {
             if (element.list_type === 'dynamic_list') {
-                const listData = characterData[element.name];
+                const listData = characterData[element.name] || [];
                 console.log(listData);
         
                 const listWrapper = document.querySelector(`.dynamic-list-wrapper[data-name="${element.name}"]`);
@@ -112,7 +113,7 @@ async function updateComponentsWithData(characterData, uploadedFiles) {
                 });
                 listWrapper.updateCounter();
             } else if (element.list_type === 'dynamic_list_with_titles') {
-                const listData = characterData[element.name];
+                const listData = characterData[element.name] || [];
                 const listWrapperWithTitles = document.querySelector(`.dynamic-list-wrapper[data-name="${element.name}"]`);
                 const listWithTitles = listWrapperWithTitles.querySelector('.dynamic-list-with-titles'); // Access the list from the listWrapper
         
@@ -131,8 +132,9 @@ async function updateComponentsWithData(characterData, uploadedFiles) {
 
         } else if (element.type === 'date') {
             const dateInput = document.getElementsByName(element.name)[0];
-            if (dateInput && characterData[element.name]) {
-                dateInput.value = characterData[element.name];
+            if (dateInput) {
+                dateInput.value = characterData[element.name] || "2000-01-01";
+                dateInput.updateAgeDisplay();
             }
     
         } else {
@@ -141,10 +143,10 @@ async function updateComponentsWithData(characterData, uploadedFiles) {
             console.log(inputElement);
             if (inputElement) {
                 if (element.type === 'dropdown') {
-                    inputElement.value = characterData[element.name];
+                    inputElement.value = characterData[element.name] || null;
                 }
                 else if (element.type === 'textarea') {
-                    let savedText = characterData[element.name];
+                    let savedText = characterData[element.name] || '';
                     if (savedText.length > element.maxlength) {
                         savedText = savedText.slice(0, element.maxlength);
                     }
