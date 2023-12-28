@@ -279,7 +279,7 @@ body {
     color: white;
     cursor: pointer;
     transition: background-color 0.2s;
-    width: 120px;
+    width: 110px;
 }
 
 .submenu-button:hover {
@@ -341,11 +341,9 @@ body {
     /* Add your other styles for these inputs here */
 }
 .edit-mode .form-group .textarea-long {
-    width: 400px;
-}
-
-.textarea-long {
-    width: 300px;
+    width: calc(100% - 20px); /* Adjust 20px to increase or decrease the space */
+    margin: 0 10px; /* This adds 10px margin on each side */
+    /* Other styles as needed */
 }
 
 .multi-option-input {
@@ -661,18 +659,17 @@ color: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80%;
+    width: calc(100% - 20px); /* Adjust 20px to increase or decrease the space */
+    margin: 0 10px; /* This adds 10px margin on each side */
     background-color: rgba(0, 0, 0, 0.9); /* Opaque black to match the theme */
     border: 3px solid #FFFFFF;
     border-radius: 5px;
-    margin: 1rem auto;
-    margin-left: -1rem;
-    margin-right: 1rem;
     padding: 1rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     max-height: 650px; /* Set a maximum height */
     overflow-y: auto; /* Enables vertical scrolling */
     margin-top: 0em;
+    margin-left: -14px;
 }
 
 .dynamic-list {
