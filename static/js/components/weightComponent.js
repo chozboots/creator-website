@@ -99,19 +99,6 @@ export function createWeightComponent(element, isMetric) {
     });
     weightWrapper.appendChild(restLbInput);
 
-
-
-    const logCurrentValues = () => {
-        console.log('Current Values:');
-        console.log('Mode:', modeSelect.value);
-        console.log('Kilograms:', kgInput.value);
-        console.log('Pounds:', lbInput.value);
-        console.log('Min Kilograms:', minKgInput.value);
-        console.log('Min Pounds:', minLbInput.value);
-        console.log('Max Kilograms:', restKgInput.value);
-        console.log('Max Pounds:', restLbInput.value);
-    };    
-
     const validateRange = () => {
         const minKg = parseFloat(minKgInput.value) || 0.0;
         const maxKg = parseFloat(restKgInput.value) || 0.0;
@@ -273,23 +260,6 @@ export function createWeightComponent(element, isMetric) {
         validateRange();
         updateWeightDisplay();
     });
-
-    // // Initialize resting weight fields with default values
-    // const defaultRestKgValue = 0;
-    // restKgInput.value = defaultRestKgValue;
-    // const defaultRestLbValue = kgToLb(defaultRestKgValue);
-    // restLbInput.value = defaultRestLbValue;
-    
-    // // Create a save button
-    // const saveButton = document.createElement('button');
-    // saveButton.textContent = 'Save';
-    // saveButton.className = 'save-button'; // Class for styling
-
-    // // Event listener for the save button
-    // saveButton.addEventListener('click', logCurrentValues);
-
-    // // Append the save button to the weightWrapper
-    // weightWrapper.appendChild(saveButton);
 
     // Initialize with the default mode and unit state
     const isMetricInitial = document.querySelector('input[name="unit-toggle"]:checked').value === 'metric';

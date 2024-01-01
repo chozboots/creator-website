@@ -8,6 +8,7 @@ import { createWeightComponent } from './components/weightComponent.js';
 import { createDynamicListComponent } from './components/dynamicListComponent.js';
 import { createTitledDynamicListComponent } from './components/titledDynamicListComponent.js';
 import { createGeneralComponent } from './components/generalComponent.js';
+import { createSliderComponent } from './components/sliderComponent.js';
 
 import { renderGalleryImages } from './_gallery.js';
 import { showInfo } from './_info.js';
@@ -38,6 +39,9 @@ export const createElementInput = (element, uploadedFiles, isMetric) => {
 
     } else if (element.list_type === 'dynamic_list_with_titles') {
         return createTitledDynamicListComponent(element);
+
+    } else if (element.type === 'slider') {
+        return createSliderComponent(element);
 
     } else {
         return createGeneralComponent(element, uploadedFiles);

@@ -61,6 +61,11 @@ async function processFields(element, uploadedFiles, report) {
         return processDateField(element, report);
     }
 
+    else if (element.type === 'slider') {
+        // Handle slider elements
+        return processSliderField(element, report);
+    }
+
     return Promise.resolve();
 }
 
@@ -179,4 +184,16 @@ function processDateField(element, report) {
     } else {
         report[element.name] = ''; // Default to null if date input not found
     }
+}
+
+function processSliderField(element, report) {
+    // Assuming each slider has a unique ID in the format 'slider-{index}'
+    const sliderValues = element.options.map((option, index) => {
+        const slider = document.getElementById(`slider-${index}`);
+        return slider ? parseFloat(slider.value) : null;
+    });
+
+    report[element.name] = sliderValues;
+
+    console.log(`Field report for ${element.name}:`, report[element.name]);
 }
