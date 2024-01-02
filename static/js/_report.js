@@ -187,13 +187,17 @@ function processDateField(element, report) {
 }
 
 function processSliderField(element, report) {
-    // Assuming each slider has a unique ID in the format 'slider-{index}'
-    const sliderValues = element.options.map((option, index) => {
+    const sliderValues = [];
+
+    element.options.forEach((option, index) => {
         const slider = document.getElementById(`slider-${index}`);
-        return slider ? parseFloat(slider.value) : null;
+        const key = option.label || `Option${index}`;  // Using label as key, or a default key
+        let valueObj = {};
+        valueObj[key] = slider ? parseFloat(slider.value) : null;
+        sliderValues.push(valueObj);
     });
 
     report[element.name] = sliderValues;
 
-    console.log(`Field report for ${element.name}:`, report[element.name]);
+    console.log(`Field report for ${element.name}:`, JSON.stringify(report[element.name]));
 }

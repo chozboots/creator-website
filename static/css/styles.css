@@ -1272,3 +1272,68 @@ label {
     /* Additional styling as needed */
     width: 80px;
 }
+
+/* Slider Container */
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+/* Individual Slider Wrapper */
+.slider-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+/* Label for each slider */
+.slider-wrapper label {
+    font-size: 1rem;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 2px #000;
+    margin-bottom: 0.5rem; /* Space between label and slider */
+    text-align: center; /* Center-align the label */
+}
+
+/* Slider and Value Display Container */
+.slider-display-container {
+    display: flex;
+    align-items: center;
+}
+
+.option-slider {
+    width: 200px;
+    height: 2px;
+    background: #FFFFFF;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    border-radius: 5px;
+    margin-right: 0.5rem; /* Space between slider and value display */
+}
+
+/* Slider thumb for Webkit, Firefox, and IE */
+.option-slider::-webkit-slider-thumb, 
+.option-slider::-moz-range-thumb, 
+.option-slider::-ms-thumb {
+    width: 15px;
+    height: 15px;
+    background: #000000;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+/* Hover effect for slider */
+.option-slider:hover {
+    opacity: 1;
+}
+
+/* Value Display next to slider */
+.slider-value-display {
+    font-size: 1rem;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 2px #000;
+}

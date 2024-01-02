@@ -63,6 +63,9 @@ export const fetchAndLoadElements = async (uploadedFiles) => {
 export const createLabel = element => {
     const label = document.createElement('label');
     label.textContent = element.placeholder;
+    if (!element.optional) {
+        label.textContent += " *"; // Add an asterisk if the element is not optional
+    }
     label.htmlFor = element.name;
 
     // Check if element has info and create an info button

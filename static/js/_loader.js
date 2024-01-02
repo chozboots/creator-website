@@ -136,6 +136,9 @@ async function updateComponentsWithData(characterData, uploadedFiles) {
                 dateInput.value = characterData[element.name] || "2000-01-01";
                 dateInput.updateAgeDisplay();
             }
+
+        } else if (element.type === 'slider') {
+            loadSliderData(element, characterData[element.name]);
     
         } else {
             // Handle other types of elements
@@ -170,6 +173,31 @@ function metricToImperial(value, type) {
     } else {
         return;
     }
+}
+
+function loadSliderData(element, sliderData) {
+    // Check if sliderData is valid and an array, else use an empty array for fallback
+    if (!sliderData || !Array.isArray(sliderData)) {
+        sliderData = [];
+    }
+
+    element.options.forEach((option, index) => {
+        // Try to find a corresponding value in sliderData or fallback to initialValue
+        const sliderValueObj = sliderData.find(item => item[option.label] !== undefined);
+        const value = sliderValueObj ? sliderValueObj[option.label] : option.initialValue;
+        const slider = document.getElementById(`slider-${index}`);
+        const valueDisplay = document.querySelector(`#slider-${index} + .slider-value-display`);
+
+        if (slider) {
+            slider.value = value;
+
+            // Update display to show percentage
+            const percentage = (value * 100).toFixed(0);
+            if (valueDisplay) {
+                valueDisplay.textContent = `${percentage}%`;
+            }
+        }
+    });
 }
 
 export { updateComponentsWithData };

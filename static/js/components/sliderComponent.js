@@ -6,10 +6,12 @@ export function createSliderComponent(element) {
     options.forEach((option, index) => {
         const sliderWrapper = document.createElement('div');
         sliderWrapper.className = 'slider-wrapper';
-
+    
+        const sliderDisplayContainer = document.createElement('div'); // New container for slider and value display
+        sliderDisplayContainer.className = 'slider-display-container';
+    
         const slider = document.createElement('input');
         const valueDisplay = document.createElement('span'); // Display for showing value
-
         Object.assign(slider, {
             type: 'range',
             min: 0,
@@ -20,15 +22,17 @@ export function createSliderComponent(element) {
             id: `slider-${index}`
         });
 
-        valueDisplay.textContent = slider.value; // Initialize display text
-        valueDisplay.className = 'slider-value-display';
+        // Display initial value as percentage
+        valueDisplay.textContent = `${(slider.value * 100).toFixed(0)}%`;        valueDisplay.className = 'slider-value-display';
+
+        sliderDisplayContainer.appendChild(slider);
+        sliderDisplayContainer.appendChild(valueDisplay);
 
         const label = document.createElement('label');
         label.textContent = option.label || `Option ${index + 1}: `;
-        label.appendChild(slider);
-        label.appendChild(valueDisplay); // Append the value display to the label
-        sliderWrapper.appendChild(label);
+        label.appendChild(sliderDisplayContainer);
 
+        sliderWrapper.appendChild(label);
         container.appendChild(sliderWrapper);
     });
 
@@ -58,7 +62,9 @@ export function createSliderComponent(element) {
                 newValue = maxValue;
             }
 
-            container.querySelectorAll('.slider-value-display')[sliderIndex].textContent = newValue.toFixed(2); // Update display
+            // Update display to show percentage
+            const percentage = (event.target.value * 100).toFixed(0);
+            container.querySelectorAll('.slider-value-display')[sliderIndex].textContent = `${percentage}%`;
         }
     });
 
