@@ -1,3 +1,4 @@
+# bot_helpers/cogloader.py: loads all cogs from the "bot_cogs" folders
 import logging
 import os
 from typing import TYPE_CHECKING, List
@@ -14,7 +15,7 @@ def _get_cogs_helper(folder: str, cogs: List[str] = None) -> List[str]:
         cogs = []
     elif not isinstance(cogs, list):
         raise TypeError('Cogs argument must be vacant or of type list.')
-    for filename in os.listdir(os.path.join('cogs', folder)):
+    for filename in os.listdir(os.path.join('bot_cogs', folder)):
         if filename.endswith('py'):
             cogs.append(f'bot_cogs.{folder}.{filename[:-3]}')
     return cogs
@@ -23,7 +24,7 @@ def get_cogs() -> List[str]:
     """Get all cogs from folders within the 'cogs' parent folder."""
     cogs = []
     # Put all folders here (e.g. ['admin', 'general'])
-    folders = ['character']
+    folders = ['setup', 'character']
     for folder in folders:
         cogs = _get_cogs_helper(folder, cogs)
     return cogs

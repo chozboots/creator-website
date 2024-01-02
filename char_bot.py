@@ -1,10 +1,11 @@
+# char_bot.py: main file for the bot
 import discord
 from discord.ext import commands
 import os
 import logging
 from dotenv import load_dotenv
 
-from bot_helpers.cogloader import load_cogs
+from bot_helpers import load_cogs, Database, Queries
 
 if not os.getenv('DYNO'):
     load_dotenv()
@@ -23,9 +24,19 @@ class CharBot(commands.Bot):
             command_prefix="!",
             intents=discord.Intents.all()
         )
+        
+        self.database = Database()
+        self.queries = Queries(self.database)
 
     async def setup_hook(self):
-        """Load cogs (perhaps other things in the future)"""
+        """Open database pool & load cogs"""
+        try:
+            await self.database.create_pool()
+            logger.info("Database connection pool created")
+        except Exception as e:
+            logger.error(f"Database connection pool creation failed: {e}")
+            raise
+        
         await load_cogs(self)
 
     async def on_ready(self):
@@ -33,6 +44,7 @@ class CharBot(commands.Bot):
         
     async def close(self):
         """Close down the bot and the database pool"""
+        await self.database.close_pool()
         await super().close()
 
 def run_bot(token: str):
