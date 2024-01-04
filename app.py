@@ -8,9 +8,7 @@ import cloudinary
 import cloudinary.uploader
 from dotenv import load_dotenv
 import psycopg2
-from multiprocessing import Process
 
-from char_bot import run_bot
 
 app = Flask(__name__)
 app.secret_key = os.getenv("APP_SECRET_KEY")
@@ -25,13 +23,6 @@ else:
 logging.basicConfig(level=level)
 logger = logging.getLogger(__name__)
 
-token = os.getenv('BOT_TOKEN')
-
-# Create a separate process for running the bot
-bot_process = Process(target=run_bot, args=(token,))
-logger.debug("Starting bot process...")
-
-bot_process.start()
 
 def get_db_connection():
     conn = psycopg2.connect(os.getenv('DATABASE_URL'))
@@ -264,7 +255,6 @@ def secret():
 
 
 if __name__ == "__main__":
-
     logger.debug("Bot process started")
     
     app.run(debug=True)
