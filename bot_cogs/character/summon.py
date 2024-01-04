@@ -62,7 +62,7 @@ class CharacterManager(commands.Cog, group_name="char"):
     async def display_character_profile(self, interaction: discord.Interaction, char_profile: dict):
         # Define a function to truncate text to a maximum length
         def truncate_text(text, max_length=1024):
-            if len(text) > max_length:
+            if len(text) >= max_length:
                 return text[:max_length - 3] + "..."
             return text
 

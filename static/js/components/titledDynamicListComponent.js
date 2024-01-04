@@ -24,7 +24,7 @@ export function createTitledDynamicListComponent(element) {
         addButton.disabled = remainingItems <= 0;
     }    
 
-    function addListItem(list, itemName, defaultTitle = '', defaultDescription = '', maxlengthTitle = 255, maxlengthDesc = 1000) {
+    function addListItem(list, itemName, defaultTitle = '', defaultDescription = '', maxlengthTitle = 100, maxlengthDesc = 300) {
         if (list.childElementCount < maxItems) {
             const listItem = document.createElement('li');
             listItem.className = 'dynamic-list-with-titles-item';
@@ -82,7 +82,7 @@ export function createTitledDynamicListComponent(element) {
         }
     }           
     
-    addButton.onclick = () => addListItem(listWithTitles, element.item_name, '', '', 255, 1000);
+    addButton.onclick = () => addListItem(listWithTitles, element.item_name, '', '', 100, 300);
 
     listWrapperWithTitles.appendChild(counter);
     listWrapperWithTitles.appendChild(listWithTitles);
