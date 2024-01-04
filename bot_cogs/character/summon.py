@@ -60,12 +60,21 @@ class CharacterManager(commands.Cog, group_name="char"):
 
 
     async def display_character_profile(self, interaction: discord.Interaction, char_profile: dict):
+        # Define a function to truncate text to a maximum length
+        def truncate_text(text, max_length=1024):
+            if len(text) > max_length:
+                return text[:max_length - 3] + "..."
+            return text
+
         # char_profile is already a processed dictionary and does not need json.loads
         embed = discord.Embed(
             title=f"Character Profile: {char_profile.get('characterName', 'Unknown')}",
-            description=char_profile.get('characterDescription', 'No description available.'),
             color=discord.Color.blue()
         )
+
+        # Description
+        description = char_profile.get('characterDescription', 'No description available.')
+        embed.description = truncate_text(description)
 
         # Add character image
         if char_profile.get('characterImage'):
@@ -73,28 +82,31 @@ class CharacterManager(commands.Cog, group_name="char"):
 
         # Bio section
         if char_profile.get('characterBio'):
-            embed.add_field(name="Bio", value=char_profile['characterBio'], inline=False)
+            bio = truncate_text(char_profile['characterBio'])
+            embed.add_field(name="Bio", value=bio, inline=False)
 
         # Likes and Dislikes
         if char_profile.get('characterLikes'):
-            likes = '\n'.join(f"- {like}" for like in char_profile['characterLikes'])
+            likes = '\n'.join(f"- {truncate_text(like)}" for like in char_profile['characterLikes'])
             embed.add_field(name="Likes", value=likes, inline=True)
         if char_profile.get('characterDislikes'):
-            dislikes = '\n'.join(f"- {dislike}" for dislike in char_profile['characterDislikes'])
+            dislikes = '\n'.join(f"- {truncate_text(dislike)}" for dislike in char_profile['characterDislikes'])
             embed.add_field(name="Dislikes", value=dislikes, inline=True)
 
         # Abilities
         if char_profile.get('characterAbilities'):
-            abilities = '\n'.join(f"**{ability['title']}**: {ability['description']}" for ability in char_profile['characterAbilities'])
+            abilities = '\n'.join(f"**{truncate_text(ability['title'])}**: {truncate_text(ability['description'])}" for ability in char_profile['characterAbilities'])
             embed.add_field(name="Abilities", value=abilities, inline=False)
 
         # Occupation
         if char_profile.get('characterOccupation'):
-            embed.add_field(name="Occupation", value=char_profile['characterOccupation'], inline=True)
+            occupation = truncate_text(char_profile['characterOccupation'])
+            embed.add_field(name="Occupation", value=occupation, inline=True)
 
         # Birthday
         if char_profile.get('characterBirthday'):
-            embed.add_field(name="Birthday", value=char_profile['characterBirthday'], inline=True)
+            birthday = truncate_text(char_profile['characterBirthday'])
+            embed.add_field(name="Birthday", value=birthday, inline=True)
 
         # Pronouns
         if char_profile.get('characterPronouns'):
@@ -105,31 +117,18 @@ class CharacterManager(commands.Cog, group_name="char"):
         if char_profile.get('characterHeight') and char_profile.get('characterWeight'):
             height = char_profile['characterHeight'].get('amount', 'Unknown')
             weight = char_profile['characterWeight'].get('amount', 'Unknown')
-            embed.add_field(name="Height/Weight", value=f"{height} cm / {weight} kg", inline=True)
+            height_weight = f"{height} cm / {weight} kg"
+            embed.add_field(name="Height/Weight", value=truncate_text(height_weight), inline=True)
 
         # Additional Bio Info
         if char_profile.get('characterAgeInfo'):
-            embed.add_field(name="Age Info", value=char_profile['characterAgeInfo'], inline=False)
-
-        # def format_alignment(alignments):
-        #     return ', '.join(f"{k}: {v*100}%" for alignment in alignments for k, v in alignment.items() if v > 0)
-
-        # # Format Sexual Alignment
-        # sexual_alignment = format_alignment(char_profile.get('characterSexualAlignment', []))
-        # position_alignment = format_alignment(char_profile.get('characterPositionAlignment', []))
-
-        # alignment_text = ""
-        # if sexual_alignment:
-        #     alignment_text += f"Sexual: {sexual_alignment}\n"
-        # if position_alignment:
-        #     alignment_text += f"Position: {position_alignment}"
-
-        # if alignment_text:
-        #     embed.add_field(name="Alignments", value=alignment_text.strip(), inline=False)
+            age_info = truncate_text(char_profile['characterAgeInfo'])
+            embed.add_field(name="Age Info", value=age_info, inline=False)
 
         # Living Situation
         if char_profile.get('characterLivingSituation'):
-            embed.add_field(name="Living Situation", value=char_profile['characterLivingSituation'], inline=False)
+            living_situation = truncate_text(char_profile['characterLivingSituation'])
+            embed.add_field(name="Living Situation", value=living_situation, inline=False)
             
         embed.set_footer(text=f"This is not what the final product will look like! It will look much prettier, I promise! This is just to show you what the bot can do, roughly. (Expect bugs!))")
 
