@@ -51,6 +51,7 @@ def run_bot(token: str):
     if any((not token, token is None)):
         raise ValueError("TOKEN must be set")
     bot = CharBot()
+    logger.debug("Running...")
     bot.run(token)
 
 if __name__ == "__main__":

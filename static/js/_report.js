@@ -191,8 +191,10 @@ function processSliderField(element, report) {
 
     element.options.forEach((option, index) => {
         const slider = document.getElementById(`slider-${index}`);
+        console.log('Slider:', slider.value, 'Element', element.name);
         const key = option.label || `Option${index}`;  // Using label as key, or a default key
         let valueObj = {};
+        console.log('Value:', slider ? parseFloat(slider.value) : null)
         valueObj[key] = slider ? parseFloat(slider.value) : null;
         sliderValues.push(valueObj);
     });
