@@ -9,11 +9,11 @@
 </head>
 <body>
     <div id="loadingOverlay" class="loading-overlay" style="display: flex;">
-        <img src="https://media.tenor.com/-rHfvXKR0P0AAAAi/running-rushing.gif" alt="Loading..." class="loading-image">
+        <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" alt="Loading..." class="loading-image">
     </div>
 
     <div id="savingOverlay" class="saving-overlay" style="display: none;">
-        <img src="https://media.tenor.com/2gi5ucI5THgAAAAi/usagyuuun-note.gif" alt="Saving..." class="saving-image">
+        <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" alt="Saving..." class="saving-image">
     </div>
 
     {% if not authorized %}
@@ -64,28 +64,32 @@
                 </div>
             </div>
 
-            <!-- New buttons for submenus -->
+            <!-- Dynamically create buttons/containers -->
+        
             <div class="submenu-buttons">
+                <!-- Default buttons... -->
                 <button class="submenu-button" data-menu="profile">Profile</button>
                 <button class="submenu-button" data-menu="image">Image</button>
                 <button class="submenu-button" data-menu="skills">Skills</button>
-                <button class="submenu-button" data-menu="kinks">Kinks</button>
-                <button class="submenu-button" data-menu="measurements">Sizes</button>
-                <button class="submenu-button" data-menu="age">Age</button>
                 <button class="submenu-button" data-menu="details">Details</button>
-                <button class="submenu-button" data-menu="bio">Bio</button>
+                <button class="submenu-button" data-menu="measurements">Sizes</button>
+                <!-- Dynamic buttons from list... -->
+                {% for value in submenu_values %}
+                    <button class="submenu-button" data-menu="{{ value | lower }}">{{ value | title }}</button>
+                {% endfor %}
             </div>
 
-            <!-- Container for dynamic form elements - now distributed among submenus -->
+            <!-- Default containers... -->
             <div id="profileContainer" class="form-submenu"></div>   
             <div id="imageContainer" class="form-submenu"></div>
             <div id="imageGalleryContainer" class="image-gallery-container"></div>
             <div id="skillsContainer" class="form-submenu"></div>
             <div id="detailsContainer" class="form-submenu"></div>
-            <div id="bioContainer" class="form-submenu"></div>
             <div id="measurementsContainer" class="form-submenu"></div>
-            <div id="ageContainer" class="form-submenu"></div>
-            <div id="kinksContainer" class="form-submenu"></div>
+            <!-- Dynamic containers from list... -->
+            {% for value in submenu_values %}
+                <div id="{{ value | lower }}Container" class="form-submenu"></div>
+            {% endfor %}
 
         </div>
     

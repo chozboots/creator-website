@@ -1,0 +1,86 @@
+[
+    {
+        "info": "Sample text.",
+        "mode": "short",
+        "name": "characterName",
+        "type": "textarea",
+        "optional": false,
+        "container": "profileContainer",
+        "is_header": true,
+        "maxlength": "25",
+        "placeholder": "Name 🪪"
+    },
+    {
+        "max": 3,
+        "info": "Sample text.",
+        "name": "characterGenders",
+        "type": "multi",
+        "options": [
+            "Male",
+            "Female",
+            "Non-binary"
+        ],
+        "optional": false,
+        "container": "profileContainer",
+        "placeholder": "Genders ⚧"
+    },
+    {
+        "info": "Sample text.",
+        "mode": "long",
+        "name": "characterDescription",
+        "type": "textarea",
+        "optional": false,
+        "container": "profileContainer",
+        "maxlength": "500",
+        "placeholder": "Description 📝"
+    },
+    {
+        "info": "Sample text.",
+        "name": "characterImage",
+        "type": "file",
+        "accept": "image/*",
+        "profile": true,
+        "multiple": false,
+        "optional": true,
+        "container": "imageContainer",
+        "placeholder": "Profile Image 🖼️"
+    },
+    {
+        "info": "Sample text.",
+        "name": "characterGallery",
+        "type": "file",
+        "accept": "image/*",
+        "profile": false,
+        "multiple": true,
+        "optional": true,
+        "container": "imageContainer",
+        "placeholder": "Reference Images (up to 4) 📸"
+    },
+    {
+        "info": "Sample text.",
+        "name": "characterHeight",
+        "type": "number",
+        "optional": false,
+        "container": "measurementsContainer",
+        "measurement": "length",
+        "placeholder": "Height 📏"
+    },
+    {
+        "info": "Sample text.",
+        "name": "characterAbilities",
+        "type": "dynamicList",
+        "optional": true,
+        "container": "skillsContainer",
+        "list_type": "dynamic_list_with_titles",
+        "max_items": 3,
+        "placeholder": "Abilities 💫"
+    },
+    {
+        "info": "Sample text.",
+        "name": "characterBirthday",
+        "type": "date",
+        "optional": false,
+        "container": "ageContainer",
+        "placeholder": "Birthday 🎂"
+    }
+]

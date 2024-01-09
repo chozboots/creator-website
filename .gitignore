@@ -162,4 +162,3 @@ cython_debug/
 images
 defaults.py
 image_processing.py
-*.json

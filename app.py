@@ -1,6 +1,7 @@
 import os
 import logging
 import json
+from typing import List
 
 from flask import Flask, request, redirect, url_for, render_template, jsonify
 from flask_discord import DiscordOAuth2Session, requires_authorization
@@ -44,13 +45,26 @@ def get_characters(user_id):
     
     return characters
 
-def get_elements():
+def get_elements() -> List[dict]:
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute('SELECT elements FROM resources WHERE id = 1')  # Assuming you have one entry with id = 1
+    # currently selecting the first row, but there should only be one row
+    # TODO: make a default row of some kind
+    cur.execute('SELECT form_elements FROM resources')
     elements_data = cur.fetchone()[0]
     conn.close()
     return elements_data  # Convert string back to dictionary (or list in this case)
+
+def get_submenu_button_list() -> List[str]:
+    conn = get_db_connection()
+    cur = conn.cursor()
+    # currently selecting the first row, but there should only be one row
+    # TODO: make a default row of some kind
+    cur.execute('SELECT submenu_buttons FROM resources')
+    submenu_buttons = cur.fetchone()[0]
+    conn.close()
+    #submenu_buttons = ["skills", "details", "bio", "measurements", "age", "kinks"]
+    return submenu_buttons  # Convert string back to dictionary (or list in this case)
 
 app.config["DISCORD_CLIENT_ID"] = os.getenv("OAUTH2_CLIENT_ID")
 app.config["DISCORD_CLIENT_SECRET"] = os.getenv("OAUTH2_CLIENT_SECRET")
@@ -71,7 +85,6 @@ discord = DiscordOAuth2Session(app)
 
 HYPERLINK = '<a href="{}">{}</a>'
 
-
 @app.route("/")
 def main_menu():
     if not discord.authorized:
@@ -79,8 +92,15 @@ def main_menu():
     
     user = discord.fetch_user()
     user_characters = get_characters(user.id)  # Fetch characters for the logged-in user
-    return render_template("main_menu.html", authorized=True, user=user, characters=user_characters)
-
+    submenu_values = get_submenu_button_list()
+    
+    return render_template(
+        "main_menu.html", 
+        authorized=True, 
+        user=user, 
+        characters=user_characters, 
+        submenu_values=submenu_values
+    )
 
 @app.route('/add_character', methods=['POST'])
 def add_character():

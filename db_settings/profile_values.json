@@ -1,0 +1,26 @@
+[
+    {
+        "name": "characterName",
+        "inline": true
+    },
+    {
+        "name": "characterImage",
+        "inline": true
+    },
+    {
+        "name": "characterDescription",
+        "inline": false
+    },
+    {
+        "name": "characterGenders",
+        "inline": true
+    },
+    {
+        "name": "characterBirthday",
+        "inline": true
+    },
+    {
+        "name": "characterHeight",
+        "inline": true
+    }
+]
