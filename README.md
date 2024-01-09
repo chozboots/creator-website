@@ -7,23 +7,18 @@ Originally created for a D&D server, it's versatile enough for various applicati
 ## Features and Demonstrations
 
 **Text Areas and Dropdown Menus**
-- Short and long form responses with a dropdown menu accepting write-ins.
 ![Textarea and Multi-Select](displays/textarea-multi.png)
 
 **Profile and Reference Images**
-- Save a profile picture and multiple images.
 ![Images](displays/images.png)
 
 **Date Tracking**
-- Set a DOB or track any date.
 ![Date](displays/date.png)
 
 **Dynamic Abilities List**
-- List abilities, skills, etc., with a title and description for each.
 ![Dynamic List](displays/dynamic.png)
 
 **Height Settings and Conversions**
-- Detailed height settings, including ranges for shapeshifters, and imperial/metric conversion toggles.
 ![Numeric Input](displays/numeric.gif)
 ![Range Input](displays/range.gif)
 ![Toggle](displays/toggle.gif)
