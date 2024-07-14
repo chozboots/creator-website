@@ -7,27 +7,27 @@ Originally created for a D&D server, it's versatile enough for various applicati
 ## Features and Demonstrations
 
 **Text Areas and Dropdown Menus**
-...
+
 ![Textarea and Multi-Select](displays/textarea-multi.png)
 
 **Profile and Reference Images**
-...
+
 ![Images](displays/images.png)
 
 **Date Tracking**
-...
+
 ![Date](displays/date.png)
 
 **Dynamic Abilities List**
-...
+
 ![Dynamic List](displays/dynamic.png)
 
 **Height Settings and Conversions**
-...
+
 ![Numeric Input](displays/numeric.gif)
-...
+
 ![Range Input](displays/range.gif)
-...
+
 ![Toggle](displays/toggle.gif)
 
 ## Configurable Elements
@@ -77,7 +77,7 @@ With the repository set up and the database ready:
 - Run `app.py` and visit `http://127.0.0.1:5000` or the specified local host address.
 
 Note: For production builds, ensure `OAUTHLIB_INSECURE_TRANSPORT` is correctly configured, especially when hosting on platforms other than Heroku.
-...
+
 ![Important](displays/important.png)
 
 ### Starting the bot
