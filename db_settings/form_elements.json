@@ -11,20 +11,6 @@
         "placeholder": "Name 🪪"
     },
     {
-        "max": 3,
-        "info": "Sample text.",
-        "name": "characterGenders",
-        "type": "multi",
-        "options": [
-            "Male",
-            "Female",
-            "Non-binary"
-        ],
-        "optional": false,
-        "container": "profileContainer",
-        "placeholder": "Genders ⚧"
-    },
-    {
         "info": "Sample text.",
         "mode": "long",
         "name": "characterDescription",
