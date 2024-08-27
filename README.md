@@ -6,10 +6,6 @@ Originally created for a D&D server, it's versatile enough for various applicati
 
 ## Features and Demonstrations
 
-**Text Areas and Dropdown Menus**
-
-![Textarea and Multi-Select](displays/textarea-multi.png)
-
 **Profile and Reference Images**
 
 ![Images](displays/images.png)
